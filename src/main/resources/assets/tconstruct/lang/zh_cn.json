@@ -7,8 +7,6 @@
   "block.tconstruct.ichor_slime.tooltip": "可与近旁的所有黏性方块相黏",
   "block.tconstruct.ender_slime": "末影黏液块",
   "block.tconstruct.ender_slime.tooltip": "仅在被推动时具有黏性，被放置于黏性方块旁时并不与其相黏",
-  "block.tconstruct.blood_slime": "黏血块",
-  "block.tconstruct.blood_slime.tooltip": "弹性十足，黏性全无",
 
   "block.tconstruct.earth_congealed_slime": "凝固黏液块",
   "block.tconstruct.earth_congealed_slime.tooltip": "能让你跳得非常高",
@@ -16,8 +14,6 @@
   "block.tconstruct.sky_congealed_slime.tooltip": "能让你跳得非常高",
   "block.tconstruct.ender_congealed_slime": "凝固末影黏液块",
   "block.tconstruct.ender_congealed_slime.tooltip": "能让你跳得非常高",
-  "block.tconstruct.blood_congealed_slime": "凝固黏血块",
-  "block.tconstruct.blood_congealed_slime.tooltip": "能让你跳得非常高",
   "block.tconstruct.ichor_congealed_slime": "凝固灵浆块",
   "block.tconstruct.ichor_congealed_slime.tooltip": "能让你跳得非常高",
 
@@ -189,7 +185,6 @@
 
   "item.tconstruct.sky_slime_ball": "碧空黏液球",
   "item.tconstruct.ender_slime_ball": "末影黏液球",
-  "item.tconstruct.blood_slime_ball": "黏血球",
   "item.tconstruct.ichor_slime_ball": "灵浆球",
 
   "item.tconstruct.bacon": "培根",
@@ -462,6 +457,12 @@
   "fluid.tconstruct.rabbit_stew": "兔肉煲",
   "fluid.tconstruct.flowing_rabbit_stew": "流动的兔肉煲",
   "item.tconstruct.rabbit_stew_bucket": "兔肉煲桶",
+  
+  "block.tconstruct.meat_soup_fluid": "肉汤",
+  "fluid.tconstruct.meat_soup": "肉汤",
+  "fluid.tconstruct.flowing_meat_soup": "流动的肉汤",
+  "item.tconstruct.meat_soup_bucket": "肉汤桶",
+  "item.tconstruct.meat_soup": "肉汤",
 
 
   "_comment": "Potion",
@@ -477,12 +478,6 @@
 
 
   "_comment": "Slime",
-
-  "block.tconstruct.blood_fluid": "血",
-  "fluid.tconstruct.blood": "血",
-  "fluid.tconstruct.flowing_blood": "流动的血",
-  "item.tconstruct.blood_bucket": "血桶",
-  "item.tconstruct.blood_bottle": "血瓶",
 
   "block.tconstruct.earth_slime_fluid": "黏液",
   "fluid.tconstruct.earth_slime": "黏液",
@@ -806,15 +801,6 @@
   "block.tconstruct.ender_cake": "末影黏液蛋糕",
   "block.tconstruct.blood_cake": "黏血蛋糕",
   "block.tconstruct.magma_cake": "岩浆蛋糕",
-
-  "item.tconstruct.earth_slime_sling": "黏液弹弓",
-  "item.tconstruct.earth_slime_sling.tooltip": "蓄力，瞄准，发射！\n珍爱生命，记得加持“弹跳”强化！",
-  "item.tconstruct.sky_slime_sling": "碧空黏液弹弓",
-  "item.tconstruct.sky_slime_sling.tooltip": "蓄力，松手，腾跃！\n珍爱生命，记得加持“弹跳”强化！",
-  "item.tconstruct.ender_slime_sling": "末影黏液弹弓",
-  "item.tconstruct.ender_slime_sling.tooltip": "蓄力，对墙，穿梭！",
-  "item.tconstruct.ichor_slime_sling": "灵浆弹弓",
-  "item.tconstruct.ichor_slime_sling.tooltip": "蓄力，对准生物，送它上天！",
 
   "item.tconstruct.piggy_backpack": "肩驮架",
   "item.tconstruct.piggy_backpack.tooltip": "对生物使用来驮起它们",
@@ -1392,6 +1378,29 @@
   "block.tconstruct.bloodshroom_sign": "血菌木告示牌",
   "block.tconstruct.bloodshroom_wall_sign": "血菌木告示牌",
 
+  "block.tconstruct.enderbark_planks": "末影皮木木板",
+  "block.tconstruct.enderbark_planks_slab": "末影皮木台阶",
+  "block.tconstruct.enderbark_planks_stairs": "末影皮木楼梯",
+  "block.tconstruct.enderbark_log": "末影皮木原木",
+  "block.tconstruct.stripped_enderbark_log": "去皮末影皮木原木",
+  "block.tconstruct.enderbark_wood": "末影皮木",
+  "block.tconstruct.stripped_enderbark_wood": "去皮末影皮木",
+
+  "block.tconstruct.enderbark_roots": "末影皮木根",
+  "block.tconstruct.earth_enderbark_roots": "黏液末影皮木根",
+  "block.tconstruct.sky_enderbark_roots": "黏液末影皮木根",
+  "block.tconstruct.ichor_enderbark_roots": "黏液末影皮木根",
+  "block.tconstruct.ender_enderbark_roots": "黏液末影皮木根",
+
+  "block.tconstruct.enderbark_fence": "末影皮木栅栏",
+  "block.tconstruct.enderbark_fence_gate": "末影皮木栅栏门",
+  "block.tconstruct.enderbark_door": "末影皮木门",
+  "block.tconstruct.enderbark_trapdoor": "末影皮木活板门",
+  "block.tconstruct.enderbark_pressure_plate": "末影皮木压力板",
+  "block.tconstruct.enderbark_button": "末影皮木按钮",
+  "block.tconstruct.enderbark_sign": "末影皮木告示牌",
+  "block.tconstruct.enderbark_wall_sign": "末影皮木告示牌",
+
 
   "material.tconstruct.unknown": "未知材料",
 
@@ -1403,6 +1412,7 @@
   "material.tconstruct.wood.jungle": "丛林木",
   "material.tconstruct.wood.acacia": "金合欢木",
   "material.tconstruct.wood.dark_oak": "深色橡木",
+  "material.tconstruct.wood.mangrove": "红树木",
   "material.tconstruct.wood.crimson": "绯红木",
   "material.tconstruct.wood.warped": "诡异木",
   "material.tconstruct.wood.format": "木%s",
@@ -1490,6 +1500,7 @@
   "material.tconstruct.slimewood.greenheart": "绿心木",
   "material.tconstruct.slimewood.skyroot": "天根木",
   "material.tconstruct.slimewood.bloodshroom": "血菌木",
+  "material.tconstruct.slimewood.enderbark":  "末影皮木",
   "material.tconstruct.slimewood.flavor": "这黏木到底是长了黏液的木头还是长了木头的黏液？",
   "material.tconstruct.slimewood.encyclopedia": "有概率每秒自行再生黏液覆层，每级概率+5%。",
 
@@ -1608,6 +1619,7 @@
   "material.tconstruct.earthslime": "大地黏液",
   "material.tconstruct.skyslime": "碧空黏液",
   "material.tconstruct.blood": "血",
+  "material.tconstruct.magma": "岩浆",
   "material.tconstruct.ichor": "灵浆",
   "material.tconstruct.enderslime": "末影黏液",
   "material.tconstruct.clay": "黏土",
@@ -1740,7 +1752,7 @@
   "modifier.tconstruct.netherite": "下界合金",
   "modifier.tconstruct.netherite.flavor": "精尖增强！",
   "modifier.tconstruct.netherite.description": "掌控远古金属的力量，增强工具并使其免疫火焰等外界伤害",
-  "recipe.tconstruct.modifier.netherite_requirements": "“下界合金”需要加持一个宝石作为前置",
+  "modifier.tconstruct.netherite.requirements": "“下界合金”需要加持一个宝石作为前置",
 
   "modifier.tconstruct.overslime": "黏液覆层",
   "modifier.tconstruct.overslime.flavor": "黏糊糊！",
@@ -1993,7 +2005,6 @@
   "modifier.tconstruct.ambidextrous": "双利手",
   "modifier.tconstruct.ambidextrous.flavor": "僧侣之选",
   "modifier.tconstruct.ambidextrous.description": "使主副手都能徒手攻击",
-  "recipe.tconstruct.modifier.unarmed": "需要“赤手空拳”作为前置",
   "modifier.tconstruct.wings": "羽翼",
   "modifier.tconstruct.wings.flavor": "天空属于我",
   "modifier.tconstruct.wings.description": "能够在半空中跳跃，翱翔蓝天",
@@ -2017,11 +2028,6 @@
   "modifier.tconstruct.tool_belt": "工具腰带",
   "modifier.tconstruct.tool_belt.flavor": "恨不得长出六只手么？",
   "modifier.tconstruct.tool_belt.description": "同时按下Ctrl键和“护腿交互”键能够交换快捷栏",
-  "recipe.tconstruct.modifier.tool_belt": "“工具腰带”需按顺序施加",
-  "modifier.tconstruct.pocket_chain": "锁链行囊",
-  "modifier.tconstruct.pocket_chain.flavor": "铁索连环",
-  "modifier.tconstruct.pocket_chain.description": "潜行按下“护腿交互”键时，能够访问工具带或护带所有槽位，还能增加一格槽位",
-  "recipe.tconstruct.modifier.pocket_chain": "“锁链行囊”需要“副手套环”或“工具腰带”作为前置",
 
   "modifier.tconstruct.inventory_cannot_remove": "进行此更改将会删除此工具中存储的一项物品",
 
@@ -2033,7 +2039,7 @@
   "modifier.tconstruct.long_fall": "远距防摔",
   "modifier.tconstruct.long_fall.flavor": "腿部装甲靴！",
   "modifier.tconstruct.long_fall.description": "抵消所有摔落伤害",
-  "recipe.tconstruct.modifier.long_fall": "“远距防摔”需要“摔落保护 IV”作为前置",
+  "modifier.tconstruct.long_fall.requirements": "“远距防摔”需要“摔落保护 IV”作为前置",
   "modifier.tconstruct.soulspeed": "灵魂疾行",
   "modifier.tconstruct.soulspeed.flavor": "鬼怪",
   "modifier.tconstruct.soulspeed.description": "提升灵魂沙上的移动速度",
@@ -2082,7 +2088,6 @@
   "modifier.tconstruct.dual_wielding": "双持",
   "modifier.tconstruct.dual_wielding.flavor": "二刀流！",
   "modifier.tconstruct.dual_wielding.description": "主手可以双持的情况下，可从副手进行攻击；双持工具的属性将会降低",
-  "recipe.tconstruct.modifier.two_handed_dual_wielding": "双持工具需要“副手持握”强化才能使用此强化",
 
   "_comment": "Loot",
   "modifier.tconstruct.silky": "丝触",
@@ -2097,8 +2102,6 @@
   "modifier.tconstruct.luck.3": "幸运++",
   "modifier.tconstruct.luck.flavor": "鸿运当头！",
   "modifier.tconstruct.luck.description": "挖掘方块或击杀生物时，能提升获得高品质战利品的概率！",
-  "recipe.tconstruct.modifier.luck.level_2": "“幸运+”的合成与前一级不同",
-  "recipe.tconstruct.modifier.luck.level_3": "“幸运++”的合成与前两级不同",
   "modifier.tconstruct.fortune": "时运",
   "modifier.tconstruct.fortune.flavor": "采矿幸运儿！",
   "modifier.tconstruct.fortune.description": "开采矿石时获得更多掉落物！",
@@ -2291,6 +2294,11 @@
   "modifier.tconstruct.raging.description": "当生命值低时工具伤害更高，拉弓速度更快",
   "modifier.tconstruct.raging.attack_damage": "低生命值伤害",
   "modifier.tconstruct.raging.draw_speed": "低生命值拉弓速度",
+  "modifier.tconstruct.antitoxin": "Antitoxin",
+  "modifier.tconstruct.antitoxin.flavor": "High risk strength!",
+  "modifier.tconstruct.antitoxin.description": "Tool does more damage and draws faster when poisoned",
+  "modifier.tconstruct.antitoxin.attack_damage": "Venom Damage",
+  "modifier.tconstruct.antitoxin.draw_speed": "Venom Draw Speed",
   "modifier.tconstruct.enhanced": "增强",
   "modifier.tconstruct.enhanced.flavor": "闪闪放光芒！",
   "modifier.tconstruct.enhanced.description": "玫瑰金极佳地容纳了更多的升级槽！",
@@ -2717,7 +2725,6 @@
   "recipe.tconstruct.modifier.validate_slots": "这项改动留给工具的%s槽过少",
   "recipe.tconstruct.modifier.min_level": "此配方需要至少%s级%s才可使用",
   "recipe.tconstruct.modifier.max_level": "%s的等级不可大于%s",
-  "recipe.tconstruct.modifier.requirements_error": "工具的其中一个强化已使该工具状态无效，联系整合包作者以了解详细错误情况。",
 
   "recipe.tconstruct.tool_recycling": "工具回收",
   "recipe.tconstruct.tool_recycling.info": "从组装此工具的工具部件中选择你想回收的一个。根据工具剩余的耐久度大小，甚至有可能回收第2个工具部件。",
@@ -2787,7 +2794,9 @@
   "command.tconstruct.stat_type.wrong_type": "无效的数据类型%s，必须从%s处继承",
   "command.tconstruct.material.not_found": "未知材料%s",
   "command.tconstruct.modifier.not_found": "未知强化%s",
-  "command.tconstruct.modifier_usage": "已成功将强化说明打印至游戏日志中",
+  "command.tconstruct.modifier_hook.not_found": "Unknown modifier hook %s",
+  "command.tconstruct.modifier_usage": "Successfully printed modifier usage to the game log",
+  "command.tconstruct.modifier_priority": "Successfully printed modifier priorities to the game log",
 
   "command.tconstruct.modifiers.success.add.single": "为%2$s的物品添加%1$s强化",
   "command.tconstruct.modifiers.success.add.multiple": "为%2$s个实体添加%1$s强化",
@@ -2863,7 +2872,10 @@
   "jei.tconstruct.modifiers.slots": "加持该强化物需要%s个%s槽",
   "jei.tconstruct.modifiers.free": "无需强化槽",
   "jei.tconstruct.modifiers.incremental": "这个配方是递进配方，可消耗配方的部分对应材料获得部分强化",
-  "jei.tconstruct.modifiers.max": "最大次数：",
+  "jei.tconstruct.modifiers.level.min": "Min level: %s",
+  "jei.tconstruct.modifiers.level.max": "Max level: %s",
+  "jei.tconstruct.modifiers.level.range": "Level range: %s-%s",
+  "jei.tconstruct.modifiers.level.exact": "For level: %s",
 
   "jei.tconstruct.severing.title": "肢解掉落物",
 
@@ -2960,8 +2972,6 @@
   "advancements.tconstruct.world.clay_island.description": "在空中找到一座黏土岛",
   "advancements.tconstruct.world.slime_collector.title": "集黏者",
   "advancements.tconstruct.world.slime_collector.description": "获取所有六种黏液球",
-  "advancements.tconstruct.world.slime_sling.title": "弹弓高手",
-  "advancements.tconstruct.world.slime_sling.description": "充分使用所有四种弹弓",
   "advancements.tconstruct.world.piggybackpack.title": "肩驮猪",
   "advancements.tconstruct.world.piggybackpack.description": "用肩驮架驮起一只猪"
 
