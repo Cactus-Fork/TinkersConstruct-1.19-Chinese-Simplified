@@ -2294,7 +2294,7 @@
   "modifier.tconstruct.raging.description": "当生命值低时工具伤害更高，拉弓速度更快",
   "modifier.tconstruct.raging.attack_damage": "低生命值伤害",
   "modifier.tconstruct.raging.draw_speed": "低生命值拉弓速度",
-  "modifier.tconstruct.antitoxin": "Antitoxin",
+  "modifier.tconstruct.antitoxin": "抗毒素",
   "modifier.tconstruct.antitoxin.flavor": "高风险，高力量！",
   "modifier.tconstruct.antitoxin.description": "中毒时工具伤害更高，拉弓速度更快",
   "modifier.tconstruct.antitoxin.attack_damage": "毒液伤害",
