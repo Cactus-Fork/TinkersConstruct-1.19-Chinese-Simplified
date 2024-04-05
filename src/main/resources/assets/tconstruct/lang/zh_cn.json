@@ -1312,14 +1312,14 @@
   "block.tconstruct.blood_slime_sapling.tooltip": "只能在黏液菌岩上生长",
   "block.tconstruct.ichor_slime_sapling": "灵浆树苗",
   "block.tconstruct.ichor_slime_sapling.tooltip": "只能在黏液菌岩上生长",
-  "block.tconstruct.ender_slime_sapling": "末影黏液胎生苗",
+  "block.tconstruct.ender_slime_sapling": "末影皮树胎生苗",
   "block.tconstruct.ender_slime_sapling.tooltip": "只能在黏液泥土或黏液草方块上生长",
 
   "block.tconstruct.potted_earth_slime_sapling": "绿心树苗盆栽",
   "block.tconstruct.potted_sky_slime_sapling": "天根树苗盆栽",
   "block.tconstruct.potted_blood_slime_sapling": "血菌盆栽",
   "block.tconstruct.potted_ichor_slime_sapling": "灵浆树苗盆栽",
-  "block.tconstruct.potted_ender_slime_sapling": "末影黏液胎生苗盆栽",
+  "block.tconstruct.potted_ender_slime_sapling": "末影皮树胎生苗盆栽",
 
   "block.tconstruct.ender_slime_vine": "黏液藤蔓",
   "block.tconstruct.sky_slime_vine": "黏液藤蔓",
