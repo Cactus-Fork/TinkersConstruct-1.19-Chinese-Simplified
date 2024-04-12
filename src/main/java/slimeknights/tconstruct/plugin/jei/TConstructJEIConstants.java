@@ -4,7 +4,6 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -23,8 +22,6 @@ public class TConstructJEIConstants {
   public static final ResourceLocation PLUGIN = TConstruct.getResource("jei_plugin");
 
   // ingredient types
-  @SuppressWarnings("rawtypes")
-  public static final IIngredientType<EntityType> ENTITY_TYPE = () -> EntityType.class;
   public static final IIngredientTypeWithSubtypes<Modifier,ModifierEntry> MODIFIER_TYPE = new IIngredientTypeWithSubtypes<>() {
     @Override
     public Class<? extends ModifierEntry> getIngredientClass() {

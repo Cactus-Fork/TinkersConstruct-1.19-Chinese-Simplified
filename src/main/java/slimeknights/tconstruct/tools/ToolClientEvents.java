@@ -12,6 +12,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -43,10 +44,9 @@ import slimeknights.tconstruct.library.client.model.DynamicTextureLoader;
 import slimeknights.tconstruct.library.client.model.TinkerItemProperties;
 import slimeknights.tconstruct.library.client.model.tools.MaterialModel;
 import slimeknights.tconstruct.library.client.model.tools.ToolModel;
-import slimeknights.tconstruct.library.client.modifiers.BreakableDyedModifierModel;
-import slimeknights.tconstruct.library.client.modifiers.BreakableMaterialModifierModel;
-import slimeknights.tconstruct.library.client.modifiers.BreakableModifierModel;
+import slimeknights.tconstruct.library.client.modifiers.DyedModifierModel;
 import slimeknights.tconstruct.library.client.modifiers.FluidModifierModel;
+import slimeknights.tconstruct.library.client.modifiers.MaterialModifierModel;
 import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager;
 import slimeknights.tconstruct.library.client.modifiers.ModifierModelManager.ModifierModelRegistrationEvent;
 import slimeknights.tconstruct.library.client.modifiers.NormalModifierModel;
@@ -60,7 +60,7 @@ import slimeknights.tconstruct.library.utils.HarvestTiers;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.client.ArmorModelHelper;
 import slimeknights.tconstruct.tools.client.CrystalshotRenderer;
-import slimeknights.tconstruct.tools.client.FluidSpitRenderer;
+import slimeknights.tconstruct.tools.client.FluidEffectProjectileRenderer;
 import slimeknights.tconstruct.tools.client.OverslimeModifierModel;
 import slimeknights.tconstruct.tools.client.PlateArmorModel;
 import slimeknights.tconstruct.tools.client.SlimelytraArmorModel;
@@ -70,6 +70,8 @@ import slimeknights.tconstruct.tools.item.ModifierCrystalItem;
 import slimeknights.tconstruct.tools.logic.InteractionHandler;
 import slimeknights.tconstruct.tools.modifiers.ability.armor.DoubleJumpModifier;
 import slimeknights.tconstruct.tools.network.TinkerControlPacket;
+
+import java.util.function.Consumer;
 
 import static slimeknights.tconstruct.library.client.model.tools.ToolModel.registerItemColors;
 
@@ -107,19 +109,18 @@ public class ToolClientEvents extends ClientEventBase {
   @SubscribeEvent
   static void registerModifierModels(ModifierModelRegistrationEvent event) {
     event.registerModel(TConstruct.getResource("normal"), NormalModifierModel.UNBAKED_INSTANCE);
-    event.registerModel(TConstruct.getResource("breakable"), BreakableModifierModel.UNBAKED_INSTANCE);
     event.registerModel(TConstruct.getResource("overslime"), OverslimeModifierModel.UNBAKED_INSTANCE);
     event.registerModel(TConstruct.getResource("fluid"), FluidModifierModel.UNBAKED_INSTANCE);
     event.registerModel(TConstruct.getResource("tank"), TankModifierModel.UNBAKED_INSTANCE);
-    event.registerModel(TConstruct.getResource("breakable_material"), BreakableMaterialModifierModel.UNBAKED_INSTANCE);
-    event.registerModel(TConstruct.getResource("breakable_dyed"), BreakableDyedModifierModel.UNBAKED_INSTANCE);
+    event.registerModel(TConstruct.getResource("material"), MaterialModifierModel.UNBAKED_INSTANCE);
+    event.registerModel(TConstruct.getResource("dyed"), DyedModifierModel.UNBAKED_INSTANCE);
   }
 
   @SubscribeEvent
   static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
     event.registerEntityRenderer(TinkerTools.indestructibleItem.get(), ItemEntityRenderer::new);
     event.registerEntityRenderer(TinkerTools.crystalshotEntity.get(), CrystalshotRenderer::new);
-    event.registerEntityRenderer(TinkerModifiers.fluidSpitEntity.get(), FluidSpitRenderer::new);
+    event.registerEntityRenderer(TinkerModifiers.fluidSpitEntity.get(), FluidEffectProjectileRenderer::new);
   }
 
   @SubscribeEvent
@@ -167,8 +168,13 @@ public class ToolClientEvents extends ClientEventBase {
       TinkerItemProperties.registerToolProperties(TinkerTools.earthStaff.asItem());
       TinkerItemProperties.registerToolProperties(TinkerTools.ichorStaff.asItem());
       TinkerItemProperties.registerToolProperties(TinkerTools.enderStaff.asItem());
+      // armor
       TinkerItemProperties.registerToolProperties(TinkerTools.travelersShield.asItem());
       TinkerItemProperties.registerToolProperties(TinkerTools.plateShield.asItem());
+      Consumer<Item> brokenConsumer = TinkerItemProperties::registerBrokenProperty;
+      TinkerTools.travelersGear.forEach(brokenConsumer);
+      TinkerTools.plateArmor.forEach(brokenConsumer);
+      TinkerTools.slimesuit.forEach(brokenConsumer);
     });
   }
 

@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
 import mezz.jei.api.forge.ForgeTypes;
+import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated.StartDirection;
@@ -21,8 +22,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
+import slimeknights.mantle.plugin.jei.MantleJEIConstants;
+import slimeknights.mantle.plugin.jei.entity.EntityIngredientRenderer;
+import slimeknights.mantle.recipe.ingredient.EntityIngredient;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
@@ -83,16 +86,16 @@ public class EntityMeltingRecipeCategory implements IRecipeCategory<EntityMeltin
     fontRenderer.draw(matrices, damage, x, 8, Color.RED.getRGB());
   }
 
-  @SuppressWarnings("rawtypes")
   @Override
   public void setRecipe(IRecipeLayoutBuilder builder, EntityMeltingRecipe recipe, IFocusGroup focuses) {
     // inputs, filtered by spawn egg item
-    List<EntityType> displayTypes = EntityIngredientHelper.applyFocus(RecipeIngredientRole.INPUT, recipe.getEntityInputs(), focuses);
-    builder.addSlot(RecipeIngredientRole.INPUT, 19, 11)
-           .setCustomRenderer(TConstructJEIConstants.ENTITY_TYPE, entityRenderer)
-           .addIngredients(TConstructJEIConstants.ENTITY_TYPE, displayTypes);
+    EntityIngredient input = recipe.getIngredient();
+    IIngredientAcceptor<?> entities = builder.addSlot(RecipeIngredientRole.INPUT, 19, 11)
+                                             .setCustomRenderer(MantleJEIConstants.ENTITY_TYPE, entityRenderer)
+                                             .addIngredients(MantleJEIConstants.ENTITY_TYPE, input.getDisplay());
     // add spawn eggs as hidden inputs
-    builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(recipe.getItemInputs());
+    IIngredientAcceptor<?> eggs = builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(input.getEggs());
+    builder.createFocusLink(entities, eggs);
 
     // output
     builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 11)
