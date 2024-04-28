@@ -41,14 +41,14 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import slimeknights.mantle.data.predicate.damage.DamageSourcePredicate;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent.ToolHarvestEvent;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
-import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.armor.ModifyDamageModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.armor.OnAttackedModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.armor.ProtectionModifierHook;
@@ -69,7 +69,6 @@ import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
 import slimeknights.tconstruct.tools.TinkerModifiers;
-import slimeknights.tconstruct.tools.modifiers.defense.ProjectileProtectionModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.armor.HasteModifier;
 
 import java.util.List;
@@ -97,7 +96,7 @@ public class ToolEvents {
           boolean isEffective = stack.isCorrectToolForDrops(event.getState());
           Direction direction = BlockSideHitListener.getSideHit(player);
           for (ModifierEntry entry : tool.getModifierList()) {
-            entry.getHook(TinkerHooks.BREAK_SPEED).onBreakSpeed(tool, entry, event, direction, isEffective, miningSpeedModifier);
+            entry.getHook(ModifierHooks.BREAK_SPEED).onBreakSpeed(tool, entry, event, direction, isEffective, miningSpeedModifier);
             // if any modifier cancels mining, stop right here
             if (event.isCanceled()) {
               return;
@@ -200,7 +199,7 @@ public class ToolEvents {
           IToolStackView toolStack = context.getToolInSlot(slotType);
           if (toolStack != null && !toolStack.isBroken()) {
             for (ModifierEntry entry : toolStack.getModifierList()) {
-              if (entry.getHook(TinkerHooks.DAMAGE_BLOCK).isDamageBlocked(toolStack, entry, context, slotType, source, amount)) {
+              if (entry.getHook(ModifierHooks.DAMAGE_BLOCK).isDamageBlocked(toolStack, entry, context, slotType, source, amount)) {
                 event.setCanceled(true);
                 return;
               }
@@ -210,7 +209,7 @@ public class ToolEvents {
       }
 
       // then we need to determine if any want to respond assuming its not canceled
-      OnAttackedModifierHook.handleAttack(TinkerHooks.ON_ATTACKED, context, source, amount, isDirectDamage);
+      OnAttackedModifierHook.handleAttack(ModifierHooks.ON_ATTACKED, context, source, amount, isDirectDamage);
     }
 
     // next, consider the attacker is wearing modifiable armor
@@ -222,7 +221,7 @@ public class ToolEvents {
           IToolStackView toolStack = context.getToolInSlot(slotType);
           if (toolStack != null && !toolStack.isBroken()) {
             for (ModifierEntry entry : toolStack.getModifierList()) {
-              entry.getHook(TinkerHooks.DAMAGE_DEALT).onDamageDealt(toolStack, entry, context, slotType, entity, source, amount, isDirectDamage);
+              entry.getHook(ModifierHooks.DAMAGE_DEALT).onDamageDealt(toolStack, entry, context, slotType, entity, source, amount, isDirectDamage);
             }
           }
         }
@@ -258,7 +257,7 @@ public class ToolEvents {
     // for our own armor, we have boosts from modifiers to consider
     if (context.hasModifiableArmor()) {
       // first, allow modifiers to change the damage being dealt and respond to it happening
-      originalDamage = ModifyDamageModifierHook.modifyDamageTaken(TinkerHooks.MODIFY_HURT, context, source, originalDamage, OnAttackedModifierHook.isDirectDamage(source));
+      originalDamage = ModifyDamageModifierHook.modifyDamageTaken(ModifierHooks.MODIFY_HURT, context, source, originalDamage, OnAttackedModifierHook.isDirectDamage(source));
       event.setAmount(originalDamage);
       if (originalDamage <= 0) {
         event.setCanceled(true);
@@ -267,7 +266,7 @@ public class ToolEvents {
 
       // remaining logic is reducing damage like vanilla protection
       // fetch vanilla enchant level, assuming its not bypassed in vanilla
-      if (!source.isBypassMagic()) {
+      if (DamageSourcePredicate.CAN_PROTECT.matches(source)) {
         modifierValue = vanillaModifier = EnchantmentHelper.getDamageProtection(entity.getArmorSlots(), source);
       }
 
@@ -278,7 +277,7 @@ public class ToolEvents {
           IToolStackView tool = context.getToolInSlot(slotType);
           if (tool != null && !tool.isBroken()) {
             for (ModifierEntry entry : tool.getModifierList()) {
-              modifierValue = entry.getHook(TinkerHooks.PROTECTION).getProtectionModifier(tool, entry, context, slotType, source, modifierValue);
+              modifierValue = entry.getHook(ModifierHooks.PROTECTION).getProtectionModifier(tool, entry, context, slotType, source, modifierValue);
             }
           }
         }
@@ -288,7 +287,7 @@ public class ToolEvents {
       if (entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
         modifierValue *= 4;
       }
-    } else if (!source.isBypassMagic() && entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
+    } else if (DamageSourcePredicate.CAN_PROTECT.matches(source) && entity.getType().is(TinkerTags.EntityTypes.SMALL_ARMOR)) {
       vanillaModifier = EnchantmentHelper.getDamageProtection(entity.getArmorSlots(), source);
       modifierValue = vanillaModifier * 4;
     }
@@ -344,7 +343,7 @@ public class ToolEvents {
     // give modifiers a chance to respond to damage happening
     EquipmentContext context = new EquipmentContext(entity);
     if (context.hasModifiableArmor()) {
-      float amount = ModifyDamageModifierHook.modifyDamageTaken(TinkerHooks.MODIFY_DAMAGE, context, source, event.getAmount(), OnAttackedModifierHook.isDirectDamage(source));
+      float amount = ModifyDamageModifierHook.modifyDamageTaken(ModifierHooks.MODIFY_DAMAGE, context, source, event.getAmount(), OnAttackedModifierHook.isDirectDamage(source));
       event.setAmount(amount);
       if (amount <= 0) {
         event.setCanceled(true);
@@ -371,7 +370,7 @@ public class ToolEvents {
       if (!boots.isEmpty() && boots.is(TinkerTags.Items.BOOTS)) {
         ToolStack tool = ToolStack.from(boots);
         for (ModifierEntry entry : tool.getModifierList()) {
-          entry.getHook(TinkerHooks.BOOT_WALK).onWalk(tool, entry, living, living.lastPos, pos);
+          entry.getHook(ModifierHooks.BOOT_WALK).onWalk(tool, entry, living, living.lastPos, pos);
         }
       }
     }
@@ -392,16 +391,6 @@ public class ToolEvents {
       if (disguises != null && disguises.contains(lookingEntity.getType())) {
         // not as good as a real head
         event.modifyVisibility(0.65f);
-      }
-
-      // projectile protection
-      ModifierMaxLevel projData = data.get(ProjectileProtectionModifier.PROJECTILE_DATA);
-      if (projData != null) {
-        float max = projData.getMax();
-        if (max > 0) {
-          // reduces visibility by 5% per level
-          event.modifyVisibility(Math.max(0, 1 - (max * 0.05)));
-        }
       }
     });
   }
@@ -426,7 +415,7 @@ public class ToolEvents {
             // extract a living target as that is the most common need
             LivingEntity target = ToolAttackUtil.getLivingEntity(entityHit.getEntity());
             for (ModifierEntry entry : modifiers.getModifiers()) {
-              if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitEntity(modifiers, nbt, entry, projectile, entityHit, attacker, target)) {
+              if (entry.getHook(ModifierHooks.PROJECTILE_HIT).onProjectileHitEntity(modifiers, nbt, entry, projectile, entityHit, attacker, target)) {
                 event.setCanceled(true);
               }
             }
@@ -435,7 +424,7 @@ public class ToolEvents {
         case BLOCK -> {
           BlockHitResult blockHit = (BlockHitResult)hit;
           for (ModifierEntry entry : modifiers.getModifiers()) {
-            if (entry.getHook(TinkerHooks.PROJECTILE_HIT).onProjectileHitBlock(modifiers, nbt, entry, projectile, blockHit, attacker)) {
+            if (entry.getHook(ModifierHooks.PROJECTILE_HIT).onProjectileHitBlock(modifiers, nbt, entry, projectile, blockHit, attacker)) {
               event.setCanceled(true);
             }
           }

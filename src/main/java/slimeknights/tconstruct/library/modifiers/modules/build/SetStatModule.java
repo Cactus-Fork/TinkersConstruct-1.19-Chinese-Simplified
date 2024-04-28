@@ -8,12 +8,15 @@ import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.typed.TypedMap;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ToolStatsModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.ConditionalModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModuleBuilder;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.stat.IToolStat;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -24,18 +27,18 @@ import java.util.List;
  * Module that sets a stat to a particular value
  * @param <T>  Stat type
  */
-public record SetStatModule<T>(IToolStat<T> stat, T value, ModifierModuleCondition condition) implements ModifierModule, ToolStatsModifierHook {
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.TOOL_STATS);
+public record SetStatModule<T>(IToolStat<T> stat, T value, ModifierCondition<IToolContext> condition) implements ModifierModule, ToolStatsModifierHook, ConditionalModule<IToolContext> {
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<SetStatModule<?>>defaultHooks(ModifierHooks.TOOL_STATS);
 
   @Override
-  public void addToolStats(ToolRebuildContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
+  public void addToolStats(IToolContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
     if (condition.matches(context, modifier)) {
       stat.update(builder, value);
     }
   }
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
@@ -47,20 +50,22 @@ public record SetStatModule<T>(IToolStat<T> stat, T value, ModifierModuleConditi
   /** Loader instance, manually created as the value parsing another value is difficult with the builder */
   public static final RecordLoadable<SetStatModule<?>> LOADER = new RecordLoadable<>() {
     @Override
-    public SetStatModule<?> deserialize(JsonObject json, TypedMap<Object> context) {
+    public SetStatModule<?> deserialize(JsonObject json, TypedMap context) {
       return deserialize(json, ToolStats.LOADER.getIfPresent(json, "stat"));
     }
 
     /** Handles generics for deserializing the value */
     private static <T> SetStatModule<T> deserialize(JsonObject json, IToolStat<T> stat) {
-      ModifierModuleCondition condition = ModifierModuleCondition.deserializeFrom(json);
-      T value = stat.deserialize(JsonHelper.getElement(json, "value"));
-      return new SetStatModule<>(stat, value, condition);
+      return new SetStatModule<>(
+        stat,
+        stat.deserialize(JsonHelper.getElement(json, "value")),
+        ModifierCondition.CONTEXT_FIELD.get(json)
+      );
     }
 
     @Override
     public void serialize(SetStatModule<?> object, JsonObject json) {
-      object.condition.serializeInto(json);
+      ModifierCondition.CONTEXT_FIELD.serialize(object, json);
       json.add("stat", ToolStats.LOADER.serialize(object.stat));
       serializeValue(object, json);
     }
@@ -71,22 +76,23 @@ public record SetStatModule<T>(IToolStat<T> stat, T value, ModifierModuleConditi
     }
 
     @Override
-    public SetStatModule<?> decode(FriendlyByteBuf buffer, TypedMap<Object> context) {
+    public SetStatModule<?> decode(FriendlyByteBuf buffer, TypedMap context) {
       return decode(buffer, ToolStats.LOADER.decode(buffer));
     }
 
     /** Handles generics for reading the value from network */
     private static <T> SetStatModule<T> decode(FriendlyByteBuf buffer, IToolStat<T> stat) {
-      T value = stat.fromNetwork(buffer);
-      ModifierModuleCondition condition = ModifierModuleCondition.fromNetwork(buffer);
-      return new SetStatModule<>(stat, value, condition);
+      return new SetStatModule<>(
+        stat, stat.fromNetwork(buffer),
+        ModifierCondition.CONTEXT_FIELD.decode(buffer)
+      );
     }
 
     @Override
     public void encode(FriendlyByteBuf buffer, SetStatModule<?> object) {
       ToolStats.LOADER.encode(buffer, object.stat);
       writeValue(object, buffer);
-      object.condition.toNetwork(buffer);
+      ModifierCondition.CONTEXT_FIELD.encode(buffer, object);
     }
 
     /** Handles generics for writing the value to network */
@@ -104,7 +110,7 @@ public record SetStatModule<T>(IToolStat<T> stat, T value, ModifierModuleConditi
   }
 
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-  public static class Builder<T> extends ModifierModuleCondition.Builder<Builder<T>> {
+  public static class Builder<T> extends ModuleBuilder.Context<Builder<T>> {
     private final IToolStat<T> stat;
 
     /** Creates the instance with the passed value */

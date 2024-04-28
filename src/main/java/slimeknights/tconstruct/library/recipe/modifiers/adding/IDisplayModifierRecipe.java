@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.library.json.IntRange;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.SlotType.SlotCount;
 import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
@@ -17,7 +17,6 @@ import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
-import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import javax.annotation.Nullable;
@@ -94,7 +93,7 @@ public interface IDisplayModifierRecipe extends IModifierRecipe {
    * @return  List of modifiers
    */
   static List<ModifierEntry> modifiersForResult(ModifierEntry result, @Nullable ModifierEntry self) {
-    List<ModifierEntry> requirements = result.getHook(TinkerHooks.REQUIREMENTS).displayModifiers(result);
+    List<ModifierEntry> requirements = result.getHook(ModifierHooks.REQUIREMENTS).displayModifiers(result);
     if (self != null) {
       return Streams.concat(requirements.stream(), Stream.of(self)).toList();
     }
@@ -124,9 +123,9 @@ public interface IDisplayModifierRecipe extends IModifierRecipe {
     CompoundTag volatileNBT = new CompoundTag();
     ModDataNBT volatileData = ModDataNBT.readFromNBT(volatileNBT);
     persistentDataConsumer.accept(persistentData);
-    ToolRebuildContext context = new ToolRebuildContext(stack.getItem(), ToolDefinition.EMPTY, MaterialNBT.EMPTY, modifiers, modifiers, StatsNBT.EMPTY, persistentData, volatileData);
+    ToolRebuildContext context = new ToolRebuildContext(stack.getItem(), ToolDefinition.EMPTY, MaterialNBT.EMPTY, modifiers, modifiers, persistentData);
     for (ModifierEntry entry : modifiers.getModifiers()) {
-      entry.getHook(TinkerHooks.VOLATILE_DATA).addVolatileData(context, entry, volatileData);
+      entry.getHook(ModifierHooks.VOLATILE_DATA).addVolatileData(context, entry, volatileData);
     }
     nbt.put(ToolStack.TAG_VOLATILE_MOD_DATA, volatileNBT);
     nbt.put(ToolStack.TAG_PERSISTENT_MOD_DATA, persistentNBT);

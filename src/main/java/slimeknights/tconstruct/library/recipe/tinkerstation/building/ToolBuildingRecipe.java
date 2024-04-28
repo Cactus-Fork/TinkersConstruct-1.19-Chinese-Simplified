@@ -17,15 +17,15 @@ import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
-import slimeknights.tconstruct.library.tools.definition.PartRequirement;
+import slimeknights.tconstruct.library.tools.definition.module.material.ToolPartsHook;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.tables.TinkerTables;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 
 /**
@@ -39,12 +39,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     TinkerLoadables.MODIFIABLE_ITEM.requiredField("result", r -> r.output),
     IntLoadable.FROM_ONE.defaultField("result_count", 1, true, r -> r.outputCount),
     IngredientLoadable.DISALLOW_EMPTY.list(0).defaultField("extra_requirements", List.of(), r -> r.ingredients),
-    ToolBuildingRecipe::new).comapFlatMap((recipe, error) -> {
-    if (!recipe.output.getToolDefinition().isMultipart() && recipe.ingredients.isEmpty()) {
-      throw error.create("Modifiable item must have tool parts or extra requirements to use tool building recipes in " + recipe.id);
-    }
-    return recipe;
-  }, Function.identity());
+    ToolBuildingRecipe::new);
 
   @Getter
   protected final ResourceLocation id;
@@ -70,7 +65,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     if (!inv.getTinkerableStack().isEmpty()) {
       return false;
     }
-    List<PartRequirement> parts = output.getToolDefinition().getData().getParts();
+    List<IToolPart> parts = ToolPartsHook.parts(output.getToolDefinition());
     int requiredInputs = parts.size() + ingredients.size();
     int maxInputs = inv.getInputCount();
     // disallow if we have no inputs, or if we have too few slots
@@ -81,7 +76,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     int i;
     int partSize = parts.size();
     for (i = 0; i < partSize; i++) {
-      if (!parts.get(i).matches(inv.getInput(i).getItem())) {
+      if (parts.get(i).asItem() != inv.getInput(i).getItem()) {
         return false;
       }
     }
@@ -99,7 +94,7 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
   @Override
   public ItemStack assemble(ITinkerStationContainer inv) {
     // first n slots contain parts
-    List<MaterialVariant> materials = IntStream.range(0, output.getToolDefinition().getData().getParts().size())
+    List<MaterialVariant> materials = IntStream.range(0, ToolPartsHook.parts(output.getToolDefinition()).size())
                                                .mapToObj(i -> MaterialVariant.of(IMaterialItem.getMaterialFromStack(inv.getInput(i))))
                                                .toList();
     return ToolStack.createTool(output.asItem(), output.getToolDefinition(), new MaterialNBT(materials)).createStack(outputCount);

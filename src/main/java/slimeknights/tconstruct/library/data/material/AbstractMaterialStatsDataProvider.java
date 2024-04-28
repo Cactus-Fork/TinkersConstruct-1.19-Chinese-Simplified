@@ -1,15 +1,16 @@
 package slimeknights.tconstruct.library.data.material;
 
-import lombok.AllArgsConstructor;
+import com.google.gson.JsonElement;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.json.MaterialStatJson;
 import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
+import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsManager;
+import slimeknights.tconstruct.tools.item.ArmorSlotType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,24 +64,36 @@ public abstract class AbstractMaterialStatsDataProvider extends GenericDataProvi
                     .addAll(Arrays.asList(stats));
   }
 
+  /**
+   * Adds material stats from the given armor builder
+   * @param location     Material ID
+   * @param statBuilder  Stat builder
+   * @param otherStats   Other stat types to add after the builder
+   */
+  protected void addArmorStats(MaterialId location, ArmorSlotType.ArmorBuilder<? extends IMaterialStats> statBuilder, IMaterialStats... otherStats) {
+    IMaterialStats[] stats = new IMaterialStats[4];
+    for (ArmorSlotType slotType : ArmorSlotType.values()) {
+      stats[slotType.getIndex()] = statBuilder.build(slotType);
+    }
+    addMaterialStats(location, stats);
+    if (otherStats.length > 0) {
+      addMaterialStats(location, otherStats);
+    }
+  }
+
   /* Internal */
 
   /** Converts a material and stats list to a JSON */
-  private JsonWrapper convert(List<IMaterialStats> stats) {
-    Map<ResourceLocation,IMaterialStats> wrappedStats = stats.stream()
+  private MaterialStatJson convert(List<IMaterialStats> stats) {
+    return new MaterialStatJson(stats.stream()
       .collect(Collectors.toMap(
         IMaterialStats::getIdentifier,
-        stat -> stat));
-    return new JsonWrapper(wrappedStats);
+        stat -> encodeStats(stat, stat.getType()))));
   }
 
-  /**
-   * Separate json wrapper for serialization, since we know the types here.
-   * See {@link MaterialStatJson} for its deserialization counterpart.
-   */
-  @SuppressWarnings("unused")
-  @AllArgsConstructor
-  private static class JsonWrapper {
-    private final Map<ResourceLocation, IMaterialStats> stats;
+  /** Deals with generics for the stat encoder */
+  @SuppressWarnings("unchecked")
+  private static <T extends IMaterialStats> JsonElement encodeStats(IMaterialStats stats, MaterialStatType<T> type) {
+    return type.getLoadable().serialize((T)stats);
   }
 }

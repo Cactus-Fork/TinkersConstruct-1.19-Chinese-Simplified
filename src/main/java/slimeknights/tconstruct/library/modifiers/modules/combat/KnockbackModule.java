@@ -6,18 +6,18 @@ import net.minecraft.world.entity.LivingEntity;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
-import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.math.FormulaLoadable;
 import slimeknights.tconstruct.library.json.math.ModifierFormula;
 import slimeknights.tconstruct.library.json.math.ModifierFormula.FallbackFormula;
 import slimeknights.tconstruct.library.json.predicate.TinkerPredicate;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.combat.MeleeHitModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition.ConditionalModifierModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.ConditionalModule;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
@@ -28,19 +28,19 @@ import java.util.List;
  * @param entity     Filter on entities to receive knockback
  * @param formula    Formula to compute the knockback amount
  */
-public record KnockbackModule(IJsonPredicate<LivingEntity> entity, ModifierFormula formula, ModifierModuleCondition condition) implements MeleeHitModifierHook, ModifierModule, ConditionalModifierModule {
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.MELEE_HIT);
+public record KnockbackModule(IJsonPredicate<LivingEntity> entity, ModifierFormula formula, ModifierCondition<IToolStackView> condition) implements MeleeHitModifierHook, ModifierModule, ConditionalModule<IToolStackView> {
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<KnockbackModule>defaultHooks(ModifierHooks.MELEE_HIT);
   /** Setup for the formula */
   private static final FormulaLoadable FORMULA = new FormulaLoadable(FallbackFormula.ADD, "level", "knockback");
   /** Loader instance */
   public static final RecordLoadable<KnockbackModule> LOADER = RecordLoadable.create(
     LivingEntityPredicate.LOADER.defaultField("entity", KnockbackModule::entity),
     FORMULA.directField(KnockbackModule::formula),
-    ModifierModuleCondition.FIELD,
+    ModifierCondition.TOOL_FIELD,
     KnockbackModule::new);
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
@@ -57,7 +57,7 @@ public record KnockbackModule(IJsonPredicate<LivingEntity> entity, ModifierFormu
 
 
   @Override
-  public IGenericLoader<? extends ModifierModule> getLoader() {
+  public RecordLoadable<KnockbackModule> getLoader() {
     return LOADER;
   }
 

@@ -5,16 +5,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import slimeknights.mantle.data.loadable.primitive.EnumLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.LevelingValue;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ToolStatsModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition.ConditionalModifierModule;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.ConditionalModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModuleBuilder;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.stat.INumericToolStat;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -23,29 +24,29 @@ import java.util.List;
 import java.util.Locale;
 
 /** Module that boosts a tool stat */
-public record StatBoostModule(INumericToolStat<?> stat, StatOperation operation, LevelingValue amount, ModifierModuleCondition condition) implements ToolStatsModifierHook, ModifierModule, ConditionalModifierModule {
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.TOOL_STATS);
+public record StatBoostModule(INumericToolStat<?> stat, StatOperation operation, LevelingValue amount, ModifierCondition<IToolContext> condition) implements ToolStatsModifierHook, ModifierModule, ConditionalModule<IToolContext> {
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<StatBoostModule>defaultHooks(ModifierHooks.TOOL_STATS);
   public static RecordLoadable<StatBoostModule> LOADER = RecordLoadable.create(
     ToolStats.NUMERIC_LOADER.requiredField("stat", StatBoostModule::stat),
     new EnumLoadable<>(StatOperation.class).requiredField("operation", StatBoostModule::operation),
     LevelingValue.LOADABLE.directField(StatBoostModule::amount),
-    ModifierModuleCondition.FIELD,
+    ModifierCondition.CONTEXT_FIELD,
     StatBoostModule::new);
 
   @Override
-  public void addToolStats(ToolRebuildContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
+  public void addToolStats(IToolContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
     if (condition.matches(context, modifier)) {
       operation.apply(builder, stat, amount.compute(modifier.getEffectiveLevel()));
     }
   }
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
   @Override
-  public IGenericLoader<? extends ModifierModule> getLoader() {
+  public RecordLoadable<StatBoostModule> getLoader() {
     return LOADER;
   }
 
@@ -107,7 +108,7 @@ public record StatBoostModule(INumericToolStat<?> stat, StatOperation operation,
   }
 
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-  public static class Builder extends ModifierModuleCondition.Builder<Builder> implements LevelingValue.Builder<StatBoostModule> {
+  public static class Builder extends ModuleBuilder.Context<Builder> implements LevelingValue.Builder<StatBoostModule> {
     private final INumericToolStat<?> stat;
     private final StatOperation operation;
 

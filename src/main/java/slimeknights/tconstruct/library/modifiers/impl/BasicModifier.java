@@ -6,8 +6,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.network.chat.Component;
 import slimeknights.tconstruct.library.modifiers.Modifier;
-import slimeknights.tconstruct.library.modifiers.dynamic.ComposableModifier.TooltipDisplay;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap;
+import slimeknights.tconstruct.library.module.ModuleHookMap;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 
 /**
@@ -21,7 +20,7 @@ public class BasicModifier extends Modifier {
   @Getter
   protected final int priority;
 
-  public BasicModifier(ModifierHookMap hookMap, ModifierLevelDisplay levelDisplay, TooltipDisplay tooltipDisplay, int priority) {
+  public BasicModifier(ModuleHookMap hookMap, ModifierLevelDisplay levelDisplay, TooltipDisplay tooltipDisplay, int priority) {
     super(hookMap);
     this.levelDisplay = levelDisplay;
     this.tooltipDisplay = tooltipDisplay;
@@ -32,7 +31,7 @@ public class BasicModifier extends Modifier {
    * This method is final to prevent overrides as the constructor no longer calls it
    */
   @Override
-  protected final void registerHooks(ModifierHookMap.Builder hookBuilder) {}
+  protected final void registerHooks(ModuleHookMap.Builder hookBuilder) {}
 
   @Override
   public Component getDisplayName(int level) {
@@ -45,6 +44,9 @@ public class BasicModifier extends Modifier {
                     : tooltipDisplay == TooltipDisplay.ALWAYS;
   }
 
+  /** Determines when this modifier shows in tooltips */
+  public enum TooltipDisplay { ALWAYS, TINKER_STATION, NEVER }
+
   /**
    * Builder to create simple static modifiers. Similar to {@link slimeknights.tconstruct.library.modifiers.dynamic.ComposableModifier.Builder}, except more efficient as we don't require it be JSON serializable.
    * Generally it's better to just use composable unless there is a good reason.
@@ -53,7 +55,7 @@ public class BasicModifier extends Modifier {
   @Setter
   @RequiredArgsConstructor(staticName = "builder")
   public static class Builder {
-    private final ModifierHookMap hookMap;
+    private final ModuleHookMap hookMap;
 
     /** Method of displaying levels in this modifier */
     private ModifierLevelDisplay levelDisplay = ModifierLevelDisplay.DEFAULT;

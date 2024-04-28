@@ -1,27 +1,44 @@
 {
-  "slots": {
-    "abilities": 1,
-    "defense": 0,
-    "upgrades": 5
-  },
-  "stats": {
-    "base": {
-      "tconstruct:armor": 0.0,
-      "tconstruct:durability": 630.0
-    }
-  },
-  "traits": [
+  "modules": [
     {
-      "level": 1,
-      "name": "tconstruct:overslime_friend"
+      "type": "tconstruct:base_stats",
+      "stats": {
+        "tconstruct:durability": 630.0
+      }
     },
     {
-      "level": 1,
-      "name": "tconstruct:pockets"
+      "type": "tconstruct:modifier_slots",
+      "slots": {
+        "abilities": 1,
+        "upgrades": 5
+      }
     },
     {
-      "level": 1,
-      "name": "tconstruct:shulking"
+      "type": "tconstruct:material_repair",
+      "durability": 62,
+      "material": "tconstruct:enderslime"
+    },
+    {
+      "type": "tconstruct:material_repair",
+      "durability": 630,
+      "material": "tconstruct:chorus"
+    },
+    {
+      "type": "tconstruct:traits",
+      "traits": [
+        {
+          "level": 1,
+          "name": "tconstruct:overslime_friend"
+        },
+        {
+          "level": 1,
+          "name": "tconstruct:pockets"
+        },
+        {
+          "level": 1,
+          "name": "tconstruct:shulking"
+        }
+      ]
     }
   ]
 }

@@ -7,14 +7,14 @@ import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ModifierRemovalHook;
 import slimeknights.tconstruct.library.modifiers.hook.build.VolatileDataModifierHook;
 import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.SlotType;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
 import slimeknights.tconstruct.library.tools.nbt.IModDataView;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 
@@ -29,7 +29,7 @@ public class CreativeSlotModifier extends NoLevelsModifier implements VolatileDa
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, TinkerHooks.VOLATILE_DATA, TinkerHooks.REMOVE);
+    hookBuilder.addHook(this, ModifierHooks.VOLATILE_DATA, ModifierHooks.REMOVE);
   }
 
   @Override
@@ -39,7 +39,7 @@ public class CreativeSlotModifier extends NoLevelsModifier implements VolatileDa
   }
 
   @Override
-  public void addVolatileData(ToolRebuildContext context, ModifierEntry modifier, ModDataNBT volatileData) {
+  public void addVolatileData(IToolContext context, ModifierEntry modifier, ModDataNBT volatileData) {
     IModDataView persistentData = context.getPersistentData();
     if (persistentData.contains(KEY_SLOTS, Tag.TAG_COMPOUND)) {
       CompoundTag slots = persistentData.getCompound(KEY_SLOTS);

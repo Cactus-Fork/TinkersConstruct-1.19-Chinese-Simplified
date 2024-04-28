@@ -259,7 +259,7 @@ public class ItemTagProvider extends ItemTagsProvider {
 
     // armor
     addArmorTags(TinkerTools.travelersGear, DURABILITY, DYEABLE, ItemTags.FREEZE_IMMUNE_WEARABLES);
-    addArmorTags(TinkerTools.plateArmor,    DURABILITY, EMBELLISHMENT_METAL);
+    addArmorTags(TinkerTools.plateArmor,    DURABILITY, EMBELLISHMENT_METAL, MULTIPART_TOOL);
     addArmorTags(TinkerTools.slimesuit,     DURABILITY, EMBELLISHMENT_SLIME);
     addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL);
 
@@ -274,13 +274,13 @@ public class ItemTagProvider extends ItemTagsProvider {
       bookArmor.add(TinkerTools.travelersGear.get(slotType));
     }
     bookArmor.add(TinkerTools.travelersShield.get());
-    tag(MIGHTY_ARMOR);
-    bookArmor = this.tag(FANTASTIC_ARMOR);
     for (ArmorSlotType slotType : ArmorSlotType.TOP_DOWN) {
       bookArmor.add(TinkerTools.plateArmor.get(slotType));
     }
+    tag(MIGHTY_ARMOR);
+    bookArmor = tag(FANTASTIC_ARMOR);
     bookArmor.add(TinkerTools.plateShield.get());
-    bookArmor = this.tag(GADGETRY_ARMOR);
+    bookArmor = tag(GADGETRY_ARMOR);
     for (ArmorSlotType slotType : ArmorSlotType.TOP_DOWN) {
       bookArmor.add(TinkerTools.slimesuit.get(slotType));
     }
@@ -339,7 +339,9 @@ public class ItemTagProvider extends ItemTagsProvider {
 						 TinkerToolParts.toolBinding.get(), TinkerToolParts.roundPlate.get(), TinkerToolParts.largePlate.get(),
 						 TinkerToolParts.toolHandle.get(), TinkerToolParts.toughHandle.get(),
 						 TinkerToolParts.bowLimb.get(), TinkerToolParts.bowGrip.get(), TinkerToolParts.bowstring.get(),
-						 TinkerToolParts.repairKit.get()); // repair kit is not strictly a tool part, but this list just helps out JEI
+						 TinkerToolParts.chainmail.get(),
+						 TinkerToolParts.repairKit.get()) // repair kit is not strictly a tool part, but this list just helps out JEI
+        .add(TinkerToolParts.plating.values().toArray(new Item[0]));
 
     TagAppender<Item> slimySeeds = this.tag(TinkerTags.Items.SLIMY_SEEDS);
     TinkerWorld.slimeGrassSeeds.values().forEach(slimySeeds::add);
@@ -368,7 +370,9 @@ public class ItemTagProvider extends ItemTagsProvider {
     // part builder
     this.tag(TinkerTags.Items.DEFAULT_PATTERNS).add(TinkerTables.pattern.get());
     this.tag(TinkerTags.Items.REUSABLE_PATTERNS).addTag(TinkerTags.Items.GOLD_CASTS);
-    this.tag(TinkerTags.Items.PATTERNS).addTags(TinkerTags.Items.DEFAULT_PATTERNS, TinkerTags.Items.REUSABLE_PATTERNS);
+    this.tag(TinkerTags.Items.PATTERNS)
+        .addTags(TinkerTags.Items.DEFAULT_PATTERNS, TinkerTags.Items.REUSABLE_PATTERNS, TinkerTags.Items.SAND_CASTS, TinkerTags.Items.RED_SAND_CASTS)
+        .add(Items.SAND, Items.RED_SAND);
 
     // stone
     this.copy(TinkerTags.Blocks.STONE,      TinkerTags.Items.STONE);
@@ -457,6 +461,12 @@ public class ItemTagProvider extends ItemTagsProvider {
     // bow
     addCast.accept(TinkerSmeltery.bowLimbCast);
     addCast.accept(TinkerSmeltery.bowGripCast);
+    // armor
+    addCast.accept(TinkerSmeltery.helmetPlatingCast);
+    addCast.accept(TinkerSmeltery.chestplatePlatingCast);
+    addCast.accept(TinkerSmeltery.leggingsPlatingCast);
+    addCast.accept(TinkerSmeltery.bootsPlatingCast);
+    addCast.accept(TinkerSmeltery.chainmailCast);
 
     // add all casts to a common tag
     this.tag(TinkerTags.Items.CASTS)

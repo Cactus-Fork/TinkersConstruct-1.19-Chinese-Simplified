@@ -7,7 +7,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.modules.unserializable.ArmorStatModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 
 public class LeapingModifier extends Modifier {
@@ -21,7 +21,7 @@ public class LeapingModifier extends Modifier {
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addModule(new ArmorStatModule(LEAPING, 1, false));
+    hookBuilder.addModule(new ArmorStatModule(LEAPING, 1, false, null));
   }
 
   /** Reduce fall distance for fall damage */

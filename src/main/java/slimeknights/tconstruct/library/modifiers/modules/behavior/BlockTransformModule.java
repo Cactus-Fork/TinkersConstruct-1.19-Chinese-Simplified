@@ -10,13 +10,14 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.module.ModuleHook;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
+import slimeknights.tconstruct.library.module.HookProvider;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
-import slimeknights.tconstruct.library.tools.definition.module.ToolModuleHooks;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
+import slimeknights.tconstruct.library.tools.definition.module.aoe.AreaOfEffectIterator;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.MutableUseOnContext;
@@ -28,20 +29,20 @@ import java.util.List;
  * Shared logic for interaction actions which transform blocks
  */
 public interface BlockTransformModule extends ModifierModule, BlockInteractionModifierHook {
-  List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.BLOCK_INTERACT);
+  List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<BlockTransformModule>defaultHooks(ModifierHooks.BLOCK_INTERACT);
 
   /** If true, disallows targeting the bottom face of the block to transform */
   boolean requireGround();
 
   @Override
-  default List<ModifierHook<?>> getDefaultHooks() {
+  default List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
   @Override
   default InteractionResult afterBlockUse(IToolStackView tool, ModifierEntry modifier, UseOnContext context, InteractionSource source) {
     // tool must not be broken
-    if (tool.isBroken() || !tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
+    if (tool.isBroken() || !tool.getHook(ToolHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
       return InteractionResult.PASS;
     }
 
@@ -82,7 +83,7 @@ public interface BlockTransformModule extends ModifierModule, BlockInteractionMo
     // note we consider anything effective, as hoes are not effective on all tillable blocks
     if (player != null && !tool.isBroken()) {
       int totalTransformed = 0;
-      Iterator<BlockPos> aoePos = tool.getDefinition().getData().getAOE().getBlocks(tool, stack, player, original, world, pos, context.getClickedFace(), IAreaOfEffectIterator.AOEMatchType.TRANSFORM).iterator();
+      Iterator<BlockPos> aoePos = tool.getHook(ToolHooks.AOE_ITERATOR).getBlocks(tool, stack, player, original, world, pos, context.getClickedFace(), AreaOfEffectIterator.AOEMatchType.TRANSFORM).iterator();
       if (aoePos.hasNext()) {
         MutableUseOnContext offsetContext = new MutableUseOnContext(context);
         do {

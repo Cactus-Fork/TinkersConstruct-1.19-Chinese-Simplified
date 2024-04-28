@@ -1,10 +1,14 @@
 {
   "color": "C65C35",
+  "fallbacks": [
+    "cloth"
+  ],
   "generator": {
     "ignoreMaterialStats": false,
     "supportedStats": [
       "tconstruct:repair_kit",
-      "tconstruct:extra"
+      "tconstruct:binding",
+      "tconstruct:chainmail"
     ],
     "transformer": {
       "type": "tconstruct:recolor_sprite",

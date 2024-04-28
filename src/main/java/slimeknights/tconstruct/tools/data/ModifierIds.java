@@ -24,10 +24,12 @@ public class ModifierIds {
 
   // general
   public static final ModifierId reinforced = id("reinforced");
+  public static final ModifierId overforced = id("overforced");
   public static final ModifierId worldbound = id("worldbound");
   public static final ModifierId shiny      = id("shiny");
   public static final ModifierId sticky     = id("sticky");
   public static final ModifierId tank       = id("tank");
+  public static final ModifierId offhanded  = id("offhanded");
   public static final ModifierId theOneProbe = id("the_one_probe");
   // general abilities
   public static final ModifierId reach = id("reach");
@@ -104,6 +106,7 @@ public class ModifierIds {
   public static final ModifierId scorching = id("scorching");
   public static final ModifierId antitoxin = id("antitoxin");
   public static final ModifierId airborne = id("airborne");
+  public static final ModifierId scorchProtection = id("scorch_protection");
   // traits - tier 2 compat
   public static final ModifierId dense = id("dense");
   public static final ModifierId lustrous = id("lustrous");
@@ -111,12 +114,15 @@ public class ModifierIds {
   public static final ModifierId heavy = id("heavy");
   public static final ModifierId featherweight = id("featherweight");
   // traits - tier 3
+  public static final ModifierId overcast = id("overcast");
   public static final ModifierId crumbling = id("crumbling");
   public static final ModifierId enhanced = id("enhanced");
   public static final ModifierId lightweight = id("lightweight");
   // traits - tier 3 compat
   public static final ModifierId maintained = id("maintained");
   public static final ModifierId ductile = id("ductile");
+  // traits - tier 4
+  public static final ModifierId fortified = id("fortified");
 
   // unused for now, will be reassigned later
   public static final ModifierId raging = id("raging");

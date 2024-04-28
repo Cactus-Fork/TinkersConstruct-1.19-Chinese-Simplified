@@ -9,15 +9,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.hook.mining.RemoveBlockModifierHook;
 import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ShowOffhandModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.context.ToolHarvestContext;
-import slimeknights.tconstruct.library.tools.definition.module.ToolModuleHooks;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
 import slimeknights.tconstruct.library.tools.definition.module.interaction.DualOptionInteraction;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -30,7 +30,7 @@ public class GlowingModifier extends NoLevelsModifier implements BlockInteractio
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
     hookBuilder.addModule(ShowOffhandModule.DISALLOW_BROKEN);
-    hookBuilder.addHook(this, TinkerHooks.BLOCK_INTERACT, TinkerHooks.REMOVE_BLOCK);
+    hookBuilder.addHook(this, ModifierHooks.BLOCK_INTERACT, ModifierHooks.REMOVE_BLOCK);
   }
 
   @Override
@@ -45,7 +45,7 @@ public class GlowingModifier extends NoLevelsModifier implements BlockInteractio
   
   @Override
   public InteractionResult afterBlockUse(IToolStackView tool, ModifierEntry modifier, UseOnContext context, InteractionSource source) {
-    if (tool.getCurrentDurability() >= 10 && tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
+    if (tool.getCurrentDurability() >= 10 && tool.getHook(ToolHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
       Player player = context.getPlayer();
       if (!context.getLevel().isClientSide) {
         Level world = context.getLevel();
@@ -67,7 +67,7 @@ public class GlowingModifier extends NoLevelsModifier implements BlockInteractio
   @Nullable
   @Override
   public Boolean removeBlock(IToolStackView tool, ModifierEntry modifier, ToolHarvestContext context) {
-    if (context.getState().is(TinkerCommons.glow.get()) && tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, getId(), InteractionSource.LEFT_CLICK)) {
+    if (context.getState().is(TinkerCommons.glow.get()) && tool.getHook(ToolHooks.INTERACTION).canInteract(tool, getId(), InteractionSource.LEFT_CLICK)) {
       return false;
     }
     return null;

@@ -1,9 +1,13 @@
 {
   "color": "7E6059",
+  "fallbacks": [
+    "cloth"
+  ],
   "generator": {
     "ignoreMaterialStats": false,
     "supportedStats": [
-      "tconstruct:extra"
+      "tconstruct:binding",
+      "tconstruct:chainmail"
     ],
     "transformer": {
       "type": "tconstruct:recolor_sprite",

@@ -8,15 +8,15 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ToolStatsModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.display.TooltipModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.unserializable.ArmorStatModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay.UniqueForLevels;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -35,8 +35,8 @@ public class HasteModifier extends Modifier implements ToolStatsModifierHook, To
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addModule(new ArmorStatModule(HASTE, 0.1f, false));
-    hookBuilder.addHook(this, TinkerHooks.TOOL_STATS, TinkerHooks.TOOLTIP);
+    hookBuilder.addModule(new ArmorStatModule(HASTE, 0.1f, false, null));
+    hookBuilder.addHook(this, ModifierHooks.TOOL_STATS, ModifierHooks.TOOLTIP);
   }
 
   @Override
@@ -45,7 +45,7 @@ public class HasteModifier extends Modifier implements ToolStatsModifierHook, To
   }
 
   @Override
-  public void addToolStats(ToolRebuildContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
+  public void addToolStats(IToolContext context, ModifierEntry modifier, ModifierStatsBuilder builder) {
     ToolStats.MINING_SPEED.add(builder, 4 * modifier.getEffectiveLevel());
   }
 

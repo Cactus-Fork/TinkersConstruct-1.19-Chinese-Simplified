@@ -59,6 +59,7 @@ import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
+import slimeknights.tconstruct.tools.stats.ToolType;
 import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
 
@@ -191,7 +192,8 @@ public class TConstruct {
       case "blood_bottle" -> TinkerFluids.slimeBottle.get(SlimeType.EARTH);
       // ID switched from non-generated to generated
       case "ichor_bottle" -> TinkerFluids.slimeBottle.get(SlimeType.ICHOR);
-      // fallback to blocks to reduce duplication of listings
+      // reinforcement rework, bronze was the only type dropped so map to the new type
+      case "bronze_reinforcement" -> TinkerModifiers.obsidianReinforcement.get();
       default -> {
         Block block = missingBlock(name);
         yield block == null ? null : block.asItem();
@@ -203,6 +205,11 @@ public class TConstruct {
       default -> null;
     });
     RegistrationHelper.handleMissingMappings(event, MOD_ID, Registry.ENTITY_TYPE_REGISTRY, name -> name.equals("earth_slime") ? EntityType.SLIME : null);
+    RegistrationHelper.handleMissingMappings(event, MOD_ID, Registry.MOB_EFFECT_REGISTRY, name -> switch (name) {
+      case "momentum" -> TinkerModifiers.momentumEffect.get(ToolType.HARVEST);
+      case "insatiable" -> TinkerModifiers.insatiableEffect.get(ToolType.MELEE);
+      default -> null;
+    });
   }
 
 

@@ -10,15 +10,15 @@ import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ModifierRemovalHook;
 import slimeknights.tconstruct.library.modifiers.hook.build.ValidateModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.build.VolatileDataModifierHook;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability.InventoryModifierHook;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
 import slimeknights.tconstruct.library.tools.nbt.IModDataView;
+import slimeknights.tconstruct.library.tools.nbt.INamespacedNBTView;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
@@ -53,7 +53,7 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, ToolInventoryCapability.HOOK, TinkerHooks.VOLATILE_DATA, TinkerHooks.REMOVE);
+    hookBuilder.addHook(this, ToolInventoryCapability.HOOK, ModifierHooks.VOLATILE_DATA, ModifierHooks.REMOVE);
   }
 
   /** Gets the inventory key used for NBT serializing */
@@ -62,8 +62,8 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
   }
 
   @Override
-  public void addVolatileData(ToolRebuildContext context, ModifierEntry modifier, ModDataNBT volatileData) {
-    ToolInventoryCapability.addSlots(volatileData, getSlots(context, modifier.getLevel()));
+  public void addVolatileData(IToolContext context, ModifierEntry modifier, ModDataNBT volatileData) {
+    ToolInventoryCapability.addSlots(volatileData, getSlots(volatileData, modifier));
   }
 
   /**
@@ -109,7 +109,7 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
   @Nullable
   @Override
   public Component validate(IToolStackView tool, ModifierEntry modifier) {
-    return validateForMaxSlots(tool, getSlots(tool, modifier.getLevel()));
+    return validateForMaxSlots(tool, getSlots(tool, modifier));
   }
 
   @Nullable
@@ -178,13 +178,13 @@ public class InventoryModifier extends Modifier implements InventoryModifierHook
   }
 
   /** Gets the number of slots for this modifier */
-  public int getSlots(IToolContext tool, int level) {
-    return level * slotsPerLevel;
+  public int getSlots(INamespacedNBTView volatileData, ModifierEntry modifier) {
+    return modifier.intEffectiveLevel() * slotsPerLevel;
   }
 
   @Override
   public final int getSlots(IToolStackView tool, ModifierEntry modifier) {
-    return getSlots(tool, modifier.getLevel());
+    return getSlots(tool.getVolatileData(), modifier);
   }
 
   /** Writes a stack to NBT, including the slot */

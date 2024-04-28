@@ -2,14 +2,13 @@ package slimeknights.tconstruct.tools.modifiers.defense;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.data.ModifierMaxLevel;
 import slimeknights.tconstruct.library.modifiers.hook.armor.EquipmentChangeModifierHook;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
-import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
+import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.ComputableDataKey;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -17,16 +16,18 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 /** Base class for protection modifiers that want to keep track of the largest level for a bonus */
 @RequiredArgsConstructor
 public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> extends Modifier implements EquipmentChangeModifierHook {
-  private final TinkerDataKey<T> key;
+  private final ComputableDataKey<T> key;
+  private final boolean allowClient;
+
+  public AbstractProtectionModifier(ComputableDataKey<T> key) {
+    this(key, false);
+  }
 
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, TinkerHooks.EQUIPMENT_CHANGE);
+    hookBuilder.addHook(this, ModifierHooks.EQUIPMENT_CHANGE);
   }
-
-  /** Creates a new data instance */
-  protected abstract T createData(EquipmentChangeContext context);
 
   /** Called when the last piece of equipment is removed to reset the data */
   protected void reset(T data, EquipmentChangeContext context) {}
@@ -38,9 +39,8 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
 
   @Override
   public void onUnequip(IToolStackView tool, ModifierEntry modifier, EquipmentChangeContext context) {
-    LivingEntity entity = context.getEntity();
     EquipmentSlot slot = context.getChangedSlot();
-    if (ModifierUtil.validArmorSlot(tool, slot) && !entity.level.isClientSide) {
+    if ((allowClient || !context.getEntity().level.isClientSide) && ModifierUtil.validArmorSlot(tool, slot)) {
       context.getTinkerData().ifPresent(data -> {
         T modData = data.get(key);
         if (modData != null) {
@@ -55,19 +55,12 @@ public abstract class AbstractProtectionModifier<T extends ModifierMaxLevel> ext
 
   @Override
   public void onEquip(IToolStackView tool, ModifierEntry modifier, EquipmentChangeContext context) {
-    LivingEntity entity = context.getEntity();
     EquipmentSlot slot = context.getChangedSlot();
-    if (!entity.level.isClientSide && ModifierUtil.validArmorSlot(tool, slot) && !tool.isBroken()) {
+    if ((allowClient || !context.getEntity().level.isClientSide) && ModifierUtil.validArmorSlot(tool, slot) && !tool.isBroken()) {
       float scaledLevel = modifier.getEffectiveLevel();
       context.getTinkerData().ifPresent(data -> {
-        T modData = data.get(key);
-        if (modData == null) {
-          // not calculated yet? add all vanilla values to the tracker
-          modData = createData(context);
-          data.put(key, modData);
-        }
         // add ourself to the data
-        set(modData, slot, scaledLevel, context);
+        set(data.computeIfAbsent(key), slot, scaledLevel, context);
       });
     }
   }

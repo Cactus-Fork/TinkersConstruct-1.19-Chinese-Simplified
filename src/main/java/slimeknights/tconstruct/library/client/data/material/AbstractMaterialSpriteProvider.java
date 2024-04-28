@@ -14,13 +14,14 @@ import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoJson.M
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
-import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
 import slimeknights.tconstruct.tools.stats.GripMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 import slimeknights.tconstruct.tools.stats.LimbMaterialStats;
-import slimeknights.tconstruct.tools.stats.RepairKitStats;
+import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
+import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -147,12 +148,17 @@ public abstract class AbstractMaterialSpriteProvider {
       return this;
     }
 
+    /** Adds repair kits */
+    public MaterialSpriteInfoBuilder repairKit() {
+      return statType(StatlessMaterialStats.REPAIR_KIT.getIdentifier());
+    }
+
     /** Adds stat types for melee and harvest tools - head, handle and extra */
     public MaterialSpriteInfoBuilder meleeHarvest() {
       statType(HeadMaterialStats.ID);
       statType(HandleMaterialStats.ID);
-      statType(ExtraMaterialStats.ID);
-      statType(RepairKitStats.ID);
+      statType(StatlessMaterialStats.BINDING.getIdentifier());
+      repairKit();
       return this;
     }
 
@@ -160,7 +166,18 @@ public abstract class AbstractMaterialSpriteProvider {
     public MaterialSpriteInfoBuilder ranged() {
       statType(LimbMaterialStats.ID);
       statType(GripMaterialStats.ID);
-      statType(RepairKitStats.ID);
+      repairKit();
+      return this;
+    }
+
+    /** Adds stat types for armor, all plating plus chainmail */
+    public MaterialSpriteInfoBuilder armor() {
+      statType(MaterialRegistry.ARMOR);
+      for (MaterialStatType<?> type : PlatingMaterialStats.TYPES) {
+        statType(type.getId());
+      }
+      statType(StatlessMaterialStats.CHAINMAIL.getIdentifier());
+      repairKit();
       return this;
     }
 

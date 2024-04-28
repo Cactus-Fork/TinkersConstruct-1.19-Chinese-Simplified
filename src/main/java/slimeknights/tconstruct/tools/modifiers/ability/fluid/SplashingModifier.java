@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectManager;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffects;
@@ -28,10 +28,10 @@ import slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteracti
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.modules.fluid.TankModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
-import slimeknights.tconstruct.library.tools.definition.aoe.CircleAOEIterator;
-import slimeknights.tconstruct.library.tools.definition.aoe.IAreaOfEffectIterator;
-import slimeknights.tconstruct.library.tools.definition.module.ToolModuleHooks;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
+import slimeknights.tconstruct.library.tools.definition.module.aoe.AreaOfEffectIterator;
+import slimeknights.tconstruct.library.tools.definition.module.aoe.CircleAOEIterator;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -50,13 +50,13 @@ public class SplashingModifier extends Modifier implements EntityInteractionModi
     super.registerHooks(hookBuilder);
     tank = new TankModule(FluidType.BUCKET_VOLUME, true);
     hookBuilder.addModule(tank);
-    hookBuilder.addHook(this, TinkerHooks.ENTITY_INTERACT, TinkerHooks.BLOCK_INTERACT);
+    hookBuilder.addHook(this, ModifierHooks.ENTITY_INTERACT, ModifierHooks.BLOCK_INTERACT);
   }
 
   @Override
   public InteractionResult beforeEntityUse(IToolStackView tool, ModifierEntry modifier, Player player, Entity target, InteractionHand hand, InteractionSource source) {
     // melee items get spilling via attack, non melee interact to use it
-    if (tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
+    if (tool.getHook(ToolHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
       FluidStack fluid = tank.getFluid(tool);
       if (!fluid.isEmpty()) {
         FluidEffects recipe = FluidEffectManager.INSTANCE.find(fluid.getFluid());
@@ -119,7 +119,7 @@ public class SplashingModifier extends Modifier implements EntityInteractionModi
 
   @Override
   public InteractionResult afterBlockUse(IToolStackView tool, ModifierEntry modifier, UseOnContext context, InteractionSource source) {
-    if (tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
+    if (tool.getHook(ToolHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
       FluidStack fluid = tank.getFluid(tool);
       if (!fluid.isEmpty()) {
         FluidEffects recipe = FluidEffectManager.INSTANCE.find(fluid.getFluid());
@@ -141,7 +141,7 @@ public class SplashingModifier extends Modifier implements EntityInteractionModi
             // AOE selection logic, get boosted from both fireprimer (unique modifer) and expanded
             int range = tool.getModifierLevel(TinkerModifiers.expanded.getId());
             if (range > 0 && player != null) {
-              for (BlockPos offset : CircleAOEIterator.calculate(tool, ItemStack.EMPTY, world, player, pos, face, 1 + range, false, IAreaOfEffectIterator.AOEMatchType.TRANSFORM)) {
+              for (BlockPos offset : CircleAOEIterator.calculate(tool, ItemStack.EMPTY, world, player, pos, face, 1 + range, false, AreaOfEffectIterator.AOEMatchType.TRANSFORM)) {
                 BlockHitResult offsetHit = hit.withPosition(offset);
                 int aoeConsumed = recipe.applyToBlock(fluid, level, new FluidEffectContext.Block(world, player, null, offsetHit), FluidAction.EXECUTE);
                 if (aoeConsumed > 0) {

@@ -7,19 +7,19 @@ import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
-import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.math.ModifierFormula;
 import slimeknights.tconstruct.library.json.variable.VariableFormula;
 import slimeknights.tconstruct.library.json.variable.melee.MeleeFormula;
 import slimeknights.tconstruct.library.json.variable.melee.MeleeVariable;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.combat.MeleeDamageModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition.ConditionalModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.behavior.ConditionalStatTooltip;
+import slimeknights.tconstruct.library.modifiers.modules.util.ConditionalStatTooltip;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.ConditionalModule;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.stat.INumericToolStat;
@@ -35,13 +35,13 @@ import java.util.List;
  * @param formula    Damage formula
  * @param condition  Standard modifier conditions
  */
-public record ConditionalMeleeDamageModule(IJsonPredicate<LivingEntity> target, IJsonPredicate<LivingEntity> attacker, MeleeFormula formula, ModifierModuleCondition condition) implements MeleeDamageModifierHook, ConditionalStatTooltip, ModifierModule, ConditionalModifierModule {
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.MELEE_DAMAGE, TinkerHooks.TOOLTIP);
+public record ConditionalMeleeDamageModule(IJsonPredicate<LivingEntity> target, IJsonPredicate<LivingEntity> attacker, MeleeFormula formula, ModifierCondition<IToolStackView> condition) implements MeleeDamageModifierHook, ConditionalStatTooltip, ModifierModule, ConditionalModule<IToolStackView> {
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ConditionalMeleeDamageModule>defaultHooks(ModifierHooks.MELEE_DAMAGE, ModifierHooks.TOOLTIP);
   public static final RecordLoadable<ConditionalMeleeDamageModule> LOADER = RecordLoadable.create(
     LivingEntityPredicate.LOADER.defaultField("target", ConditionalMeleeDamageModule::target),
     LivingEntityPredicate.LOADER.defaultField("attacker", ConditionalMeleeDamageModule::attacker),
     MeleeFormula.LOADER.directField(ConditionalMeleeDamageModule::formula),
-    ModifierModuleCondition.FIELD,
+    ModifierCondition.TOOL_FIELD,
     ConditionalMeleeDamageModule::new);
 
   @Override
@@ -83,12 +83,12 @@ public record ConditionalMeleeDamageModule(IJsonPredicate<LivingEntity> target, 
   }
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
   @Override
-  public IGenericLoader<? extends ModifierModule> getLoader() {
+  public RecordLoadable<ConditionalMeleeDamageModule> getLoader() {
     return LOADER;
   }
 

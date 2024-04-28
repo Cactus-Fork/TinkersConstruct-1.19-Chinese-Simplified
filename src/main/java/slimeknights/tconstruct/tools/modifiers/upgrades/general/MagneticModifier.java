@@ -6,6 +6,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -15,22 +17,25 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.combat.MeleeHitModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.mining.BlockBreakModifierHook;
+import slimeknights.tconstruct.library.modifiers.hook.ranged.ProjectileLaunchModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.special.PlantHarvestModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.special.ShearsModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.unserializable.ArmorLevelModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.tools.context.ToolAttackContext;
 import slimeknights.tconstruct.library.tools.context.ToolHarvestContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
+import slimeknights.tconstruct.library.tools.nbt.NamespacedNBT;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class MagneticModifier extends Modifier implements PlantHarvestModifierHook, ShearsModifierHook, BlockBreakModifierHook, MeleeHitModifierHook {
+public class MagneticModifier extends Modifier implements PlantHarvestModifierHook, ShearsModifierHook, BlockBreakModifierHook, MeleeHitModifierHook, ProjectileLaunchModifierHook {
   /** Player modifier data key for haste */
   private static final TinkerDataKey<Integer> MAGNET = TConstruct.createKey("magnet");
 
@@ -42,8 +47,8 @@ public class MagneticModifier extends Modifier implements PlantHarvestModifierHo
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, TinkerHooks.PLANT_HARVEST, TinkerHooks.SHEAR_ENTITY, TinkerHooks.BLOCK_BREAK, TinkerHooks.MELEE_HIT);
-    hookBuilder.addModule(new ArmorLevelModule(MAGNET, false));
+    hookBuilder.addHook(this, ModifierHooks.PLANT_HARVEST, ModifierHooks.SHEAR_ENTITY, ModifierHooks.BLOCK_BREAK, ModifierHooks.MELEE_HIT, ModifierHooks.PROJECTILE_LAUNCH);
+    hookBuilder.addModule(new ArmorLevelModule(MAGNET, false, null));
   }
 
   @Override
@@ -72,6 +77,13 @@ public class MagneticModifier extends Modifier implements PlantHarvestModifierHo
   public void afterShearEntity(IToolStackView tool, ModifierEntry modifier, Player player, Entity entity, boolean isTarget) {
     if (isTarget) {
       TinkerModifiers.magneticEffect.get().apply(player, 30, modifier.getLevel() - 1);
+    }
+  }
+
+  @Override
+  public void onProjectileLaunch(IToolStackView tool, ModifierEntry modifier, LivingEntity shooter, Projectile projectile, @Nullable AbstractArrow arrow, NamespacedNBT persistentData, boolean primary) {
+    if (primary) {
+      TinkerModifiers.magneticEffect.get().apply(shooter, 30, modifier.getLevel() - 1);
     }
   }
 

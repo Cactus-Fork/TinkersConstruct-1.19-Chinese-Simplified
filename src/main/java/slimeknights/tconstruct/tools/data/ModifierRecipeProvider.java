@@ -76,6 +76,7 @@ import slimeknights.tconstruct.tools.recipe.ArmorDyeingRecipe;
 import slimeknights.tconstruct.tools.recipe.EnchantmentConvertingRecipeBuilder;
 import slimeknights.tconstruct.tools.recipe.ModifierRemovalRecipeBuilder;
 import slimeknights.tconstruct.tools.recipe.ModifierSortingRecipeBuilder;
+import slimeknights.tconstruct.tools.stats.SkullStats;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.FoliageType;
@@ -106,35 +107,36 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
   private void addItemRecipes(Consumer<FinishedRecipe> consumer) {
     String folder = "tools/modifiers/";
 
-    // reinforcements
-    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.ironReinforcement)
-                            .setFluidAndTime(TinkerFluids.moltenIron, true, FluidValues.NUGGET * 3)
-                            .setCast(TinkerCommons.obsidianPane, true)
-                            .save(consumer, prefix(TinkerModifiers.ironReinforcement, folder));
-    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.slimesteelReinforcement)
-                            .setFluidAndTime(TinkerFluids.moltenSlimesteel, false, FluidValues.NUGGET * 3)
-                            .setCast(TinkerCommons.obsidianPane, true)
-                            .save(consumer, prefix(TinkerModifiers.slimesteelReinforcement, folder));
-    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.searedReinforcement)
-                            .setFluid(FluidIngredient.of(FluidIngredient.of(TinkerFluids.searedStone.getLocalTag(), FluidValues.BRICK), FluidIngredient.of(TinkerFluids.scorchedStone.getLocalTag(), FluidValues.BRICK)))
-                            .setCoolingTime(TinkerFluids.searedStone.getType().getTemperature() - 300, FluidValues.BRICK)
-                            .setCast(TinkerCommons.obsidianPane, true)
-                            .save(consumer, prefix(TinkerModifiers.searedReinforcement, folder));
-    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.goldReinforcement)
-                            .setFluidAndTime(TinkerFluids.moltenGold, true, FluidValues.NUGGET * 3)
-                            .setCast(TinkerCommons.obsidianPane, true)
-                            .save(consumer, prefix(TinkerModifiers.goldReinforcement, folder));
+    // durability reinforcements, use obsidian
     ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.emeraldReinforcement)
                             .setFluidAndTime(TinkerFluids.moltenEmerald, false, FluidValues.GEM_SHARD)
                             .setCast(TinkerCommons.obsidianPane, true)
                             .save(consumer, prefix(TinkerModifiers.emeraldReinforcement, folder));
-    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.bronzeReinforcement)
-                            .setFluidAndTime(TinkerFluids.moltenAmethystBronze, true, FluidValues.NUGGET * 3)
+    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.slimesteelReinforcement)
+                            .setFluidAndTime(TinkerFluids.moltenSlimesteel, false, FluidValues.NUGGET * 3)
                             .setCast(TinkerCommons.obsidianPane, true)
-                            .save(consumer, prefix(TinkerModifiers.bronzeReinforcement, folder));
+                            .save(consumer, prefix(TinkerModifiers.slimesteelReinforcement, folder));
+    // protection reinforcements, use patterns
+    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.ironReinforcement)
+                            .setFluidAndTime(TinkerFluids.moltenIron, true, FluidValues.INGOT)
+                            .setCast(TinkerTables.pattern, true)
+                            .save(consumer, prefix(TinkerModifiers.ironReinforcement, folder));
+    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.searedReinforcement)
+                            .setFluid(FluidIngredient.of(FluidIngredient.of(TinkerFluids.searedStone.getLocalTag(), FluidValues.BRICK), FluidIngredient.of(TinkerFluids.scorchedStone.getLocalTag(), FluidValues.BRICK)))
+                            .setCoolingTime(TinkerFluids.searedStone.getType().getTemperature() - 300, FluidValues.BRICK)
+                            .setCast(TinkerTables.pattern, true)
+                            .save(consumer, prefix(TinkerModifiers.searedReinforcement, folder));
+    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.goldReinforcement)
+                            .setFluidAndTime(TinkerFluids.moltenGold, true, FluidValues.INGOT)
+                            .setCast(TinkerTables.pattern, true)
+                            .save(consumer, prefix(TinkerModifiers.goldReinforcement, folder));
+    ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.obsidianReinforcement)
+                            .setFluidAndTime(TinkerFluids.moltenObsidian, false, FluidValues.GLASS_BLOCK)
+                            .setCast(TinkerTables.pattern, true)
+                            .save(consumer, prefix(TinkerModifiers.obsidianReinforcement, folder));
     ItemCastingRecipeBuilder.tableRecipe(TinkerModifiers.cobaltReinforcement)
-                            .setFluidAndTime(TinkerFluids.moltenCobalt, true, FluidValues.NUGGET * 3)
-                            .setCast(TinkerCommons.obsidianPane, true)
+                            .setFluidAndTime(TinkerFluids.moltenCobalt, true, FluidValues.INGOT)
+                            .setCast(TinkerTables.pattern, true)
                             .save(consumer, prefix(TinkerModifiers.cobaltReinforcement, folder));
 
     // jeweled apple
@@ -161,14 +163,15 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
 
     // modifier repair
     // stringy - from string
-    ModifierMaterialRepairRecipeBuilder.repair(ModifierIds.stringy, MaterialIds.string)
+    // TODO: skull stats here feels wrong, perhaps constant int is the way to go?
+    ModifierMaterialRepairRecipeBuilder.repair(ModifierIds.stringy, MaterialIds.string, SkullStats.ID)
                                        .saveCraftingTable(consumer, wrap(ModifierIds.stringy, folder, "_crafting_table"))
                                        .save(consumer, wrap(ModifierIds.stringy, folder, "_tinker_station"));
     // pig iron - from bacon, only in the tinker station
     ModifierRepairRecipeBuilder.repair(TinkerModifiers.tasty, Ingredient.of(TinkerCommons.bacon), 25)
                                .save(consumer, prefix(TinkerModifiers.tasty, folder));
     // golden makes armor repair from gold
-    ModifierMaterialRepairRecipeBuilder.repair(TinkerModifiers.golden, MaterialIds.gold)
+    ModifierMaterialRepairRecipeBuilder.repair(TinkerModifiers.golden, MaterialIds.gold, SkullStats.ID)
                                        .saveCraftingTable(consumer, wrap(TinkerModifiers.golden, folder, "_crafting_table"))
                                        .save(consumer, wrap(TinkerModifiers.golden, folder, "_tinker_station"));
   }
@@ -190,19 +193,19 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
      * durability
      */
     IncrementalModifierRecipeBuilder.modifier(ModifierIds.reinforced)
-                         .setInput(TinkerModifiers.ironReinforcement, 1, 20)
+                         .setInput(TinkerModifiers.emeraldReinforcement, 1, 4)
                          .setMaxLevel(5) // max 75% resistant to damage
                          .setSlots(SlotType.UPGRADE, 1)
                          .setTools(TinkerTags.Items.DURABILITY)
                          .saveSalvage(consumer, prefix(ModifierIds.reinforced, upgradeSalvage))
                          .save(consumer, prefix(ModifierIds.reinforced, upgradeFolder));
-    IncrementalModifierRecipeBuilder.modifier(TinkerModifiers.overforced)
-                                    .setInput(TinkerModifiers.slimesteelReinforcement, 1, 20)
+    IncrementalModifierRecipeBuilder.modifier(ModifierIds.overforced)
+                                    .setInput(TinkerModifiers.slimesteelReinforcement, 1, 4)
                                     .setMaxLevel(5) // +250 capacity
                                     .setSlots(SlotType.UPGRADE, 1)
                                     .setTools(TinkerTags.Items.DURABILITY)
-                                    .saveSalvage(consumer, prefix(TinkerModifiers.overforced, upgradeSalvage))
-                                    .save(consumer, prefix(TinkerModifiers.overforced, upgradeFolder));
+                                    .saveSalvage(consumer, prefix(ModifierIds.overforced, upgradeSalvage))
+                                    .save(consumer, prefix(ModifierIds.overforced, upgradeFolder));
     // gems are special, I'd like them to be useful on all types of tools
     ModifierRecipeBuilder.modifier(ModifierIds.emerald)
                          .setTools(TinkerTags.Items.DURABILITY)
@@ -301,13 +304,13 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                                     .setTools(TinkerTags.Items.MODIFIABLE)
                                     .setInput(Items.INK_SAC, 1, 45)
                                     .save(consumer, prefix(TinkerModifiers.nearsighted, upgradeFolder));
-    ModifierRecipeBuilder.modifier(TinkerModifiers.offhanded)
+    ModifierRecipeBuilder.modifier(ModifierIds.offhanded)
                          .setTools(TinkerTags.Items.INTERACTABLE_RIGHT)
                          .addInput(Items.LEATHER)
                          .addInput(Items.FIRE_CHARGE)
                          .addInput(SlimeType.ICHOR.getSlimeballTag())
                          .setMaxLevel(2)
-                         .save(consumer, prefix(TinkerModifiers.offhanded, upgradeFolder));
+                         .save(consumer, prefix(ModifierIds.offhanded, upgradeFolder));
 
     /*
      * Speed
@@ -643,41 +646,41 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     // all held tools can receive defense slots, so give them something to use it for
     Ingredient protectableTools = ingredientFromTags(TinkerTags.Items.ARMOR, TinkerTags.Items.HELD);
     IncrementalModifierRecipeBuilder.modifier(TinkerModifiers.meleeProtection)
-                                    .setInput(TinkerModifiers.cobaltReinforcement, 1, 20)
+                                    .setInput(TinkerModifiers.cobaltReinforcement, 1, 5)
                                     .setSlots(SlotType.DEFENSE, 1)
                                     .setTools(protectableTools)
                                     .saveSalvage(consumer, prefix(TinkerModifiers.meleeProtection, defenseSalvage))
                                     .save(consumer, prefix(TinkerModifiers.meleeProtection, defenseFolder));
     IncrementalModifierRecipeBuilder.modifier(TinkerModifiers.projectileProtection)
-                                    .setInput(TinkerModifiers.bronzeReinforcement, 1, 20)
+                                    .setInput(TinkerModifiers.ironReinforcement, 1, 5)
                                     .setSlots(SlotType.DEFENSE, 1)
                                     .setTools(protectableTools)
                                     .saveSalvage(consumer, prefix(TinkerModifiers.projectileProtection, defenseSalvage))
                                     .save(consumer, prefix(TinkerModifiers.projectileProtection, defenseFolder));
     IncrementalModifierRecipeBuilder.modifier(TinkerModifiers.blastProtection)
-                                    .setInput(TinkerModifiers.emeraldReinforcement, 1, 20)
+                                    .setInput(TinkerModifiers.obsidianReinforcement, 1, 5)
                                     .setSlots(SlotType.DEFENSE, 1)
                                     .setTools(protectableTools)
                                     .saveSalvage(consumer, prefix(TinkerModifiers.blastProtection, defenseSalvage))
                                     .save(consumer, prefix(TinkerModifiers.blastProtection, defenseFolder));
     IncrementalModifierRecipeBuilder.modifier(TinkerModifiers.magicProtection)
-                                    .setInput(TinkerModifiers.goldReinforcement, 1, 20)
+                                    .setInput(TinkerModifiers.goldReinforcement, 1, 5)
                                     .setSlots(SlotType.DEFENSE, 1)
                                     .setTools(protectableTools)
                                     .saveSalvage(consumer, prefix(TinkerModifiers.magicProtection, defenseSalvage))
                                     .save(consumer, prefix(TinkerModifiers.magicProtection, defenseFolder));
     IncrementalModifierRecipeBuilder.modifier(ModifierIds.fireProtection)
-                                    .setInput(TinkerModifiers.searedReinforcement, 1, 20)
+                                    .setInput(TinkerModifiers.searedReinforcement, 1, 5)
                                     .setSlots(SlotType.DEFENSE, 1)
                                     .setTools(protectableTools)
                                     .saveSalvage(consumer, prefix(ModifierIds.fireProtection, defenseSalvage))
                                     .save(consumer, prefix(ModifierIds.fireProtection, defenseFolder));
     ModifierRecipeBuilder.modifier(ModifierIds.protection)
-                         .addInput(TinkerModifiers.goldReinforcement,    4)
-                         .addInput(TinkerModifiers.searedReinforcement,  4)
-                         .addInput(TinkerModifiers.bronzeReinforcement,  4)
-                         .addInput(TinkerModifiers.emeraldReinforcement, 4)
-                         .addInput(TinkerModifiers.cobaltReinforcement,  4)
+                         .addInput(TinkerModifiers.goldReinforcement)
+                         .addInput(TinkerModifiers.searedReinforcement)
+                         .addInput(TinkerModifiers.obsidianReinforcement)
+                         .addInput(TinkerModifiers.ironReinforcement)
+                         .addInput(TinkerModifiers.cobaltReinforcement)
                          .setSlots(SlotType.ABILITY, 1)
                          .setTools(TinkerTags.Items.ARMOR)
                          .setMaxLevel(1)
@@ -702,13 +705,14 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .saveSalvage(consumer, prefix(ModifierIds.knockbackResistance, defenseSalvage))
                          .save(consumer, prefix(ModifierIds.knockbackResistance, defenseFolder));
     ModifierRecipeBuilder.modifier(TinkerModifiers.golden)
-                         .setTools(TinkerTags.Items.WORN_ARMOR) // piglins ignore held items
                          .addInput(Tags.Items.INGOTS_GOLD)
                          .addInput(Tags.Items.INGOTS_GOLD)
                          .addInput(Tags.Items.INGOTS_GOLD)
                          .setSlots(SlotType.DEFENSE, 1)
                          .setMaxLevel(1)
+                         .setTools(TinkerTags.Items.WORN_ARMOR) // allow salvage on all worn armor
                          .saveSalvage(consumer, prefix(TinkerModifiers.golden, defenseSalvage))
+                         .setTools(DifferenceIngredient.of(Ingredient.of(TinkerTags.Items.WORN_ARMOR), Ingredient.of(TinkerTools.plateArmor.values().toArray(new ItemLike[0])))) // piglins ignore held items
                          .save(consumer, prefix(TinkerModifiers.golden, defenseFolder));
     IncrementalModifierRecipeBuilder.modifier(ModifierIds.turtleShell)
                                     .setInput(Items.SCUTE, 1, 5)

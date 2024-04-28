@@ -18,8 +18,9 @@ import net.minecraftforge.common.ToolAction;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.build.ConditionalStatModifierHook;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -150,11 +151,11 @@ public final class ModifierUtil {
   public static boolean canPerformAction(IToolStackView tool, ToolAction action) {
     if (!tool.isBroken()) {
       // can the tool do this action inherently?
-      if (tool.getDefinition().getData().canPerformAction(action)) {
+      if (tool.getHook(ToolHooks.TOOL_ACTION).canPerformAction(tool, action)) {
         return true;
       }
       for (ModifierEntry entry : tool.getModifierList()) {
-        if (entry.getHook(TinkerHooks.TOOL_ACTION).canPerformAction(tool, entry, action)) {
+        if (entry.getHook(ModifierHooks.TOOL_ACTION).canPerformAction(tool, entry, action)) {
           return true;
         }
       }

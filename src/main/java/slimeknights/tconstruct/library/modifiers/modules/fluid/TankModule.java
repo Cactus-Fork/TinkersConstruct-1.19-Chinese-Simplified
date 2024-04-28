@@ -14,16 +14,15 @@ import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
 import slimeknights.tconstruct.library.modifiers.hook.display.TooltipModifierHook;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
 import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability.FluidModifierHook;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
+import slimeknights.tconstruct.library.tools.nbt.INamespacedNBTView;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
@@ -39,7 +38,7 @@ import java.util.function.BiFunction;
 public class TankModule extends TankCapacityModule implements FluidModifierHook, TooltipModifierHook {
   private static final String FILLED_KEY = TConstruct.makeTranslationKey("modifier", "tank.filled");
   private static final String CAPACITY_KEY = TConstruct.makeTranslationKey("modifier", "tank.capacity");
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.VOLATILE_DATA, ToolFluidCapability.HOOK, TinkerHooks.TOOLTIP);
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<TankModule>defaultHooks(ModifierHooks.VOLATILE_DATA, ToolFluidCapability.HOOK, ModifierHooks.TOOLTIP);
   /** Default key for owner */
   public static final ResourceLocation DEFAULT_OWNER_KEY = TConstruct.getResource("tank_owner");
   /** Default key for fluid */
@@ -86,18 +85,23 @@ public class TankModule extends TankCapacityModule implements FluidModifierHook,
   /* Properties */
 
   /** Checks if the given modifier is the owner of the tank */
-  public boolean isOwner(IToolContext tool, ModifierId modifier) {
+  public boolean isOwner(INamespacedNBTView volatileData, ModifierId modifier) {
     ResourceLocation key = getOwnerKey();
     if (key == null) {
       return true;
     }
-    return modifier.toString().equals(tool.getVolatileData().getString(key));
+    return modifier.toString().equals(volatileData.getString(key));
+  }
+
+  /** Checks if the given modifier is the owner of the tank */
+  public final boolean isOwner(IToolStackView tool, ModifierId modifier) {
+    return isOwner(tool.getVolatileData(), modifier);
   }
 
   // TODO: may be worth separating tanks vs unique tanks, unique tanks are used for drain/fill hooks while total tanks for anyone interacting directly such as modifiers
   @Override
-  public int getTanks(IToolContext tool, Modifier modifier) {
-    return isOwner(tool, modifier.getId()) ? 1 : 0;
+  public int getTanks(INamespacedNBTView volatileData, ModifierEntry modifier) {
+    return isOwner(volatileData, modifier.getId()) ? 1 : 0;
   }
 
   @Override
@@ -106,13 +110,13 @@ public class TankModule extends TankCapacityModule implements FluidModifierHook,
   }
 
   @Override
-  public void addVolatileData(ToolRebuildContext context, ModifierEntry modifier, ModDataNBT volatileData) {
+  public void addVolatileData(IToolContext context, ModifierEntry modifier, ModDataNBT volatileData) {
     super.addVolatileData(context, modifier, volatileData);
     ResourceLocation ownerKey = getOwnerKey();
     if (!volatileData.contains(ownerKey, Tag.TAG_STRING)) {
       volatileData.putString(ownerKey, modifier.getId().toString());
     }
-    ToolFluidCapability.addTanks(context, modifier.getModifier(), volatileData, this);
+    ToolFluidCapability.addTanks(modifier, volatileData, this);
   }
 
 
@@ -221,12 +225,12 @@ public class TankModule extends TankCapacityModule implements FluidModifierHook,
   /* Module logic */
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
   @Override
-  public IGenericLoader<? extends ModifierModule> getLoader() {
+  public IGenericLoader<? extends TankModule> getLoader() {
     return LOADER;
   }
 }

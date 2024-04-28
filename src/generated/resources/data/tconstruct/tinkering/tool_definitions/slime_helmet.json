@@ -1,24 +1,46 @@
 {
-  "parts": [
+  "modules": [
     {
-      "stat": "tconstruct:skull"
-    }
-  ],
-  "slots": {
-    "abilities": 1,
-    "defense": 0,
-    "upgrades": 5
-  },
-  "stats": {
-    "base": {
-      "tconstruct:armor": 0.0,
-      "tconstruct:durability": 362.0
-    }
-  },
-  "traits": [
+      "type": "tconstruct:base_stats",
+      "stats": {
+        "tconstruct:durability": 362.0
+      }
+    },
     {
-      "level": 1,
-      "name": "tconstruct:overslime_friend"
+      "type": "tconstruct:modifier_slots",
+      "slots": {
+        "abilities": 1,
+        "upgrades": 5
+      }
+    },
+    {
+      "type": "tconstruct:material_repair",
+      "durability": 46,
+      "material": "tconstruct:enderslime"
+    },
+    {
+      "type": "tconstruct:material_stats",
+      "stat_provider": "tconstruct:skull",
+      "stat_types": [
+        "tconstruct:skull"
+      ]
+    },
+    {
+      "type": "tconstruct:default_materials",
+      "materials": [
+        {
+          "type": "tconstruct:random"
+        }
+      ]
+    },
+    {
+      "type": "tconstruct:traits",
+      "traits": [
+        {
+          "level": 1,
+          "name": "tconstruct:overslime_friend"
+        }
+      ]
     }
   ]
 }

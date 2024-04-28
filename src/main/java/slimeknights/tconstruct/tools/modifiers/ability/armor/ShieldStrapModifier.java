@@ -16,7 +16,7 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.dynamic.InventoryMenuModifier;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 
@@ -35,7 +35,7 @@ public class ShieldStrapModifier extends InventoryMenuModifier {
   }
 
   @Override
-  public void addVolatileData(ToolRebuildContext context, ModifierEntry modifier, ModDataNBT volatileData) {
+  public void addVolatileData(IToolContext context, ModifierEntry modifier, ModDataNBT volatileData) {
     super.addVolatileData(context, modifier, volatileData);
     volatileData.putBoolean(ToolInventoryCapability.INCLUDE_OFFHAND, true);
   }
@@ -51,7 +51,7 @@ public class ShieldStrapModifier extends InventoryMenuModifier {
       }
       // offhand must be able to go in the pants
       ItemStack offhand = player.getOffhandItem();
-      int slots = getSlots(tool, modifier.getLevel());
+      int slots = getSlots(tool, modifier);
       if (offhand.isEmpty() || !ToolInventoryCapability.isBlacklisted(offhand)) {
         ItemStack newOffhand = ItemStack.EMPTY;
         ModDataNBT persistentData = tool.getPersistentData();

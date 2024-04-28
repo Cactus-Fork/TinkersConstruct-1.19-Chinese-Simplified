@@ -224,18 +224,18 @@
   "block.tconstruct.ender_slime_crystal_cluster": "Enderslime Crystal Cluster",
   "block.tconstruct.budding_ender_slime_crystal": "Budding Enderslime Crystal",
 
-  "item.tconstruct.iron_reinforcement": "Iron Reinforcement",
-  "item.tconstruct.iron_reinforcement.tooltip": "Reduces chance of a tool taking damage",
+  "item.tconstruct.emerald_reinforcement": "Emerald Reinforcement",
+  "item.tconstruct.emerald_reinforcement.tooltip": "Reduces chance of a tool taking damage",
   "item.tconstruct.slimesteel_reinforcement": "Slimesteel Reinforcement",
   "item.tconstruct.slimesteel_reinforcement.tooltip": "Increases slimesteel capacity",
   "item.tconstruct.seared_reinforcement": "Seared Reinforcement",
   "item.tconstruct.seared_reinforcement.tooltip": "Increases armor resistance against fire",
-  "item.tconstruct.bronze_reinforcement": "Amethyst Bronze Reinforcement",
-  "item.tconstruct.bronze_reinforcement.tooltip": "Increases armor resistance against projectiles",
+  "item.tconstruct.iron_reinforcement": "Iron Reinforcement",
+  "item.tconstruct.iron_reinforcement.tooltip": "Increases armor resistance against projectiles",
+  "item.tconstruct.obsidian_reinforcement": "Obsidian Reinforcement",
+  "item.tconstruct.obsidian_reinforcement.tooltip": "Increases armor resistance against explosions",
   "item.tconstruct.gold_reinforcement": "Gold Reinforcement",
   "item.tconstruct.gold_reinforcement.tooltip": "Increases armor resistance against magic",
-  "item.tconstruct.emerald_reinforcement": "Emerald Reinforcement",
-  "item.tconstruct.emerald_reinforcement.tooltip": "Increases armor resistance against explosions",
   "item.tconstruct.cobalt_reinforcement": "Cobalt Reinforcement",
   "item.tconstruct.cobalt_reinforcement.tooltip": "Increases armor resistance against general attacks",
   "item.tconstruct.jeweled_apple": "Jeweled Apple",
@@ -271,7 +271,22 @@
 
   "_comment": "Tinkers Patterns",
 
+  "pattern.tconstruct.ingot": "Ingot",
+  "pattern.tconstruct.nugget": "Nugget",
+  "pattern.tconstruct.gem": "Gem",
+  "pattern.tconstruct.rod": "Rod",
+
+  "pattern.tconstruct.gear": "Gear",
+  "pattern.tconstruct.plate": "Small Plate",
+  "pattern.tconstruct.coin": "Coin",
+  "pattern.tconstruct.wire": "Wire",
+
   "pattern.tconstruct.repair_kit": "Repair Kit",
+  "pattern.tconstruct.plating": "Plating",
+  "pattern.tconstruct.helmet_plating": "Helmet Plating",
+  "pattern.tconstruct.chestplate_plating": "Chest Plating",
+  "pattern.tconstruct.leggings_plating": "Leg Plating",
+  "pattern.tconstruct.boots_plating": "Boot Plating",
 
   "_comment": "Small Head Patterns",
 
@@ -293,6 +308,7 @@
   "pattern.tconstruct.round_plate": "Round Plate",
   "pattern.tconstruct.large_plate": "Large Plate",
   "pattern.tconstruct.bowstring": "Bowstring",
+  "pattern.tconstruct.chainmail": "Maille",
 
   "_comment": "Tool Handle Patterns",
 
@@ -342,6 +358,13 @@
   "item.tconstruct.tool_handle_cast": "Tool Handle Gold Cast",
   "item.tconstruct.tough_handle_cast": "Tough Handle Gold Cast",
 
+  "_comment": "Armor Gold Casts",
+  "item.tconstruct.helmet_plating_cast": "Helmet Plating Gold Cast",
+  "item.tconstruct.chestplate_plating_cast": "Chest Plating Gold Cast",
+  "item.tconstruct.leggings_plating_cast": "Leg Plating Gold Cast",
+  "item.tconstruct.boots_plating_cast": "Boot Plating Gold Cast",
+  "item.tconstruct.chainmail_cast": "Maille Gold Cast",
+
 
   "_comment": "Tinkers Sand Casts",
 
@@ -384,6 +407,14 @@
   "item.tconstruct.tool_handle_sand_cast": "Tool Handle Sand Cast",
   "item.tconstruct.tough_handle_sand_cast": "Tough Handle Sand Cast",
 
+  "_comment": "Armor Sand Casts",
+
+  "item.tconstruct.helmet_plating_sand_cast": "Helmet Plating Sand Cast",
+  "item.tconstruct.chestplate_plating_sand_cast": "Chest Plating Sand Cast",
+  "item.tconstruct.leggings_plating_sand_cast": "Leg Plating Sand Cast",
+  "item.tconstruct.boots_plating_sand_cast": "Boot Plating Sand Cast",
+  "item.tconstruct.chainmail_sand_cast": "Maille Sand Cast",
+
 
   "_comment": "Tinkers Red Sand Casts",
 
@@ -425,6 +456,14 @@
 
   "item.tconstruct.tool_handle_red_sand_cast": "Tool Handle Red Sand Cast",
   "item.tconstruct.tough_handle_red_sand_cast": "Tough Handle Red Sand Cast",
+
+  "_comment": "Armor Red Sand Casts",
+
+  "item.tconstruct.helmet_plating_red_sand_cast": "Helmet Plating Red Sand Cast",
+  "item.tconstruct.chestplate_plating_red_sand_cast": "Chest Plating Red Sand Cast",
+  "item.tconstruct.leggings_plating_red_sand_cast": "Leg Plating Red Sand Cast",
+  "item.tconstruct.boots_plating_red_sand_cast": "Boot Plating Red Sand Cast",
+  "item.tconstruct.chainmail_red_sand_cast": "Maille Red Sand Cast",
 
 
   "_comment": "Tinkers Fluids",
@@ -931,6 +970,12 @@
   "item.tconstruct.bow_grip": "Bow Grip",
   "item.tconstruct.bowstring": "Bowstring",
 
+  "item.tconstruct.helmet_plating": "Helmet Plating",
+  "item.tconstruct.chestplate_plating": "Chest Plating",
+  "item.tconstruct.leggings_plating": "Leg Plating",
+  "item.tconstruct.boots_plating": "Boot Plating",
+  "item.tconstruct.chainmail": "Maille",
+
 
   "_conment": "Tool Descriptions",
 
@@ -955,6 +1000,8 @@
   "item.tconstruct.crossbow.description": "The Crossbow is a light ranged weapon, capable of quickly firing arrows and fireworks.",
   "item.tconstruct.longbow.description": "The Longbow is a broad ranged weapon, capable of firing arrows with precision over long distances.",
 
+  "gui.tconstruct.plate_armor": "Plate Armor",
+  "gui.tconstruct.plate_armor.description": "Plate armor is a highly defensive armor set with limited ability slots.",
 
   "_comment": "Smeltery shared",
 
@@ -1726,8 +1773,7 @@
   "modifier.tconstruct.offhanded": "Offhanded",
   "modifier.tconstruct.offhanded.2": "Nohanded",
   "modifier.tconstruct.offhanded.flavor": "Don't think about it too hard",
-  "modifier.tconstruct.offhanded.description": "Disables the tools interaction abilities when the offhand is filled",
-  "modifier.tconstruct.offhanded.description.2": "Disables the tools interaction abilities entirely",
+  "modifier.tconstruct.offhanded.description": "Disables the tools interaction abilities when the offhand is filled. Second level disables interaction abilities entirely.",
 
 
   "_comment": "Durability",
@@ -1767,7 +1813,6 @@
   "modifier.tconstruct.magnetic.description": "Hitting things attracts nearby items?!",
 
   "modifier.tconstruct.haste": "Haste",
-  "modifier.tconstruct.haste.1": "Haste",
   "modifier.tconstruct.haste.2": "Hastier",
   "modifier.tconstruct.haste.3": "Hastiest",
   "modifier.tconstruct.haste.4": "Hastiester",
@@ -1848,7 +1893,6 @@
   "modifier.tconstruct.sharpness.flavor": "How Sharp?",
   "modifier.tconstruct.sharpness.description": "Tool is so much sharper, dealing more damage!",
   "modifier.tconstruct.swiftstrike": "Swiftstrike",
-  "modifier.tconstruct.swiftstrike.1": "Swiftstrike",
   "modifier.tconstruct.swiftstrike.2": "Swifterstrike",
   "modifier.tconstruct.swiftstrike.3": "Swifteststrike",
   "modifier.tconstruct.swiftstrike.4": "Swiftesterstrike",
@@ -1938,6 +1982,10 @@
   "modifier.tconstruct.fire_protection.flavor": "Become the smeltery!",
   "modifier.tconstruct.fire_protection.description": "Protects against damage from fire and reduces fire time",
   "modifier.tconstruct.fire_protection.resistance": "Fire Resistance",
+  "modifier.tconstruct.scorch_protection": "Scorch Protection",
+  "modifier.tconstruct.scorch_protection.flavor": "Become the foundry!",
+  "modifier.tconstruct.scorch_protection.description": "Protects against damage from fire immune mobs and reduces fire time",
+  "modifier.tconstruct.scorch_protection.resistance": "Scorch Resistance",
   "modifier.tconstruct.blast_protection": "Blast Protection",
   "modifier.tconstruct.blast_protection.flavor": "Aw man!",
   "modifier.tconstruct.blast_protection.description": "Protects against explosion damage and reduces knockback from explosions",
@@ -2096,8 +2144,7 @@
   "modifier.tconstruct.autosmelt": "Autosmelt",
   "modifier.tconstruct.autosmelt.flavor": "Fires of the Nether in your tool!",
   "modifier.tconstruct.autosmelt.description": "Tool automatically smelts all drops",
-  "modifier.tconstruct.luck": "Luck",
-  "modifier.tconstruct.luck.1": "Lucky",
+  "modifier.tconstruct.luck": "Lucky",
   "modifier.tconstruct.luck.2": "Luckier",
   "modifier.tconstruct.luck.3": "Luckiest",
   "modifier.tconstruct.luck.flavor": "Flashy!",
@@ -2292,6 +2339,7 @@
   "modifier.tconstruct.dwarven.description": "Tool mines faster and has more projectile velocity the deeper you mine",
   "modifier.tconstruct.dwarven.mining_speed": "Depth Mining",
   "modifier.tconstruct.dwarven.velocity": "Depth Velocity",
+  "modifier.tconstruct.dwarven.resistance": "Depth Resistance",
   "modifier.tconstruct.overgrowth": "Overgrowth",
   "modifier.tconstruct.overgrowth.flavor": "Fungal!",
   "modifier.tconstruct.overgrowth.description": "Tool slowly grows overslime",
@@ -2308,6 +2356,9 @@
   "modifier.tconstruct.enhanced": "Enhanced",
   "modifier.tconstruct.enhanced.flavor": "Flashy!",
   "modifier.tconstruct.enhanced.description": "Rose gold goes great with a bonus upgrade!",
+  "modifier.tconstruct.fortified": "Fortified",
+  "modifier.tconstruct.fortified.flavor": "Fortunate!",
+  "modifier.tconstruct.fortified.description": "The ancient material leaves space for a bonus defense slot!",
   "modifier.tconstruct.airborne": "Airborne",
   "modifier.tconstruct.airborne.flavor": "Take to the skies!",
   "modifier.tconstruct.airborne.description": "Tool no longer is penalized when mining in the air and gains a projectile accuracy bonus",
@@ -2343,8 +2394,9 @@
   "modifier.tconstruct.overlord.description": "Tool takes some of the durability as new overslime subjects",
   "modifier.tconstruct.momentum": "Momentum",
   "modifier.tconstruct.momentum.flavor": "Not Fast Enough, Gotta Go Faster!",
-  "modifier.tconstruct.momentum.description": "Mining blocks and firing arrows increases your speed, as long as you keep going",
+  "modifier.tconstruct.momentum.description": "Mining blocks and firing arrows increases your speed, while armor damage boosts your protection, as long as you keep going",
   "modifier.tconstruct.momentum.speed": "Momentum Speed",
+  "modifier.tconstruct.momentum.resistance": "Momentum Resistance",
   "modifier.tconstruct.insatiable": "Insatiable",
   "modifier.tconstruct.insatiable.flavor": "Taste For Blood!",
   "modifier.tconstruct.insatiable.description": "During combat you deal more and more damage every time you hit an enemy",
@@ -2519,10 +2571,12 @@
   "effect.tconstruct.magnetic": "Magnetic",
   "effect.tconstruct.pierce": "Pierced",
   "effect.tconstruct.repulsive": "Repulsive",
-  "effect.tconstruct.momentum": "Momentum",
+  "effect.tconstruct.momentum_harvest": "Momentum",
   "effect.tconstruct.momentum_ranged": "Momentum",
-  "effect.tconstruct.insatiable": "Insatiable",
+  "effect.tconstruct.momentum_armor": "Momentum",
+  "effect.tconstruct.insatiable_melee": "Insatiable",
   "effect.tconstruct.insatiable_ranged": "Insatiable",
+  "effect.tconstruct.insatiable_armor": "Insatiable",
   "effect.tconstruct.teleport_cooldown": "Teleport Cooldown",
   "effect.tconstruct.fireball_cooldown": "Fireball Cooldown",
   "effect.tconstruct.calcified": "Calcified",
@@ -2569,6 +2623,11 @@
   "tool_stat.tconstruct.attack_damage": "Melee Damage: ",
   "tool_stat.tconstruct.attack_damage.description": "Base value for melee attack damage calculations.\nThe end result depends on the tool itself and the other components used.",
 
+  "stat.tconstruct.plating_helmet": "Helmet Plating",
+  "stat.tconstruct.plating_chestplate": "Chest Plating",
+  "stat.tconstruct.plating_leggings": "Leg Plating",
+  "stat.tconstruct.plating_boots": "Boot Plating",
+  "stat.tconstruct.chainmail": "Maille",
   "tool_stat.tconstruct.armor": "Armor: ",
   "tool_stat.tconstruct.armor.description": "How much this protects you when worn.",
   "tool_stat.tconstruct.armor_toughness": "Armor Toughness: ",

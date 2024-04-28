@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import slimeknights.mantle.util.OffhandCooldownTracker;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.armor.EquipmentChangeModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.build.VolatileDataModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
@@ -17,10 +17,10 @@ import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInterac
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ShowOffhandModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.context.EquipmentChangeContext;
-import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
 import slimeknights.tconstruct.library.tools.helper.ToolAttackUtil;
+import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -31,7 +31,7 @@ public class OffhandAttackModifier extends NoLevelsModifier implements EntityInt
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, TinkerHooks.GENERAL_INTERACT, TinkerHooks.ENTITY_INTERACT, TinkerHooks.EQUIPMENT_CHANGE, TinkerHooks.VOLATILE_DATA);
+    hookBuilder.addHook(this, ModifierHooks.GENERAL_INTERACT, ModifierHooks.ENTITY_INTERACT, ModifierHooks.EQUIPMENT_CHANGE, ModifierHooks.VOLATILE_DATA);
     hookBuilder.addModule(ShowOffhandModule.DISALLOW_BROKEN);
   }
 
@@ -46,7 +46,7 @@ public class OffhandAttackModifier extends NoLevelsModifier implements EntityInt
   }
 
   @Override
-  public void addVolatileData(ToolRebuildContext context, ModifierEntry modifier, ModDataNBT volatileData) {
+  public void addVolatileData(IToolContext context, ModifierEntry modifier, ModDataNBT volatileData) {
     volatileData.putBoolean(DUEL_WIELDING, true);
   }
 
@@ -61,7 +61,8 @@ public class OffhandAttackModifier extends NoLevelsModifier implements EntityInt
       if (!player.level.isClientSide()) {
         ToolAttackUtil.attackEntity(tool, player, InteractionHand.OFF_HAND, target, ToolAttackUtil.getCooldownFunction(player, InteractionHand.OFF_HAND), false, source.getSlot(hand));
       }
-      OffhandCooldownTracker.applyCooldown(player, tool.getStats().get(ToolStats.ATTACK_SPEED), 20);
+      // for armor, always assume attack speed is 4.0, we cannot change the attack speed of the main hand and we want them to match
+      OffhandCooldownTracker.applyCooldown(player, source == InteractionSource.ARMOR ? 4 : tool.getStats().get(ToolStats.ATTACK_SPEED), 20);
       // we handle swinging the arm, return consume to prevent resetting cooldown
       OffhandCooldownTracker.swingHand(player, InteractionHand.OFF_HAND, false);
       return InteractionResult.CONSUME;
@@ -73,7 +74,7 @@ public class OffhandAttackModifier extends NoLevelsModifier implements EntityInt
   public InteractionResult onToolUse(IToolStackView tool, ModifierEntry modifier, Player player, InteractionHand hand, InteractionSource source) {
     if (canAttack(tool, player, hand)) {
       // target done in onEntityInteract, this is just for cooldown cause you missed
-      OffhandCooldownTracker.applyCooldown(player, tool.getStats().get(ToolStats.ATTACK_SPEED), 20);
+      OffhandCooldownTracker.applyCooldown(player, source == InteractionSource.ARMOR ? 4 : tool.getStats().get(ToolStats.ATTACK_SPEED), 20);
       // we handle swinging the arm, return consume to prevent resetting cooldown
       OffhandCooldownTracker.swingHand(player, InteractionHand.OFF_HAND, false);
       return InteractionResult.CONSUME;

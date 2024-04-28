@@ -326,7 +326,7 @@ public class TinkerTags {
     /** Speciality tools that don't fit into either broad or small, notably includes staffs. Used in the books */
     public static final TagKey<Item> SPECIAL_TOOLS = tag("modifiable/special");
 
-    /** Tools that can adjust the loot context for {@link Modifier#processLoot(IToolStackView, int, List, LootContext)} */
+    /** Tools that can adjust the loot context for {@link Modifier#processLoot(IToolStackView, slimeknights.tconstruct.library.modifiers.ModifierEntry, List, LootContext)} */
     public static final TagKey<Item> LOOT_CAPABLE_TOOL = tag("modifiable/loot_capable_tool");
     /** Anything that is used in the player's hand, mostly tools that support interaction, but other tools can be added directly */
     public static final TagKey<Item> HELD = tag("modifiable/held");
@@ -537,6 +537,9 @@ public class TinkerTags {
     public static final TagKey<Modifier> DUAL_INTERACTION = tag("dual_interaction");
     /** Common defense modifier types, used for skyslime armor */
     public static final TagKey<Modifier> SLIME_DEFENSE = tag("slime_defense");
+
+    /** Modifiers in this tag prevent the overslime debuff */
+    public static final TagKey<Modifier> OVERSLIME_FRIEND = tag("overslime_friend");
 
     // book tags - these are used to determine pages to load in resource packs
     // upgrades

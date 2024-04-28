@@ -10,7 +10,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.library.modifiers.impl.NoLevelsModifier;
 import slimeknights.tconstruct.library.modifiers.modules.unserializable.ArmorLevelModule;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability.TinkerDataKey;
 import slimeknights.tconstruct.library.utils.SlimeBounceHandler;
 
@@ -24,7 +24,7 @@ public class BouncyModifier extends NoLevelsModifier {
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addModule(new ArmorLevelModule(BOUNCY, false));
+    hookBuilder.addModule(new ArmorLevelModule(BOUNCY, false, null));
   }
 
   /** Called when an entity lands to handle the event */

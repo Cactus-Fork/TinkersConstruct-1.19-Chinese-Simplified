@@ -6,6 +6,7 @@ import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinitionData;
 
@@ -21,9 +22,6 @@ public interface IToolContext {
   /** Gets the tool definition */
   ToolDefinition getDefinition();
 
-  /** On built tools, contains the full tool stats. During tool rebuild, contains the base stats before considering modifiers. */
-  StatsNBT getStats();
-
   /** Gets the tool definition data */
   default ToolDefinitionData getDefinitionData() {
     return getDefinition().getData();
@@ -33,6 +31,11 @@ public interface IToolContext {
   @SuppressWarnings("deprecation")
   default boolean hasTag(TagKey<Item> tag) {
     return getItem().builtInRegistryHolder().containsTag(tag);
+  }
+
+  /** Gets the given hook from the tool */
+  default <T> T getHook(ModuleHook<T> hook) {
+    return getDefinition().getData().getHook(hook);
   }
 
 
@@ -112,11 +115,4 @@ public interface IToolContext {
    * TODO 1.19: change return type to INamespacedNBTView as modifiers should not be slot sensitive
    */
   IModDataView getPersistentData();
-
-  /**
-   * Gets volatile modifier data from the tool.
-   * This data will be reset whenever modifiers reload and should not be edited.
-   * TODO 1.19: change return type to INamespacedNBTView as modifiers should not be slot sensitive
-   */
-  IModDataView getVolatileData();
 }

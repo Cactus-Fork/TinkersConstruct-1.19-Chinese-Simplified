@@ -36,6 +36,7 @@ import static slimeknights.tconstruct.common.TinkerTags.Modifiers.LEGGING_ABILIT
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.LEGGING_UPGRADES;
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.MELEE_ABILITIES;
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.MELEE_UPGRADES;
+import static slimeknights.tconstruct.common.TinkerTags.Modifiers.OVERSLIME_FRIEND;
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.PROTECTION_DEFENSE;
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.RANGED_ABILITIES;
 import static slimeknights.tconstruct.common.TinkerTags.Modifiers.RANGED_UPGRADES;
@@ -72,6 +73,9 @@ public class ModifierTagProvider extends AbstractModifierTagProvider {
       .add(TinkerModifiers.meleeProtection.getId(), TinkerModifiers.projectileProtection.getId(),
            ModifierIds.fireProtection, TinkerModifiers.magicProtection.getId(),
            TinkerModifiers.blastProtection.getId(), TinkerModifiers.golden.getId());
+    tag(OVERSLIME_FRIEND)
+      .add(TinkerModifiers.overgrowth.getId(), ModifierIds.overcast, TinkerModifiers.overlord.getId(),
+           ModifierIds.overforced, ModifierIds.overslimeFriend, TinkerModifiers.overworked.getId());
 
     // book tags
     this.tag(UPGRADES).addTag(GENERAL_UPGRADES, MELEE_UPGRADES, DAMAGE_UPGRADES, HARVEST_UPGRADES, ARMOR_UPGRADES, RANGED_UPGRADES);
@@ -84,7 +88,7 @@ public class ModifierTagProvider extends AbstractModifierTagProvider {
     // upgrades
     this.tag(GENERAL_UPGRADES).add(
       ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
-      ModifierIds.reinforced, TinkerModifiers.overforced.getId(), TinkerModifiers.soulbound.getId(),
+      ModifierIds.reinforced, ModifierIds.overforced, TinkerModifiers.soulbound.getId(),
       TinkerModifiers.experienced.getId(), TinkerModifiers.magnetic.getId(), TinkerModifiers.zoom.getId(),
       ModifierIds.tank, TinkerModifiers.fireprimer.getId())
         .addOptional(ModifierIds.theOneProbe);
@@ -149,7 +153,7 @@ public class ModifierTagProvider extends AbstractModifierTagProvider {
     // slotless
     this.tag(GENERAL_SLOTLESS).add(
       TinkerModifiers.overslime.getId(), ModifierIds.shiny, ModifierIds.worldbound,
-      TinkerModifiers.offhanded.getId(), ModifierIds.blindshot,
+      ModifierIds.offhanded, ModifierIds.blindshot,
       TinkerModifiers.farsighted.getId(), TinkerModifiers.nearsighted.getId(),
       TinkerModifiers.dyed.getId(), TinkerModifiers.embellishment.getId());
     this.tag(BONUS_SLOTLESS).add(

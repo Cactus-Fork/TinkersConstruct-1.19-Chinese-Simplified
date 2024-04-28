@@ -44,7 +44,7 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipe;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
-import slimeknights.tconstruct.library.tools.definition.PartRequirement;
+import slimeknights.tconstruct.library.tools.definition.module.material.ToolMaterialHook;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
@@ -280,11 +280,6 @@ public abstract class AbstractMaterialContent extends PageContent {
     return lineData;
   }
 
-  /** Checks if the given material has the given stat type */
-  private static boolean hasStatType(MaterialId materialId, MaterialStatsId statsId) {
-    return MaterialRegistry.getInstance().getMaterialStats(materialId, statsId).isPresent();
-  }
-
   /** Adds items to the display tools list for all relevant recipes */
   protected void addPrimaryDisplayItems(List<ItemElement> displayTools, MaterialVariantId materialId) {
     // part builder
@@ -340,21 +335,21 @@ public abstract class AbstractMaterialContent extends PageContent {
       toolLoop:
       for (Holder<Item> item : Registry.ITEM.getTagOrEmpty(TinkerTags.Items.MULTIPART_TOOL)) {
         if (item.value() instanceof IModifiable tool) {
-          List<PartRequirement> requirements = tool.getToolDefinition().getData().getParts();
+          List<MaterialStatsId> requirements = ToolMaterialHook.stats(tool.getToolDefinition());
           // start building the tool with the given material
           MaterialNBT.Builder materials = MaterialNBT.builder();
           boolean usedMaterial = false;
-          for (PartRequirement part : requirements) {
+          for (MaterialStatsId part : requirements) {
             // if any stat type of the tool is not supported by this page, skip the whole tool
-            if (!supportsStatType(part.getStatType())) {
+            if (!supportsStatType(part)) {
               continue toolLoop;
             }
             // if the stat type is not supported by the material, substitute
-            if (hasStatType(materialId, part.getStatType())) {
+            if (part.canUseMaterial(materialId)) {
               materials.add(materialVariant);
               usedMaterial = true;
             } else {
-              materials.add(MaterialRegistry.firstWithStatType(part.getStatType()));
+              materials.add(MaterialRegistry.firstWithStatType(part));
             }
           }
 

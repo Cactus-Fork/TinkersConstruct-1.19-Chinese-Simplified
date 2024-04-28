@@ -3,14 +3,13 @@ package slimeknights.tconstruct.tools.data.material;
 import net.minecraft.data.DataGenerator;
 import slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvider;
 import slimeknights.tconstruct.library.data.material.AbstractMaterialStatsDataProvider;
-import slimeknights.tconstruct.tools.stats.BowstringMaterialStats;
-import slimeknights.tconstruct.tools.stats.ExtraMaterialStats;
 import slimeknights.tconstruct.tools.stats.GripMaterialStats;
 import slimeknights.tconstruct.tools.stats.HandleMaterialStats;
 import slimeknights.tconstruct.tools.stats.HeadMaterialStats;
 import slimeknights.tconstruct.tools.stats.LimbMaterialStats;
-import slimeknights.tconstruct.tools.stats.RepairKitStats;
+import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
 import slimeknights.tconstruct.tools.stats.SkullStats;
+import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
 
 import static net.minecraft.world.item.Tiers.DIAMOND;
 import static net.minecraft.world.item.Tiers.GOLD;
@@ -33,6 +32,7 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
   protected void addMaterialStats() {
     addMeleeHarvest();
     addRanged();
+    addArmor();
     addMisc();
   }
 
@@ -43,175 +43,175 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
     // vanilla wood: 59, 2f, WOOD, 0f
     addMaterialStats(MaterialIds.wood,
                      new HeadMaterialStats(60, 2f, WOOD, 0f),
-                     HandleMaterialStats.DEFAULT, // 1.0 to all four stats for wood, its the baseline handle
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().build(), // 1.0 to all four stats for wood, its the baseline handl.build()e
+                     StatlessMaterialStats.BINDING);
     // vanilla stone: 131, 4f, STONE, 1f
     addMaterialStats(MaterialIds.rock,
                      new HeadMaterialStats(130, 4f, STONE, 1f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withMiningSpeed(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).miningSpeed(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.flint,
                      new HeadMaterialStats(85, 3.5f, STONE, 1.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.85f).withAttackDamage(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.85f).attackDamage(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.copper,
                      new HeadMaterialStats(210, 5.0f, IRON, 0.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.80f).withMiningSpeed(1.1f).withAttackDamage(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.80f).miningSpeed(1.1f).attackDamage(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.bone,
                      new HeadMaterialStats(100, 2.5f, STONE, 1.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.75f).withAttackSpeed(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.75f).attackSpeed(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.chorus,
                      new HeadMaterialStats(180, 3.0f, STONE, 1.0f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.1f).withMiningSpeed(0.95f).withAttackSpeed(0.9f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.1f).miningSpeed(0.95f).attackSpeed(0.9f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 1 - binding
-    addMaterialStats(MaterialIds.string, ExtraMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.leather, ExtraMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.vine, ExtraMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.string, StatlessMaterialStats.BINDING);
+    addMaterialStats(MaterialIds.leather, StatlessMaterialStats.BINDING);
+    addMaterialStats(MaterialIds.vine, StatlessMaterialStats.BINDING);
 
     // tier 2
     // vanilla iron: 250, 6f, IRON, 2f
     addMaterialStats(MaterialIds.iron,
                      new HeadMaterialStats(250, 6f, IRON, 2f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.10f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.10f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.searedStone,
                      new HeadMaterialStats(225, 6.5f, IRON, 1.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.85f).withMiningSpeed(1.10f).withAttackDamage(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.85f).miningSpeed(1.10f).attackDamage(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.venombone,
                      new HeadMaterialStats(175, 4.5f, IRON, 2.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withAttackSpeed(1.1f).withAttackDamage(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).attackSpeed(1.1f).attackDamage(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.slimewood,
                      new HeadMaterialStats(375, 4f, IRON, 1f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.3f).withMiningSpeed(0.85f).withAttackDamage(0.85f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.3f).miningSpeed(0.85f).attackDamage(0.85f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 2 - nether
     addMaterialStats(MaterialIds.scorchedStone,
                      new HeadMaterialStats(120, 4.5f, IRON, 2.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.8f).withAttackSpeed(1.05f).withAttackDamage(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.8f).attackSpeed(1.05f).attackDamage(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.necroticBone,
                      new HeadMaterialStats(125, 4f, IRON, 2.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.7f).withAttackSpeed(1.15f).withAttackDamage(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.7f).attackSpeed(1.15f).attackDamage(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 2 - end
     addMaterialStats(MaterialIds.whitestone,
                      new HeadMaterialStats(275, 6.0f, IRON, 1.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.95f).withMiningSpeed(1.1f).withAttackSpeed(0.95f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.95f).miningSpeed(1.1f).attackSpeed(0.95f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 2 - bindings
-    addMaterialStats(MaterialIds.chain, ExtraMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.skyslimeVine, ExtraMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.chain, StatlessMaterialStats.BINDING);
+    addMaterialStats(MaterialIds.skyslimeVine, StatlessMaterialStats.BINDING);
 
     // tier 2 (mod integration)
     addMaterialStats(MaterialIds.osmium,
                      new HeadMaterialStats(500, 4.5f, IRON, 2.0f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.2f).withAttackSpeed(0.9f).withMiningSpeed(0.9f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.2f).attackSpeed(0.9f).miningSpeed(0.9f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.tungsten,
                      new HeadMaterialStats(350, 6.5f, IRON, 1.75f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withMiningSpeed(1.1f).withAttackSpeed(0.9f).withAttackDamage(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).miningSpeed(1.1f).attackSpeed(0.9f).attackDamage(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.platinum,
                      new HeadMaterialStats(400, 7.0f, IRON, 1.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.05f).withMiningSpeed(1.05f).withAttackSpeed(0.95f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.05f).miningSpeed(1.05f).attackSpeed(0.95f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.silver,
                      new HeadMaterialStats(300, 5.5f, IRON, 2.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withMiningSpeed(1.05f).withAttackSpeed(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).miningSpeed(1.05f).attackSpeed(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.lead,
                      new HeadMaterialStats(200, 5f, IRON, 2.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withAttackSpeed(0.9f).withAttackDamage(1.2f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).attackSpeed(0.9f).attackDamage(1.2f).build(),
+                     StatlessMaterialStats.BINDING);
 
     // tier 3
     // vanilla diamond: 1561, 8f, DIAMOND, 3f
     addMaterialStats(MaterialIds.slimesteel,
                      new HeadMaterialStats(1040, 6f, DIAMOND, 2.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.2f).withAttackSpeed(0.95f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.2f).attackSpeed(0.95f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.amethystBronze,
                      new HeadMaterialStats(720, 7f, DIAMOND, 1.5f),
-                     HandleMaterialStats.DEFAULT.withMiningSpeed(1.10f).withAttackSpeed(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().miningSpeed(1.10f).attackSpeed(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.nahuatl,
                      new HeadMaterialStats(350, 4.5f, DIAMOND, 3f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.9f).withAttackSpeed(0.9f).withAttackDamage(1.30f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.9f).attackSpeed(0.9f).attackDamage(1.30f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.pigIron,
                      new HeadMaterialStats(580, 6f, DIAMOND, 2.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.10f).withMiningSpeed(0.85f).withAttackDamage(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.10f).miningSpeed(0.85f).attackDamage(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     // vanilla gold: 32, 12f, WOOD, 0f
     addMaterialStats(MaterialIds.roseGold,
                      new HeadMaterialStats(175, 9f, GOLD, 1f), // gold mining level technically puts it in tier 0, but lets see if some mod does something weird
-                     HandleMaterialStats.DEFAULT.withDurability(0.6f).withMiningSpeed(1.20f).withAttackSpeed(1.20f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.6f).miningSpeed(1.20f).attackSpeed(1.20f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 3 (nether)
     addMaterialStats(MaterialIds.cobalt,
                      new HeadMaterialStats(800, 6.5f, DIAMOND, 2.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.05f).withMiningSpeed(1.05f).withAttackSpeed(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.05f).miningSpeed(1.05f).attackSpeed(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     // tier 3 - binding
-    addMaterialStats(MaterialIds.darkthread, ExtraMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.darkthread, StatlessMaterialStats.BINDING);
 
     // tier 3 (mod integration)
     addMaterialStats(MaterialIds.steel,
                      new HeadMaterialStats(775, 6f, DIAMOND, 2.75f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.05f).withMiningSpeed(1.05f).withAttackSpeed(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.05f).miningSpeed(1.05f).attackSpeed(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.bronze,
                      new HeadMaterialStats(760, 6.5f, DIAMOND, 2.25f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.10f).withMiningSpeed(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.10f).miningSpeed(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.constantan,
                      new HeadMaterialStats(675, 7.5f, DIAMOND, 1.75f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.95f).withMiningSpeed(1.15f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.95f).miningSpeed(1.15f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.invar,
                      new HeadMaterialStats(630, 5.5f, DIAMOND, 2.5f),
-                     HandleMaterialStats.DEFAULT.withMiningSpeed(0.9f).withAttackDamage(1.2f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().miningSpeed(0.9f).attackDamage(1.2f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.necronium,
                      new HeadMaterialStats(357, 4.0f, DIAMOND, 2.75f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.8f).withAttackSpeed(1.15f).withAttackDamage(1.1f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.8f).attackSpeed(1.15f).attackDamage(1.1f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.electrum,
                      new HeadMaterialStats(225, 8.5f, IRON, 1.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.8f).withAttackSpeed(1.15f).withMiningSpeed(1.15f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.8f).attackSpeed(1.15f).miningSpeed(1.15f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.platedSlimewood,
                      new HeadMaterialStats(595, 5.0f, DIAMOND, 2.0f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.25f).withMiningSpeed(0.9f).withAttackSpeed(0.9f).withAttackDamage(1.05f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.25f).miningSpeed(0.9f).attackSpeed(0.9f).attackDamage(1.05f).build(),
+                     StatlessMaterialStats.BINDING);
 
     // tier 4
     // vanilla netherite: 2031, 9f, NETHERITE, 4f
     addMaterialStats(MaterialIds.queensSlime,
                      new HeadMaterialStats(1650, 6f, NETHERITE, 2f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.35f).withMiningSpeed(0.9f).withAttackSpeed(0.95f).withAttackDamage(0.95f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.35f).miningSpeed(0.9f).attackSpeed(0.95f).attackDamage(0.95f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.hepatizon,
                      new HeadMaterialStats(975, 8f, NETHERITE, 2.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.1f).withMiningSpeed(1.2f).withAttackDamage(0.9f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.1f).miningSpeed(1.2f).attackDamage(0.9f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.manyullyn,
                      new HeadMaterialStats(1250, 6.5f, NETHERITE, 3.5f),
-                     HandleMaterialStats.DEFAULT.withDurability(1.1f).withMiningSpeed(0.9f).withAttackSpeed(0.95f).withAttackDamage(1.25f),
-                     ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(1.1f).miningSpeed(0.9f).attackSpeed(0.95f).attackDamage(1.25f).build(),
+                     StatlessMaterialStats.BINDING);
     addMaterialStats(MaterialIds.blazingBone,
                      new HeadMaterialStats(530, 6f, IRON, 3f),
-                     HandleMaterialStats.DEFAULT.withDurability(0.85f).withAttackDamage(1.05f).withAttackSpeed(1.2f),
-                     ExtraMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.ancientHide, ExtraMaterialStats.DEFAULT);
+                     HandleMaterialStats.builder().durability(0.85f).attackDamage(1.05f).attackSpeed(1.2f).build(),
+                     StatlessMaterialStats.BINDING);
+    addMaterialStats(MaterialIds.ancientHide, StatlessMaterialStats.BINDING);
 
     // tier 4 (end)
-    addMaterialStats(MaterialIds.enderslimeVine, ExtraMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.enderslimeVine, StatlessMaterialStats.BINDING);
   }
 
   private void addRanged() {
@@ -235,8 +235,8 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
                      new LimbMaterialStats(180, 0.1f, 0f, 0.1f),
                      new GripMaterialStats(1.1f, -0.1f, 1.0f));
     // tier 1 - bowstring
-    addMaterialStats(MaterialIds.string, BowstringMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.vine, BowstringMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.string, StatlessMaterialStats.BOWSTRING);
+    addMaterialStats(MaterialIds.vine, StatlessMaterialStats.BOWSTRING);
 
     // tier 2
     addMaterialStats(MaterialIds.slimewood,
@@ -252,8 +252,8 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
                      new LimbMaterialStats(125, 0.05f, 0.05f, -0.15f),
                      new GripMaterialStats(0.7f, 0.1f, 2.25f));
     // tier 2 - bowstring
-    addMaterialStats(MaterialIds.chain, BowstringMaterialStats.DEFAULT);
-    addMaterialStats(MaterialIds.skyslimeVine, BowstringMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.chain, StatlessMaterialStats.BOWSTRING);
+    addMaterialStats(MaterialIds.skyslimeVine, StatlessMaterialStats.BOWSTRING);
 
     // tier 2 - compat
     addMaterialStats(MaterialIds.platinum,
@@ -292,7 +292,7 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
                      new LimbMaterialStats(530, -0.3f, 0.2f, -0.15f),
                      new GripMaterialStats(0.85f, -0.10f, 3f));
     // tier 3 - bowstring
-    addMaterialStats(MaterialIds.darkthread, BowstringMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.darkthread, StatlessMaterialStats.BOWSTRING);
 
     // tier 3 - compat
     addMaterialStats(MaterialIds.invar,
@@ -329,12 +329,35 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
                      new LimbMaterialStats(1250, -0.35f, 0.25f, -0.15f),
                      new GripMaterialStats(1.1f, -0.20f, 3.5f));
     // tier 4 (end)
-    addMaterialStats(MaterialIds.enderslimeVine, BowstringMaterialStats.DEFAULT);
+    addMaterialStats(MaterialIds.enderslimeVine, StatlessMaterialStats.BOWSTRING);
+  }
+
+  private void addArmor() {
+    // tier 1
+    addArmorStats(MaterialIds.copper, PlatingMaterialStats.builder().durabilityFactor(13).armor(1, 2, 3, 1), StatlessMaterialStats.CHAINMAIL);
+    addMaterialStats(MaterialIds.leather, StatlessMaterialStats.CHAINMAIL);
+    // tier 2
+    addArmorStats(MaterialIds.iron, PlatingMaterialStats.builder().durabilityFactor(15).armor(2, 4, 5, 2), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.gold, PlatingMaterialStats.builder().durabilityFactor(7).armor(1, 3, 4, 1), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.searedStone, PlatingMaterialStats.builder().durabilityFactor(14).armor(1, 3, 4, 2).knockbackResistance(0.1f), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.scorchedStone, PlatingMaterialStats.builder().durabilityFactor(10).armor(1, 4, 5, 2).knockbackResistance(0.5f), StatlessMaterialStats.CHAINMAIL);
+    // tier 3
+    addArmorStats(MaterialIds.slimesteel, PlatingMaterialStats.builder().durabilityFactor(40).armor(2, 5, 6, 2), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.amethystBronze, PlatingMaterialStats.builder().durabilityFactor(28).armor(2, 5, 6, 2).toughness(2), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.obsidian, PlatingMaterialStats.builder().durabilityFactor(11).armor(2, 4, 5, 2).knockbackResistance(0.15f), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.roseGold, PlatingMaterialStats.builder().durabilityFactor(9).armor(1, 3, 5, 2), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.pigIron, PlatingMaterialStats.builder().durabilityFactor(23).armor(1, 3, 4, 1).toughness(1).knockbackResistance(0.1f), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.cobalt, PlatingMaterialStats.builder().durabilityFactor(30).armor(2, 5, 7, 2).toughness(1).knockbackResistance(0.05f), StatlessMaterialStats.CHAINMAIL);
+    // tier 4
+    addArmorStats(MaterialIds.queensSlime, PlatingMaterialStats.builder().durabilityFactor(50).armor(2, 5, 7, 2).toughness(1), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.hepatizon, PlatingMaterialStats.builder().durabilityFactor(32).armor(2, 5, 7, 2).toughness(2).knockbackResistance(0.10f), StatlessMaterialStats.CHAINMAIL);
+    addArmorStats(MaterialIds.manyullyn, PlatingMaterialStats.builder().durabilityFactor(35).armor(2, 5, 7, 2).toughness(3).knockbackResistance(0.05f), StatlessMaterialStats.CHAINMAIL);
+    addMaterialStats(MaterialIds.ancientHide, StatlessMaterialStats.CHAINMAIL);
   }
 
   private void addMisc() {
     // travelers gear
-    addMaterialStats(MaterialIds.leather, new RepairKitStats(150));
+    addMaterialStats(MaterialIds.leather, StatlessMaterialStats.REPAIR_KIT);
     // slimeskull
     addMaterialStats(MaterialIds.glass,        new SkullStats( 90, 0));
     addMaterialStats(MaterialIds.enderPearl,   new SkullStats(180, 0));
@@ -351,8 +374,8 @@ public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider
     addMaterialStats(MaterialIds.roseGold,     new SkullStats(175, 1));
     addMaterialStats(MaterialIds.pigIron,      new SkullStats(150, 2));
     // slimesuit
-    addMaterialStats(MaterialIds.enderslime, new RepairKitStats( 30));
-    addMaterialStats(MaterialIds.phantom,    new RepairKitStats(324));
+    addMaterialStats(MaterialIds.enderslime, StatlessMaterialStats.REPAIR_KIT);
+    addMaterialStats(MaterialIds.phantom, StatlessMaterialStats.REPAIR_KIT);
     // crafting
     addMaterialStats(MaterialIds.obsidian);
     addMaterialStats(MaterialIds.debris);

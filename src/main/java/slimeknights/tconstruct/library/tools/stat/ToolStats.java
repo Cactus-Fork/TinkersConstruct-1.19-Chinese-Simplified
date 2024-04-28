@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.tools.stat;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import slimeknights.mantle.data.loadable.Loadable;
+import slimeknights.mantle.data.loadable.primitive.StringLoadable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class ToolStats {
   /** Loader for general tool stats */
-  public static final Loadable<IToolStat<?>> LOADER = ToolStatId.PARSER.comapFlatMap((id, error) -> {
+  public static final StringLoadable<IToolStat<?>> LOADER = ToolStatId.PARSER.comapFlatMap((id, error) -> {
     IToolStat<?> stat = ToolStats.getToolStat(id);
     if (stat != null) {
       return stat;
@@ -27,7 +27,7 @@ public class ToolStats {
     throw error.create("Unknown stat type " + id);
   }, IToolStat::getName);
   /** Loader that filters to only numeric tool stats */
-  public static final Loadable<INumericToolStat<?>> NUMERIC_LOADER = LOADER.comapFlatMap((stat, error) -> {
+  public static final StringLoadable<INumericToolStat<?>> NUMERIC_LOADER = LOADER.comapFlatMap((stat, error) -> {
     if (stat instanceof INumericToolStat<?> numeric) {
       return numeric;
     }
@@ -51,7 +51,7 @@ public class ToolStats {
 
   // harvest
   /** How fast the tool breaks blocks */
-  public static final FloatToolStat MINING_SPEED = register(new FloatToolStat(name("mining_speed"), 0xFF78A0CD, 1, 0, 2048f, TinkerTags.Items.HARVEST));
+  public static final FloatToolStat MINING_SPEED = register(new FloatToolStat(name("mining_speed"), 0xFF78A0CD, 1, 0.1f, 2048f, TinkerTags.Items.HARVEST));
   /** Mining level for breaking blocks */
   public static final ToolTierStat HARVEST_TIER = register(new ToolTierStat(name("harvest_tier")));
 

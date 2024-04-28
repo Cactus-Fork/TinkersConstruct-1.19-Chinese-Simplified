@@ -18,15 +18,16 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ToolAction;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
-import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.json.LevelingValue;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.ModifierHook;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.behavior.ToolActionModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition;
-import slimeknights.tconstruct.library.modifiers.modules.ModifierModuleCondition.ConditionalModifierModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition.ConditionalModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModuleBuilder;
+import slimeknights.tconstruct.library.module.HookProvider;
+import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.utils.MutableUseOnContext;
@@ -42,17 +43,17 @@ import java.util.List;
  * @param radius     Radius to cover
  * @param condition  Standard module condition
  */
-public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent sound, LevelingValue radius, ModifierModuleCondition condition) implements ModifierModule, ArmorWalkRadiusModule<MutableUseOnContext>, ToolActionModifierHook, ConditionalModifierModule {
-  private static final List<ModifierHook<?>> DEFAULT_HOOKS = List.of(TinkerHooks.BOOT_WALK, TinkerHooks.TOOL_ACTION);
+public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent sound, LevelingValue radius, ModifierCondition<IToolStackView> condition) implements ModifierModule, ArmorWalkRadiusModule<MutableUseOnContext>, ToolActionModifierHook, ConditionalModule<IToolStackView> {
+  private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ToolActionWalkerTransformModule>defaultHooks(ModifierHooks.BOOT_WALK, ModifierHooks.TOOL_ACTION);
   public static final RecordLoadable<ToolActionWalkerTransformModule> LOADER = RecordLoadable.create(
     Loadables.TOOL_ACTION.requiredField("tool_action", ToolActionWalkerTransformModule::action),
     Loadables.SOUND_EVENT.requiredField("sound", ToolActionWalkerTransformModule::sound),
     LevelingValue.LOADABLE.requiredField("radius", ToolActionWalkerTransformModule::radius),
-    ModifierModuleCondition.FIELD,
+    ModifierCondition.TOOL_FIELD,
     ToolActionWalkerTransformModule::new);
 
   @Override
-  public List<ModifierHook<?>> getDefaultHooks() {
+  public List<ModuleHook<?>> getDefaultHooks() {
     return DEFAULT_HOOKS;
   }
 
@@ -97,7 +98,7 @@ public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent soun
   }
 
   @Override
-  public IGenericLoader<? extends ModifierModule> getLoader() {
+  public RecordLoadable<ToolActionWalkerTransformModule> getLoader() {
     return LOADER;
   }
   
@@ -110,7 +111,7 @@ public record ToolActionWalkerTransformModule(ToolAction action, SoundEvent soun
   }
 
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-  public static class Builder extends ModifierModuleCondition.Builder<Builder> implements LevelingValue.Builder<ToolActionWalkerTransformModule> {
+  public static class Builder extends ModuleBuilder.Stack<Builder> implements LevelingValue.Builder<ToolActionWalkerTransformModule> {
     private final ToolAction action;
     private final SoundEvent sound;
 

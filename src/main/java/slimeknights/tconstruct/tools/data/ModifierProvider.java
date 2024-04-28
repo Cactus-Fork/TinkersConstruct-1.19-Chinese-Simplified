@@ -26,6 +26,7 @@ import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.block.BlockPredicate;
 import slimeknights.mantle.data.predicate.block.BlockPropertiesPredicate;
 import slimeknights.mantle.data.predicate.damage.DamageSourcePredicate;
+import slimeknights.mantle.data.predicate.damage.SourceAttackerPredicate;
 import slimeknights.mantle.data.predicate.damage.SourceMessagePredicate;
 import slimeknights.mantle.data.predicate.entity.HasEnchantmentEntityPredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
@@ -37,6 +38,7 @@ import slimeknights.tconstruct.library.data.tinkering.AbstractModifierProvider;
 import slimeknights.tconstruct.library.json.RandomLevelingValue;
 import slimeknights.tconstruct.library.json.predicate.TinkerPredicate;
 import slimeknights.tconstruct.library.json.predicate.tool.HasModifierPredicate;
+import slimeknights.tconstruct.library.json.predicate.tool.ToolContextPredicate;
 import slimeknights.tconstruct.library.json.variable.block.BlockVariable;
 import slimeknights.tconstruct.library.json.variable.entity.AttributeEntityVariable;
 import slimeknights.tconstruct.library.json.variable.entity.ConditionalEntityVariable;
@@ -50,10 +52,11 @@ import slimeknights.tconstruct.library.json.variable.stat.EntityConditionalStatV
 import slimeknights.tconstruct.library.json.variable.tool.ToolStatVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ToolVariable;
 import slimeknights.tconstruct.library.modifiers.Modifier;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
-import slimeknights.tconstruct.library.modifiers.dynamic.ComposableModifier.TooltipDisplay;
 import slimeknights.tconstruct.library.modifiers.dynamic.InventoryMenuModifier;
+import slimeknights.tconstruct.library.modifiers.impl.BasicModifier.TooltipDisplay;
 import slimeknights.tconstruct.library.modifiers.modules.armor.BlockDamageSourceModule;
 import slimeknights.tconstruct.library.modifiers.modules.armor.CoverGroundWalkerModule;
 import slimeknights.tconstruct.library.modifiers.modules.armor.MobDisguiseModule;
@@ -83,6 +86,7 @@ import slimeknights.tconstruct.library.modifiers.modules.combat.MobEffectModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.DurabilityBarColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.fluid.TankModule;
 import slimeknights.tconstruct.library.modifiers.modules.mining.ConditionalMiningSpeedModule;
+import slimeknights.tconstruct.library.modifiers.modules.util.ModifierCondition;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay;
 import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay.UniqueForLevels;
 import slimeknights.tconstruct.library.tools.SlotType;
@@ -136,7 +140,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
       .addModule(StatBoostModule.multiplyBase(ToolStats.DURABILITY).flat(0.5f))
       .addModule(RepairModule.builder().flat(0.5f))
       // armor
-      .addModule(StatBoostModule.add(ToolStats.KNOCKBACK_RESISTANCE).flat(0.05f))
+      .addModule(StatBoostModule.add(ToolStats.ARMOR_TOUGHNESS).flat(1))
       // melee harvest
       .addModule(StatBoostModule.multiplyConditional(ToolStats.ATTACK_DAMAGE).flat(0.25f))
       .addModule(StatBoostModule.multiplyConditional(ToolStats.MINING_SPEED).flat(0.25f))
@@ -177,6 +181,10 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     // general
     buildModifier(ModifierIds.worldbound).addModule(new VolatileFlagModule(IModifiable.INDESTRUCTIBLE_ENTITY)).addModule(new RarityModule(Rarity.UNCOMMON)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
     buildModifier(ModifierIds.shiny).addModule(new VolatileFlagModule(IModifiable.SHINY)).addModule(new RarityModule(Rarity.EPIC)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
+    buildModifier(ModifierIds.offhanded)
+      .addModule(new VolatileFlagModule(IModifiable.DEFER_OFFHAND))
+      .addModule(new VolatileFlagModule(IModifiable.NO_INTERACTION, new ModifierCondition<>(ToolContextPredicate.ANY, ModifierEntry.VALID_LEVEL.min(2))))
+      .levelDisplay(new UniqueForLevels(2));
     // general abilities
     buildModifier(ModifierIds.reach)
       .addModule(AttributeModule.builder(ForgeMod.REACH_DISTANCE.get(), Operation.ADDITION).uniqueFrom(ModifierIds.reach).eachLevel(1))
@@ -184,12 +192,12 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     IJsonPredicate<IToolContext> noUnbreakable = HasModifierPredicate.hasModifier(TinkerModifiers.unbreakable.getId(), 1).inverted();
     buildModifier(ModifierIds.reinforced)
       // level 0 to 5: 0.025 * LEVEL * (11 - LEVEL)
-      .addModule(ReduceToolDamageModule.builder().tool(noUnbreakable).maxLevel(5).formula()
+      .addModule(ReduceToolDamageModule.builder().toolContext(noUnbreakable).maxLevel(5).formula()
                                        .constant(0.025f).variable(LEVEL).multiply() // 0.025 * level
                                        .constant(11).variable(LEVEL).subtract()     // 11 - level
                                        .multiply().build())
       // level 6+: 0.5 + level * 0.05
-      .addModule(ReduceToolDamageModule.builder().tool(noUnbreakable).minLevel(6).amount(0.5f, 0.05f));
+      .addModule(ReduceToolDamageModule.builder().toolContext(noUnbreakable).minLevel(6).amount(0.5f, 0.05f));
     // unbreakable priority is after overslime but before standard modifiers like dense
     buildModifier(TinkerModifiers.unbreakable)
       .levelDisplay(ModifierLevelDisplay.NO_LEVELS).priority(125)
@@ -198,6 +206,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
       .addModule(ReduceToolDamageModule.builder().flat(1.0f));
     buildModifier(ModifierIds.tank).addModule(new TankModule(FluidType.BUCKET_VOLUME, true));
     buildModifier(ModifierIds.theOneProbe, modLoaded("theoneprobe")).levelDisplay(ModifierLevelDisplay.NO_LEVELS).addModule(TheOneProbeModule.INSTANCE);
+    buildModifier(ModifierIds.overforced).addModule(StatBoostModule.add(OverslimeModifier.OVERSLIME_STAT).eachLevel(75));
 
     // harvest
     buildModifier(ModifierIds.blasting).addModule(
@@ -273,16 +282,15 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     // damage boost
     // vanilla give +1, 1.5, 2, 2.5, 3, but that is low
     // we instead do +0.75, +1.5, +2.25, +3, +3.75
-    UniqueForLevels uniqueForFive = new UniqueForLevels(5);
-    buildModifier(ModifierIds.sharpness).addModule(StatBoostModule.add(ToolStats.ATTACK_DAMAGE).eachLevel(0.75f)).levelDisplay(uniqueForFive);
-    buildModifier(ModifierIds.swiftstrike).addModule(StatBoostModule.multiplyBase(ToolStats.ATTACK_SPEED).eachLevel(0.05f)).levelDisplay(uniqueForFive);
+    buildModifier(ModifierIds.sharpness).addModule(StatBoostModule.add(ToolStats.ATTACK_DAMAGE).eachLevel(0.75f)).levelDisplay(new UniqueForLevels(5, true));
+    buildModifier(ModifierIds.swiftstrike).addModule(StatBoostModule.multiplyBase(ToolStats.ATTACK_SPEED).eachLevel(0.05f)).levelDisplay(new UniqueForLevels(5));
     buildModifier(ModifierIds.smite).addModule(ConditionalMeleeDamageModule.builder().target(new MobTypePredicate(MobType.UNDEAD)).eachLevel(2.0f));
     buildModifier(ModifierIds.antiaquatic).addModule(ConditionalMeleeDamageModule.builder().target(new MobTypePredicate(MobType.WATER)).eachLevel(2.0f));
     buildModifier(ModifierIds.cooling).addModule(ConditionalMeleeDamageModule.builder().target(LivingEntityPredicate.FIRE_IMMUNE).eachLevel(1.6f));
     IJsonPredicate<LivingEntity> baneSssssPredicate = LivingEntityPredicate.or(new MobTypePredicate(MobType.ARTHROPOD), LivingEntityPredicate.tag(TinkerTags.EntityTypes.CREEPERS));
     buildModifier(ModifierIds.baneOfSssss)
       .addModule(ConditionalMeleeDamageModule.builder().target(baneSssssPredicate).eachLevel(2.0f))
-      .addModule(MobEffectModule.builder(MobEffects.MOVEMENT_SLOWDOWN).level(RandomLevelingValue.flat(4)).time(RandomLevelingValue.random(20, 10)).target(baneSssssPredicate).build(), TinkerHooks.MELEE_HIT);
+      .addModule(MobEffectModule.builder(MobEffects.MOVEMENT_SLOWDOWN).level(RandomLevelingValue.flat(4)).time(RandomLevelingValue.random(20, 10)).target(baneSssssPredicate).build(), ModifierHooks.MELEE_HIT);
     buildModifier(ModifierIds.killager).addModule(ConditionalMeleeDamageModule.builder().target(LivingEntityPredicate.or(
       new MobTypePredicate(MobType.ILLAGER),
       LivingEntityPredicate.LOADER.tag(TinkerTags.EntityTypes.VILLAGERS))).eachLevel(2.0f));
@@ -291,7 +299,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
       .addModule(StatBoostModule.add(ToolStats.ATTACK_DAMAGE).eachLevel(0.5f))
       .addModule(MeleeAttributeModule.builder(Attributes.ARMOR, Operation.ADDITION).uniqueFrom(ModifierIds.pierce).eachLevel(-1))
       // use a mob effect to make this work on ranged, to ensure it automatically cancels
-      .addModule(MobEffectModule.builder(TinkerModifiers.pierceEffect.get()).level(RandomLevelingValue.perLevel(0, 1)).time(RandomLevelingValue.flat(2)).build(), TinkerHooks.PROJECTILE_HIT);
+      .addModule(MobEffectModule.builder(TinkerModifiers.pierceEffect.get()).level(RandomLevelingValue.perLevel(0, 1)).time(RandomLevelingValue.flat(2)).build(), ModifierHooks.PROJECTILE_HIT);
 
     // ranged
     buildModifier(ModifierIds.power).addModule(StatBoostModule.add(ToolStats.PROJECTILE_DAMAGE).eachLevel(0.5f));
@@ -310,8 +318,8 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     // protection
     buildModifier(ModifierIds.protection).addModule(ProtectionModule.source(DamageSourcePredicate.CAN_PROTECT).eachLevel(1.25f));
     buildModifier(ModifierIds.fireProtection)
-      .addModule(EnchantmentModule.builder(Enchantments.FIRE_PROTECTION).constant())
-      .addModule(ProtectionModule.source(DamageSourcePredicate.and(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.FIRE)).subtract(Enchantments.FIRE_PROTECTION).eachLevel(2.5f));
+      .addModule(EnchantmentModule.builder(Enchantments.FIRE_PROTECTION).protection())
+      .addModule(ProtectionModule.source(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.FIRE).eachLevel(2.5f));
     buildModifier(ModifierIds.turtleShell)
       .addModule(AttributeModule.builder(ForgeMod.SWIM_SPEED.get(), Operation.MULTIPLY_TOTAL).uniqueFrom(ModifierIds.turtleShell).slots(armorSlots).eachLevel(0.05f))
       .addModule(ProtectionModule.source(DamageSourcePredicate.CAN_PROTECT)
@@ -361,7 +369,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
       .addModule(ToolActionTransformModule.builder(ToolActions.HOE_TILL, SoundEvents.HOE_TILL).build());
 
     // internal
-    buildModifier(ModifierIds.overslimeFriend).addModule(new VolatileFlagModule(OverslimeModifier.KEY_OVERSLIME_FRIEND)).tooltipDisplay(TooltipDisplay.NEVER);
+    buildModifier(ModifierIds.overslimeFriend).tooltipDisplay(TooltipDisplay.NEVER);
     buildModifier(ModifierIds.snowBoots).addModule(new VolatileFlagModule(ModifiableArmorItem.SNOW_BOOTS)).tooltipDisplay(TooltipDisplay.NEVER);
 
     // traits - tier 1
@@ -374,7 +382,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     buildModifier(ModifierIds.scorching).addModule(ConditionalMeleeDamageModule.builder().target(LivingEntityPredicate.ON_FIRE).eachLevel(2f));
     buildModifier(ModifierIds.airborne)
       // 400% boost means 5x mining speed
-      .addModule(ConditionalMiningSpeedModule.builder().holder(LivingEntityPredicate.ON_GROUND.inverted()).percent().allowIneffective().flat(4), TinkerHooks.BREAK_SPEED)
+      .addModule(ConditionalMiningSpeedModule.builder().holder(LivingEntityPredicate.ON_GROUND.inverted()).percent().allowIneffective().flat(4), ModifierHooks.BREAK_SPEED)
       // accuracy gets a 0.5 boost under the stricter version of in air (no boost just for being on a ladder)
       .addModule(ConditionalStatModule.stat(ToolStats.ACCURACY).holder(TinkerPredicate.AIRBORNE).flat(0.5f));
     buildModifier(ModifierIds.antitoxin)
@@ -420,6 +428,10 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
         // finally, add in base damage
         .variable(VALUE).add().build());
 
+    // triats - tier 2
+    buildModifier(ModifierIds.scorchProtection)
+      .addModule(EnchantmentModule.builder(Enchantments.FIRE_PROTECTION).protection())
+      .addModule(ProtectionModule.source(DamageSourcePredicate.and(DamageSourcePredicate.CAN_PROTECT, new SourceAttackerPredicate(LivingEntityPredicate.FIRE_IMMUNE))).eachLevel(1.25f));
 
     // traits - tier 2 compat
     addModifier(ModifierIds.lustrous, new Modifier());
@@ -455,6 +467,9 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
         .subtract().build());
 
     // traits - tier 3
+    buildModifier(ModifierIds.overcast)
+      .addModule(StatBoostModule.add(OverslimeModifier.OVERSLIME_STAT).eachLevel(25))
+      .addModule(StatBoostModule.multiplyBase(OverslimeModifier.OVERSLIME_STAT).eachLevel(0.5f));
     buildModifier(ModifierIds.crumbling).addModule(ConditionalMiningSpeedModule.builder().blocks(BlockPredicate.REQUIRES_TOOL.inverted()).allowIneffective().eachLevel(0.5f));
     buildModifier(ModifierIds.enhanced).priority(60).addModule(UPGRADE);
     // traits - tier 3 nether
@@ -493,6 +508,8 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
         .constant(0.05f).multiply()
         .variable(MULTIPLIER).multiply()
         .variable(VALUE).add().build());
+    // traits - tier 4
+    buildModifier(ModifierIds.fortified).priority(60).addModule(new ModifierSlotModule(SlotType.DEFENSE));
 
     // mob disguise
     buildModifier(ModifierIds.creeperDisguise        ).addModule(new MobDisguiseModule(EntityType.CREEPER));

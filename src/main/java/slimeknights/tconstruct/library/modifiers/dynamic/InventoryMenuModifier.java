@@ -12,14 +12,14 @@ import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.modifiers.TinkerHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.KeybindInteractModifierHook;
 import slimeknights.tconstruct.library.modifiers.impl.InventoryModifier;
-import slimeknights.tconstruct.library.modifiers.util.ModifierHookMap.Builder;
+import slimeknights.tconstruct.library.module.ModuleHookMap.Builder;
 import slimeknights.tconstruct.library.tools.capability.ToolInventoryCapability;
-import slimeknights.tconstruct.library.tools.definition.module.ToolModuleHooks;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
 import slimeknights.tconstruct.library.tools.definition.module.interaction.DualOptionInteraction;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 
@@ -53,7 +53,7 @@ public class InventoryMenuModifier extends InventoryModifier implements KeybindI
 
   @Override
   public InteractionResult onToolUse(IToolStackView tool, ModifierEntry modifier, Player player, InteractionHand hand, InteractionSource source) {
-    if (player.isCrouching() && tool.getDefinitionData().getModule(ToolModuleHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
+    if (player.isCrouching() && tool.getHook(ToolHooks.INTERACTION).canInteract(tool, modifier.getId(), source)) {
       EquipmentSlot slot = source.getSlot(hand);
       return ToolInventoryCapability.tryOpenContainer(player.getItemBySlot(slot), tool, player, slot);
     }
@@ -63,7 +63,7 @@ public class InventoryMenuModifier extends InventoryModifier implements KeybindI
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addHook(this, TinkerHooks.ARMOR_INTERACT, TinkerHooks.GENERAL_INTERACT);
+    hookBuilder.addHook(this, ModifierHooks.ARMOR_INTERACT, ModifierHooks.GENERAL_INTERACT);
   }
 
   @Override

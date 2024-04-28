@@ -130,6 +130,20 @@ public class TinkerDataCapability {
     }
 
     /**
+     * Adds the given value to the float data key
+     * @param key    Key to add
+     * @param value  Value to add
+     */
+    public void add(TinkerDataKey<Float> key, float value) {
+      float newValue = get(key, 0f) + value;
+      if (newValue == 0) {
+        data.remove(key);
+      } else {
+        data.put(key, newValue);
+      }
+    }
+
+    /**
      * Removes a value to the holder
      * @param key  Key to remove
      */
@@ -163,8 +177,13 @@ public class TinkerDataCapability {
 
     /** Gets the value from the holder, creating it if missing */
     @SuppressWarnings("unchecked")
+    public <T> T computeIfAbsent(TinkerDataKey<T> key, Function<TinkerDataKey<?>,T> constructor) {
+      return (T) data.computeIfAbsent(key, constructor);
+    }
+
+    /** Gets the value from the holder, creating it if missing */
     public <T, U extends TinkerDataKey<T> & Function<TinkerDataKey<?>,T>> T computeIfAbsent(U key) {
-      return (T) data.computeIfAbsent(key, key);
+      return computeIfAbsent(key, key);
     }
 
     /**
