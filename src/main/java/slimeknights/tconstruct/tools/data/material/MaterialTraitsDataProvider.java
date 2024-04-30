@@ -5,6 +5,7 @@ import slimeknights.tconstruct.library.data.material.AbstractMaterialDataProvide
 import slimeknights.tconstruct.library.data.material.AbstractMaterialTraitDataProvider;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.data.ModifierIds;
+import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
 import slimeknights.tconstruct.tools.stats.SkullStats;
 
 import static slimeknights.tconstruct.library.materials.MaterialRegistry.ARMOR;
@@ -28,7 +29,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addDefaultTraits(MaterialIds.rock, TinkerModifiers.stonebound);
     addDefaultTraits(MaterialIds.flint, TinkerModifiers.jagged);
     addDefaultTraits(MaterialIds.bone, ModifierIds.pierce);
-    addTraits(MaterialIds.bamboo, RANGED, ModifierIds.flexible);
+    addTraits(MaterialIds.bamboo, RANGED, ModifierIds.unburdened);
     // tier 1 - end
     addDefaultTraits(MaterialIds.chorus, TinkerModifiers.enderference);
     // tier 1 - binding
@@ -36,6 +37,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addDefaultTraits(MaterialIds.leather, TinkerModifiers.tanned);
     addDefaultTraits(MaterialIds.vine, TinkerModifiers.solarPowered);
     addTraits(MaterialIds.gold, ARMOR, TinkerModifiers.golden, TinkerModifiers.magicProtection);
+    addTraits(MaterialIds.gold, PlatingMaterialStats.SHIELD.getId(), TinkerModifiers.magicProtection);
 
     // tier 2
     addDefaultTraits(MaterialIds.iron, TinkerModifiers.magnetic);
@@ -115,10 +117,6 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addTraits(MaterialIds.gold,         SkullStats.ID, TinkerModifiers.chrysophilite.getId(), ModifierIds.piglinDisguise);
     addTraits(MaterialIds.roseGold,     SkullStats.ID, TinkerModifiers.goldGuard.getId(), ModifierIds.piglinBruteDisguise);
     addTraits(MaterialIds.pigIron,      SkullStats.ID, TinkerModifiers.revenge.getId(), ModifierIds.zombifiedPiglinDisguise);
-    // plate
-    noTraits(MaterialIds.obsidian);
-    noTraits(MaterialIds.debris);
-    noTraits(MaterialIds.netherite);
     // slimesuit
     noTraits(MaterialIds.earthslime);
     noTraits(MaterialIds.skyslime);
@@ -129,11 +127,5 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     noTraits(MaterialIds.clay);
     noTraits(MaterialIds.honey);
     noTraits(MaterialIds.phantom);
-    // compat plate
-    noTraits(MaterialIds.nickel);
-    noTraits(MaterialIds.tin);
-    noTraits(MaterialIds.zinc);
-    noTraits(MaterialIds.brass);
-    noTraits(MaterialIds.uranium);
   }
 }

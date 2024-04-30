@@ -6,14 +6,15 @@
   "generator": {
     "ignoreMaterialStats": false,
     "supportedStats": [
-      "tconstruct:armor",
+      "tconstruct:armor_plating",
       "tconstruct:plating_boots",
       "tconstruct:plating_leggings",
       "tconstruct:plating_chestplate",
       "tconstruct:plating_helmet",
+      "tconstruct:plating_shield",
       "tconstruct:chainmail",
-      "tconstruct:repair_kit",
-      "tconstruct:plate"
+      "tconstruct:armor_chainmail",
+      "tconstruct:repair_kit"
     ],
     "transformer": {
       "type": "tconstruct:recolor_sprite",

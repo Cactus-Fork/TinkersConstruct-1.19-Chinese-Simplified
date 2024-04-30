@@ -48,7 +48,6 @@ import static slimeknights.tconstruct.common.TinkerTags.Items.CHESTPLATES;
 import static slimeknights.tconstruct.common.TinkerTags.Items.CROSSBOWS;
 import static slimeknights.tconstruct.common.TinkerTags.Items.DURABILITY;
 import static slimeknights.tconstruct.common.TinkerTags.Items.DYEABLE;
-import static slimeknights.tconstruct.common.TinkerTags.Items.EMBELLISHMENT_METAL;
 import static slimeknights.tconstruct.common.TinkerTags.Items.EMBELLISHMENT_SLIME;
 import static slimeknights.tconstruct.common.TinkerTags.Items.EMBELLISHMENT_WOOD;
 import static slimeknights.tconstruct.common.TinkerTags.Items.FANTASTIC_ARMOR;
@@ -259,13 +258,13 @@ public class ItemTagProvider extends ItemTagsProvider {
 
     // armor
     addArmorTags(TinkerTools.travelersGear, DURABILITY, DYEABLE, ItemTags.FREEZE_IMMUNE_WEARABLES);
-    addArmorTags(TinkerTools.plateArmor,    DURABILITY, EMBELLISHMENT_METAL, MULTIPART_TOOL);
+    addArmorTags(TinkerTools.plateArmor,    DURABILITY, MULTIPART_TOOL);
     addArmorTags(TinkerTools.slimesuit,     DURABILITY, EMBELLISHMENT_SLIME);
     addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL);
 
     // shields
-    addToolTags(TinkerTools.travelersShield, DURABILITY, DYEABLE, SHIELDS, INTERACTABLE_LEFT, EMBELLISHMENT_METAL);
-    addToolTags(TinkerTools.plateShield,     DURABILITY, DYEABLE, SHIELDS, INTERACTABLE_LEFT, EMBELLISHMENT_METAL);
+    addToolTags(TinkerTools.travelersShield, DURABILITY, SHIELDS, INTERACTABLE_LEFT, EMBELLISHMENT_WOOD, DYEABLE);
+    addToolTags(TinkerTools.plateShield,     DURABILITY, SHIELDS, INTERACTABLE_LEFT, MULTIPART_TOOL);
 
     // care about order for armor in the book
     tag(BASIC_ARMOR);
@@ -277,9 +276,9 @@ public class ItemTagProvider extends ItemTagsProvider {
     for (ArmorSlotType slotType : ArmorSlotType.TOP_DOWN) {
       bookArmor.add(TinkerTools.plateArmor.get(slotType));
     }
-    tag(MIGHTY_ARMOR);
-    bookArmor = tag(FANTASTIC_ARMOR);
     bookArmor.add(TinkerTools.plateShield.get());
+    tag(MIGHTY_ARMOR);
+    tag(FANTASTIC_ARMOR);
     bookArmor = tag(GADGETRY_ARMOR);
     for (ArmorSlotType slotType : ArmorSlotType.TOP_DOWN) {
       bookArmor.add(TinkerTools.slimesuit.get(slotType));
@@ -339,7 +338,7 @@ public class ItemTagProvider extends ItemTagsProvider {
 						 TinkerToolParts.toolBinding.get(), TinkerToolParts.roundPlate.get(), TinkerToolParts.largePlate.get(),
 						 TinkerToolParts.toolHandle.get(), TinkerToolParts.toughHandle.get(),
 						 TinkerToolParts.bowLimb.get(), TinkerToolParts.bowGrip.get(), TinkerToolParts.bowstring.get(),
-						 TinkerToolParts.chainmail.get(),
+						 TinkerToolParts.chainmail.get(), TinkerToolParts.shieldCore.get(),
 						 TinkerToolParts.repairKit.get()) // repair kit is not strictly a tool part, but this list just helps out JEI
         .add(TinkerToolParts.plating.values().toArray(new Item[0]));
 

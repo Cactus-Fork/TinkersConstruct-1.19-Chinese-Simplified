@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tools.data.sprite;
 
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.data.material.AbstractPartSpriteProvider;
-import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
@@ -14,8 +13,9 @@ import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
  */
 public class TinkerPartSpriteProvider extends AbstractPartSpriteProvider {
   public static final MaterialStatsId WOOD = new MaterialStatsId(TConstruct.MOD_ID, "wood");
-  public static final MaterialStatsId PLATE = new MaterialStatsId(TConstruct.MOD_ID, "plate");
   public static final MaterialStatsId SLIMESUIT = new MaterialStatsId(TConstruct.MOD_ID, "slimesuit");
+  public static final MaterialStatsId ARMOR_PLATING = new MaterialStatsId(TConstruct.MOD_ID, "armor_plating");
+  public static final MaterialStatsId ARMOR_CHAINMAIL = new MaterialStatsId(TConstruct.MOD_ID, "armor_chainmail");
 
   public TinkerPartSpriteProvider() {
     super(TConstruct.MOD_ID);
@@ -48,18 +48,20 @@ public class TinkerPartSpriteProvider extends AbstractPartSpriteProvider {
         .addBreakablePart("plating", PlatingMaterialStats.TYPES.get(slot.getIndex()).getId())
         .addBreakablePart("chainmail", StatlessMaterialStats.CHAINMAIL.getIdentifier());
     }
-    addTexture("models/armor/plate/armor_1", MaterialRegistry.ARMOR);
-    addTexture("models/armor/plate/leggings_1", PlatingMaterialStats.LEGGINGS.getId());
-    addTexture("models/armor/plate/armor_2", StatlessMaterialStats.CHAINMAIL.getIdentifier());
-    addTexture("models/armor/plate/leggings_2", StatlessMaterialStats.CHAINMAIL.getIdentifier());
+    addTexture("models/armor/plate/armor_1", ARMOR_PLATING);
+    addTexture("models/armor/plate/leggings_1", ARMOR_PLATING);
+    addTexture("models/armor/plate/armor_2", ARMOR_CHAINMAIL);
+    addTexture("models/armor/plate/leggings_2", ARMOR_CHAINMAIL);
+    buildTool("armor/plate/shield")
+      .addBreakablePart("plating", PlatingMaterialStats.SHIELD.getId())
+      .addBreakablePart("core", StatlessMaterialStats.SHIELD_CORE.getIdentifier())
+      // withLarge wants to use a subfolder, easier to just add another part than special casing
+      .addBreakablePart("plating_large", PlatingMaterialStats.SHIELD.getId())
+      .addBreakablePart("core_large", StatlessMaterialStats.SHIELD_CORE.getIdentifier());
 
     // shield textures
-    addSprite("armor/travelers/shield_modifiers/tconstruct_embellishment", PLATE);
-    addSprite("armor/travelers/shield_modifiers/broken/tconstruct_embellishment", PLATE);
-    addSprite("armor/plate/shield_modifiers/tconstruct_embellishment", PLATE);
-    addSprite("armor/plate/shield_modifiers/broken/tconstruct_embellishment", PLATE);
-    addSprite("armor/plate/shield_large_modifiers/tconstruct_embellishment", PLATE);
-    addSprite("armor/plate/shield_large_modifiers/broken/tconstruct_embellishment", PLATE);
+    addSprite("armor/travelers/shield_modifiers/tconstruct_embellishment", WOOD);
+    addSprite("armor/travelers/shield_modifiers/broken/tconstruct_embellishment", WOOD);
 
     // staff
     addSprite("staff/modifiers/tconstruct_embellishment", WOOD);
