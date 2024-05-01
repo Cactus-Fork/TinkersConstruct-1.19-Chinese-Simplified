@@ -282,7 +282,7 @@
   "pattern.tconstruct.wire": "线",
 
   "pattern.tconstruct.repair_kit": "修补件",
-  "pattern.tconstruct.plating": "Plating",
+  "pattern.tconstruct.plating": "镶板",
   "pattern.tconstruct.helmet_plating": "头盔镶板",
   "pattern.tconstruct.chestplate_plating": "胸甲镶板",
   "pattern.tconstruct.leggings_plating": "护腿镶板",
@@ -2026,7 +2026,7 @@
   "modifier.tconstruct.sticky.description": "攻击者会被困在原地，或者减缓移动速度",
   "modifier.tconstruct.springy": "弹性",
   "modifier.tconstruct.springy.flavor": "蹦！啪！",
-  "modifier.tconstruct.springy.description": "攻击者会被你盔甲弹走",
+  "modifier.tconstruct.springy.description": "攻击者会被你的盔甲弹走",
 
   "_comment": "Armor - helmet",
   "modifier.tconstruct.respiration": "水下呼吸",
