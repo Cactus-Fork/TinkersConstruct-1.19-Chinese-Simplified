@@ -10,10 +10,7 @@ ranged_materials.subtext=这些材料可以铸造成像弓那样的远程武器�
 further_reading=延伸阅读
 
 armor=入门盔甲
-armor.subtext=Choose your path with your armor; travelers gives you highly modifiable armor with more room for abilities, while plate gives you more opportunities for defense. If you have no fashion sense you can mix both.
-
-armor=旅行者套装
-armor.subtext=你可以在工作站中合成旅行者套装！这套装备虽然不能提供最好的防御，但它却拥有很多升 级功能。你会创造出什么有趣的东西来呢？
+armor.subtext=接下来，你需要选择你的盔甲锻造路径：旅行者套装，可高度定制且拥有更多强化槽；镶板盔甲，给予你更强的防护。但如果你不那么追求时尚，你可以尝试混搭风。
 
 upgrades=升级强化
 upgrades.subtext=工具可加持升级强化，不过一把工具能加持的升级强化的数量是有限的。
