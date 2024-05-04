@@ -139,7 +139,6 @@ public class AdvancementsProvider extends GenericDataProvider {
       with.accept(MaterialIds.scorchedStone);
       with.accept(MaterialIds.copper);
       with.accept(MaterialIds.slimewood);
-      with.accept(MaterialIds.chain);
       with.accept(MaterialIds.skyslimeVine);
       with.accept(MaterialIds.whitestone);
       // tier 3
@@ -155,6 +154,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       with.accept(MaterialIds.hepatizon);
       with.accept(MaterialIds.queensSlime);
       with.accept(MaterialIds.blazingBone);
+      with.accept(MaterialIds.blazewood);
       with.accept(MaterialIds.ancientHide);
       with.accept(MaterialIds.enderslimeVine);
     });
@@ -230,7 +230,7 @@ public class AdvancementsProvider extends GenericDataProvider {
       with.accept(TinkerSmeltery.chestplatePlatingCast);
       with.accept(TinkerSmeltery.leggingsPlatingCast);
       with.accept(TinkerSmeltery.bootsPlatingCast);
-      with.accept(TinkerSmeltery.chainmailCast);
+      with.accept(TinkerSmeltery.mailleCast);
     });
     Advancement mightySmelting = builder(TinkerCommons.mightySmelting, resource("smeltery/mighty_smelting"), melter, FrameType.TASK, builder ->
       builder.addCriterion("crafted_book", hasItem(TinkerCommons.mightySmelting)));

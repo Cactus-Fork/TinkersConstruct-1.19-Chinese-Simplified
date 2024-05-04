@@ -43,6 +43,20 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "blazewood": {
+      "conditions": {
+        "items": [
+          {
+            "type": "tconstruct:tool_stack",
+            "predicate": {
+              "type": "tconstruct:has_material",
+              "material": "tconstruct:blazewood"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "blazing_bone": {
       "conditions": {
         "items": [
@@ -65,20 +79,6 @@
             "predicate": {
               "type": "tconstruct:has_material",
               "material": "tconstruct:bone"
-            }
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "chain": {
-      "conditions": {
-        "items": [
-          {
-            "type": "tconstruct:tool_stack",
-            "predicate": {
-              "type": "tconstruct:has_material",
-              "material": "tconstruct:chain"
             }
           }
         ]
@@ -498,9 +498,6 @@
       "slimewood"
     ],
     [
-      "chain"
-    ],
-    [
       "skyslime_vine"
     ],
     [
@@ -538,6 +535,9 @@
     ],
     [
       "blazing_bone"
+    ],
+    [
+      "blazewood"
     ],
     [
       "ancient_hide"

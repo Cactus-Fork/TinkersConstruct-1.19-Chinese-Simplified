@@ -42,7 +42,6 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     // tier 2 - end
     addMaterial(MaterialIds.whitestone, 2, ORDER_END, true);
     // tier 2 - binding
-    addMaterial(MaterialIds.chain,        2, ORDER_BINDING, true);
     addMaterial(MaterialIds.skyslimeVine, 2, ORDER_BINDING, true);
     // bloodbone reworked into venombone
     addRedirect(new MaterialId(TConstruct.MOD_ID, "bloodbone"), redirect(MaterialIds.venombone));
@@ -64,6 +63,7 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addMaterial(MaterialIds.hepatizon,   4, ORDER_HARVEST, false);
     addMaterial(MaterialIds.manyullyn,   4, ORDER_WEAPON,  false);
     addMaterial(MaterialIds.blazingBone, 4, ORDER_SPECIAL, true);
+    addMaterial(MaterialIds.blazewood,   4, ORDER_RANGED,  true);
     //addMetalMaterial(MaterialIds.soulsteel, 4, ORDER_SPECIAL, false, 0x6a5244);
     // tier 4 - binding
     addMaterial(MaterialIds.ancientHide, 4, ORDER_BINDING, false);
@@ -107,5 +107,8 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     //addMaterial(MaterialIds.venom,      3, ORDER_REPAIR, true);
     // slimesuit - repair
     addMaterial(MaterialIds.phantom,    1, ORDER_REPAIR, true);
+
+    // rose gold is most comparable to chain as you can use the extra slot for reinforced
+    addRedirect(new MaterialId(TConstruct.MOD_ID, "chain"), redirect(MaterialIds.roseGold));
   }
 }

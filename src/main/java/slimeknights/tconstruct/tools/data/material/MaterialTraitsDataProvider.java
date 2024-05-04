@@ -55,7 +55,6 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     // tier 2 - end
     addDefaultTraits(MaterialIds.whitestone, TinkerModifiers.stoneshield);
     // tier 2 - binding
-    addDefaultTraits(MaterialIds.chain, ModifierIds.reinforced);
     addDefaultTraits(MaterialIds.skyslimeVine, ModifierIds.airborne);
 
     // tier 3
@@ -78,6 +77,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addDefaultTraits(MaterialIds.hepatizon, TinkerModifiers.momentum);
     addDefaultTraits(MaterialIds.manyullyn, TinkerModifiers.insatiable);
     addDefaultTraits(MaterialIds.blazingBone, TinkerModifiers.conducting);
+    addDefaultTraits(MaterialIds.blazewood, TinkerModifiers.conducting);
     // tier 4 - binding
     addDefaultTraits(MaterialIds.ancientHide, ModifierIds.fortune);
     addTraits(MaterialIds.ancientHide, ARMOR, ModifierIds.fortified);

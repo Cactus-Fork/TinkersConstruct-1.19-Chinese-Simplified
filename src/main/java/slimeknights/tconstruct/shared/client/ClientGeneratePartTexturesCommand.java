@@ -98,6 +98,7 @@ public class ClientGeneratePartTexturesCommand {
     // prepare the output directory
     Path path = Minecraft.getInstance().getResourcePackDirectory().toPath().resolve(PACK_NAME);
     BiConsumer<ResourceLocation,NativeImage> saver = (outputPath, image) -> saveImage(path, outputPath, image);
+    BiConsumer<ResourceLocation,JsonObject> metaSaver = (outputPath, image) -> saveMetadata(path, outputPath, image);
 
     // create a pack.mcmeta so its a valid resource pack
     savePackMcmeta(path);
@@ -125,7 +126,7 @@ public class ClientGeneratePartTexturesCommand {
     for (MaterialSpriteInfo material : materialSprites) {
       for (PartSpriteInfo part : generatorConfig.sprites) {
         if (material.supportStatType(part.getStatType()) || generatorConfig.statOverrides.hasOverride(part.getStatType(), material.getTexture())) {
-          MaterialPartTextureGenerator.generateSprite(spriteReader, material, part, shouldGenerate, saver);
+          MaterialPartTextureGenerator.generateSprite(spriteReader, material, part, shouldGenerate, saver, metaSaver);
         }
       }
     }
@@ -174,6 +175,21 @@ public class ClientGeneratePartTexturesCommand {
     }
   }
 
+  /** Saves metadata to the output folder */
+  private static void saveMetadata(Path folder, ResourceLocation location, JsonObject meta) {
+    Path path = folder.resolve(Paths.get(PackType.CLIENT_RESOURCES.getDirectory(),
+                                         location.getNamespace(), MaterialPartTextureGenerator.FOLDER, location.getPath() + ".png.mcmeta"));
+    try {
+      Files.createDirectories(path.getParent());
+      String json = MaterialRenderInfoLoader.GSON.toJson(meta);
+      try (BufferedWriter bufferedwriter = Files.newBufferedWriter(path)) {
+        bufferedwriter.write(json);
+      }
+    } catch (IOException e) {
+      log.error("Couldn't create metadata for {}", location, e);
+    }
+  }
+
   /** Record holding config from the generator JSON file */
   private record GeneratorConfiguration(List<PartSpriteInfo> sprites, StatOverride statOverrides) {}
 
@@ -193,12 +209,7 @@ public class ClientGeneratePartTexturesCommand {
           Resource resource = resources.get(r);
           try (BufferedReader reader = resource.openAsReader()) {
             JsonObject object = GsonHelper.parse(reader);
-            List<PartSpriteInfo> parts = JsonHelper.parseList(object, "parts", (element, name) -> {
-              JsonObject part = GsonHelper.convertToJsonObject(element, name);
-              ResourceLocation path = JsonHelper.getResourceLocation(part, "path");
-              MaterialStatsId statId = new MaterialStatsId(JsonHelper.getResourceLocation(part, "statType"));
-              return new PartSpriteInfo(path, statId);
-            });
+            List<PartSpriteInfo> parts = PartSpriteInfo.LIST_LOADABLE.getIfPresent(object, "parts");
             builder.addAll(parts);
             if (object.has("overrides")) {
               for (Entry<String,JsonElement> entry : GsonHelper.getAsJsonObject(object, "overrides").entrySet()) {

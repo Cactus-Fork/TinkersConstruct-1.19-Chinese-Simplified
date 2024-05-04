@@ -20,12 +20,11 @@ public class MaterialTagProvider extends AbstractMaterialTagProvider {
       MaterialIds.leather, MaterialIds.vine, MaterialIds.string,
       // tier 2
       MaterialIds.iron, MaterialIds.scorchedStone, MaterialIds.slimewood, MaterialIds.necroticBone,
-      MaterialIds.chain,
       // tier 3
       MaterialIds.nahuatl, MaterialIds.cobalt,
       MaterialIds.darkthread,
       // tier 4
-      MaterialIds.manyullyn, MaterialIds.queensSlime, MaterialIds.blazingBone,
+      MaterialIds.manyullyn, MaterialIds.queensSlime, MaterialIds.blazingBone, MaterialIds.blazewood,
       MaterialIds.ancientHide
     );
   }

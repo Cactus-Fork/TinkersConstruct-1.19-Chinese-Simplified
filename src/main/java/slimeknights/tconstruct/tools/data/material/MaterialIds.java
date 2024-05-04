@@ -34,7 +34,6 @@ public final class MaterialIds {
   // tier 2 - end
   public static final MaterialId whitestone = id("whitestone");
   // tier 2 - bindings
-  public static final MaterialId chain = id("chain");
   public static final MaterialId skyslimeVine = id("skyslime_vine");
   // tier 3
   public static final MaterialId slimesteel = id("slimesteel");
@@ -51,6 +50,7 @@ public final class MaterialIds {
   public static final MaterialId hepatizon = id("hepatizon");
   public static final MaterialId queensSlime = id("queens_slime");
   public static final MaterialId blazingBone = id("blazing_bone");
+  public static final MaterialId blazewood = id("blazewood");
   //public static final MaterialId soulsteel = id("soulsteel");
   // tier 4 - bindings
   public static final MaterialId ancientHide = id("ancient_hide");
@@ -121,6 +121,7 @@ public final class MaterialIds {
   public static final MaterialVariantId bloodshroom        = create(slimewood, "bloodshroom");
   public static final MaterialVariantId enderbark          = create(slimewood, "enderbark");
   // oxidized
+  public static final MaterialVariantId wroughtIron = create(iron, "wrought");
   public static final MaterialVariantId oxidizedIron = create(iron, "oxidized");
   public static final MaterialVariantId oxidizedCopper = create(copper, "oxidized");
 
