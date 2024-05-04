@@ -21,13 +21,10 @@
   "block.tconstruct.mud_bricks_slab": "泥砖台阶",
   "block.tconstruct.mud_bricks_stairs": "泥砖楼梯",
 
-  "block.tconstruct.lavawood": "熔岩木",
-  "block.tconstruct.lavawood_slab": "熔岩木台阶",
-  "block.tconstruct.lavawood_stairs": "熔岩木楼梯",
-
   "block.tconstruct.blazewood": "烈焰木",
   "block.tconstruct.blazewood_slab": "烈焰木台阶",
   "block.tconstruct.blazewood_stairs": "烈焰木楼梯",
+  "block.tconstruct.blazewood_fence": "烈焰木栅栏",
 
   "block.tconstruct.nahuatl": "纳瓦特尔木板",
   "block.tconstruct.nahuatl_slab": "纳瓦特尔台阶",
@@ -308,7 +305,7 @@
   "pattern.tconstruct.round_plate": "圆板",
   "pattern.tconstruct.large_plate": "大板",
   "pattern.tconstruct.bowstring": "弓弦",
-  "pattern.tconstruct.chainmail": "锁链基底",
+  "pattern.tconstruct.maille": "锁链基底",
   "pattern.tconstruct.shield_core": "盾牌基底",
 
   "_comment": "Tool Handle Patterns",
@@ -364,7 +361,7 @@
   "item.tconstruct.chestplate_plating_cast": "胸甲镶板金质铸模",
   "item.tconstruct.leggings_plating_cast": "护腿镶板金质铸模",
   "item.tconstruct.boots_plating_cast": "靴子镶板金质铸模",
-  "item.tconstruct.chainmail_cast": "锁链基底金质铸模",
+  "item.tconstruct.maille_cast": "锁链基底金质铸模",
 
 
   "_comment": "Tinkers Sand Casts",
@@ -414,7 +411,7 @@
   "item.tconstruct.chestplate_plating_sand_cast": "胸甲镶板沙子铸模",
   "item.tconstruct.leggings_plating_sand_cast": "护腿镶板沙子铸模",
   "item.tconstruct.boots_plating_sand_cast": "靴子镶板沙子铸模",
-  "item.tconstruct.chainmail_sand_cast": "锁链基底沙子铸模",
+  "item.tconstruct.maille_sand_cast": "锁链基底沙子铸模",
 
 
   "_comment": "Tinkers Red Sand Casts",
@@ -464,7 +461,7 @@
   "item.tconstruct.chestplate_plating_red_sand_cast": "胸甲镶板红沙铸模",
   "item.tconstruct.leggings_plating_red_sand_cast": "护腿镶板红沙铸模",
   "item.tconstruct.boots_plating_red_sand_cast": "靴子镶板红沙铸模",
-  "item.tconstruct.chainmail_red_sand_cast": "锁链基底红沙铸模",
+  "item.tconstruct.maille_red_sand_cast": "锁链基底红沙铸模",
 
 
   "_comment": "Tinkers Fluids",
@@ -975,7 +972,7 @@
   "item.tconstruct.chestplate_plating": "胸甲镶板",
   "item.tconstruct.leggings_plating": "护腿镶板",
   "item.tconstruct.boots_plating": "靴子镶板",
-  "item.tconstruct.chainmail": "锁链基底",
+  "item.tconstruct.maille": "锁链基底",
   "item.tconstruct.shield_core": "盾牌基底",
 
 
@@ -1471,6 +1468,7 @@
   "material.tconstruct.bamboo": "竹",
   "material.tconstruct.bamboo.flavor": "被敲竹杠了！",
   "material.tconstruct.bamboo.ranged": "拉弓时的移动速度惩罚-10%",
+  "material.tconstruct.bamboo.armor": "举盾时的移动速度惩罚-10%",
 
   "material.tconstruct.rock": "岩石",
   "material.tconstruct.rock.stone": "石头",
@@ -1505,6 +1503,7 @@
   "material.tconstruct.chorus.flavor": "不只是末影人，还有末影娘和末影孩",
   "material.tconstruct.chorus.encyclopedia": "防止目标瞬移，每级+5秒。",
   "material.tconstruct.chorus.ranged": "防止目标瞬移，每级+5秒，也使得箭矢能击中末影人",
+  "material.tconstruct.chorus.armor": "Has a 15% chance per level of preventing attackers from teleporting for a 5 seconds",
 
   "material.tconstruct.string": "线",
   "material.tconstruct.string.flavor": "理论上的最佳材料。",
@@ -1523,25 +1522,31 @@
 
   "__comment": "Tier 2 Materials",
   "material.tconstruct.iron": "铁",
+  "material.tconstruct.iron.wrought": "Wrought Iron",
   "material.tconstruct.iron.oxidized": "粗铁",
   "material.tconstruct.iron.flavor": "他铁了心要保护别人不死，却不能保护他自己，多么讽刺。",
   "material.tconstruct.iron.encyclopedia": "挖掘方块与攻击生物时吸引周围物品。",
   "material.tconstruct.iron.skull_flavor": "违反隔离条例",
+  "material.tconstruct.iron.ranged": "Causes firing arrows to attract nearby items to the holder.",
+  "material.tconstruct.iron.armor": "Reduces damage from projectiles by 10% per level, and grants 5% projectile protection based on the max level.",
   "material.tconstruct.iron.skull_encyclopedia": "近战攻击会将攻击者携带的所有负面效果复制到攻击目标身上",
 
   "material.tconstruct.seared_stone": "焦黑石",
   "material.tconstruct.seared_stone.flavor": "……赴汤蹈火在所不辞！",
   "material.tconstruct.seared_stone.encyclopedia": "挖掘可以在冶炼炉中熔化的方块时，每级挖掘速度+6",
+  "material.tconstruct.seared_stone.armor": "Reduces damage from fire by 10% per level, and reduces fire burn time",
 
   "material.tconstruct.scorched_stone": "焦褐石",
   "material.tconstruct.scorched_stone.flavor": "焦黑石（创始人典藏版）",
   "material.tconstruct.scorched_stone.encyclopedia": "每级对着火目标伤害+2",
+  "material.tconstruct.scorched_stone.armor": "Reduces damage from fire immune mobs by 5% per level, and reduces fire burn time",
 
   "material.tconstruct.copper": "铜",
   "material.tconstruct.copper.oxidized": "氧化铜",
   "material.tconstruct.copper.flavor": "不要被铜锈锈到了。",
   "material.tconstruct.copper.encyclopedia": "在低海拔时额外增加挖掘速度，每低于海平面64格，挖掘速度+6",
   "material.tconstruct.copper.ranged": "在低海拔时额外增加初速度，每低于海平面64格，初速度+0.05",
+  "material.tconstruct.copper.armor": "Grants bonus protection at lower depth, +5% per 64 blocks below 64",
   "material.tconstruct.copper.skull_flavor": "你的攻击令人窒息",
   "material.tconstruct.copper.skull_encyclopedia": "近战攻击使敌人3秒钟无法呼吸",
 
@@ -1566,10 +1571,6 @@
   "material.tconstruct.rose_gold.skull_flavor": "把那件臂铠拿来物尽其用",
   "material.tconstruct.rose_gold.skull_encyclopedia": "最大生命值增加1颗心。每穿戴有一件金盔甲，额外增加1颗心。",
 
-  "material.tconstruct.chain": "锁链",
-  "material.tconstruct.chain.flavor": "你也可以变成用锁链的猎人。",
-  "material.tconstruct.chain.encyclopedia": "工具的耐久度消耗降低25%",
-
   "material.tconstruct.skyslime_vine": "黏液藤蔓",
   "material.tconstruct.skyslime_vine.flavor": "掠翅若蝶，蛰刺似蜂。",
   "material.tconstruct.skyslime_vine.encyclopedia": "取消不站在地面时的挖掘速度削减",
@@ -1584,15 +1585,18 @@
   "material.tconstruct.nahuatl": "纳瓦特尔",
   "material.tconstruct.nahuatl.flavor": "这真的不是黑曜石，如果是的话它的名字就会叫做“黑曜石”了。",
   "material.tconstruct.nahuatl.encyclopedia": "有50%概率在一段时间内造成总共5点伤害。每级增加伤害总量",
+  "material.tconstruct.nahuatl.armor": "Has a 25% chance per level of doing up to 5 damage over time",
 
   "material.tconstruct.amethyst_bronze": "紫水晶青铜",
   "material.tconstruct.amethyst_bronze.flavor": "别和青铜搞混了。",
   "material.tconstruct.amethyst_bronze.encyclopedia": "挖掘不需要工具收集的方块时，每级挖掘速度+0.5，工具种类不匹配时也有效",
   "material.tconstruct.amethyst_bronze.ranged": "每级+0.1初速度，但同时限定箭矢出射方向；前三级分别将方向限定为32、16、8向",
+  "material.tconstruct.amethyst_bronze.armor": "Grants +2.5% attack speed per level at the cost of limiting taken knockback angles to 32, 16, 8, or 4 directions",
 
   "material.tconstruct.pig_iron": "生铁",
   "material.tconstruct.pig_iron.flavor": "这是最强材料，不接受反驳。",
-  "material.tconstruct.pig_iron.encyclopedia": "可以吃，食用后每级增加1点饥饿值和0.1点饱和度",
+  "material.tconstruct.pig_iron.encyclopedia": "Can be eaten to restore 1 hunger per level at 0.6 saturation",
+  "material.tconstruct.pig_iron.armor": "Grants a 15% chance per level of eating the armor for 1 hunger per level at 0.6 saturation",
   "material.tconstruct.pig_iron.skull_flavor": "惹恼我可没有好下场！",
   "material.tconstruct.pig_iron.skull_encyclopedia": "受到来自其他生物的伤害时获得15秒力量效果",
 
@@ -1609,16 +1613,19 @@
   "material.tconstruct.cobalt.flavor": "雄关漫道真如钴，而今回首从头迈。",
   "material.tconstruct.cobalt.encyclopedia": "每级的攻击速度和挖掘速度+7%",
   "material.tconstruct.cobalt.ranged": "每级的拉弓速度和初速度+5%",
+  "material.tconstruct.cobalt.armor": "Reduces damage from melee attacks by 10% per level, and boosts movement speed when using items by 5% per max level",
 
   "material.tconstruct.manyullyn": "玛玉灵",
   "material.tconstruct.manyullyn.flavor": "没几个工匠能叫对这材料的名字。他们说这个材料能够斩断星辰。",
   "material.tconstruct.manyullyn.encyclopedia": "8次连击后，每级伤害+2。",
   "material.tconstruct.manyullyn.ranged": "8次连续发射后，每级箭矢伤害+1（先于初速度计算）",
+  "material.tconstruct.manyullyn.armor": "Temporarily boosts melee damge by 1 after taking damage, capping at twice the total level",
 
   "material.tconstruct.hepatizon": "黑色科林斯青铜",
   "material.tconstruct.hepatizon.flavor": "-科什么斯啊？\n-科林斯啊。\n-什么林斯啊？\n-科林斯啊！\n-科林什么啊？\n-行了你先歇着吧。",
   "material.tconstruct.hepatizon.encyclopedia": "在连续挖掘32个方块后，每级挖掘速度+25%",
   "material.tconstruct.hepatizon.ranged": "在连续发射16次后，每级拉弓速度+25%",
+  "material.tconstruct.hepatizon.armor": "Reduces damage from all attacks by 5% per level if you recently took damage",
 
   "material.tconstruct.queens_slime": "皇后史莱姆",
   "material.tconstruct.queens_slime.flavor": "公主都不是什么善茬，去找个皇后吧。",
@@ -1631,11 +1638,16 @@
   "material.tconstruct.blazing_bone.skull_flavor": "我给他们说了，这东西技术上来说其实是吐火，不是喷火。但是很显然，我发明的东西我却没有命名权",
   "material.tconstruct.blazing_bone.skull_encyclopedia": "能够以火球的形式从物品栏中发射火焰弹。冷却时间5秒，不能在水下使用",
 
+  "material.tconstruct.blazewood": "Blazewood",
+  "material.tconstruct.blazewood.flavor": "The flame protects the flame",
+  "material.tconstruct.blazewood.encyclopedia": "Grants +1% protection against non-fire damage per second of fire, up to +15% from lava's 15 seconds. Bonus reduced by fire resistance.",
+
   "material.tconstruct.soulsteel": "魂钢",
 
   "material.tconstruct.ancient_hide": "远古兽皮",
   "material.tconstruct.ancient_hide.flavor": "用最古老的石头鞣制的皮革",
   "material.tconstruct.ancient_hide.encyclopedia": "增加挖掘方块时掉落物的掉落概率，可与“幸运”同时存在",
+  "material.tconstruct.ancient_hide.armor": "Grants an extra defense slot",
 
   "__comment": "Tier End Materials",
   "material.tconstruct.knightslime": "骑士史莱姆",
@@ -1659,10 +1671,14 @@
   "material.tconstruct.rotten_flesh.skull_encyclopedia": "近战攻击时，会根据穿戴者的燃烧时间延长攻击目标的燃烧时间",
 
   "material.tconstruct.gold": "金",
+  "material.tconstruct.gold.flavor": "Piglins love it.",
+  "material.tconstruct.gold.armor": "Grants 10% protection per level against magic damage and reduces the time of negative potion effects. Also makes piglins friendly.",
   "material.tconstruct.gold.skull_flavor": "金闪闪",
   "material.tconstruct.gold.skull_encyclopedia": "使得某些金矿掉落更多金粒，使金盔甲掉落概率+4%。每穿戴一件金盔甲，金粒和金盔甲的掉落概率也会随之增加。",
 
   "material.tconstruct.obsidian": "黑曜石",
+  "material.tconstruct.obsidian.flavor": "This is an obsidian part, if it was not it would not say \"Obsidian.\"",
+  "material.tconstruct.obsidian.armor": "Grants 10% protection per level against explosions, and reduces explosion knockback",
   "material.tconstruct.debris": "残骸",
   "material.tconstruct.netherite": "下界合金",
   "material.tconstruct.earthslime": "大地黏液",
@@ -2406,7 +2422,7 @@
   "modifier.tconstruct.conducting": "导热",
   "modifier.tconstruct.conducting.flavor": "热学之力！",
   "modifier.tconstruct.conducting.description": "当你着火时，工具会造成成倍的伤害",
-  "modifier.tconstruct.conducting.attack_damage": "着火时最大伤害",
+  "modifier.tconstruct.conducting.boost": "着火时最大伤害增益",
 
   "__comment": "Tier 5 Traits",
   "modifier.tconstruct.enderporting": "末影传送",
@@ -2625,13 +2641,15 @@
   "tool_stat.tconstruct.attack_damage": "近战伤害：",
   "tool_stat.tconstruct.attack_damage.description": "工具近战攻击伤害计算所依据的基准值。\n最终数值受工具本身及其它组分的影响",
 
+  "stat.tconstruct.plating": "Plating",
+  "stat.tconstruct.plating_armor": "Armor Plating",
   "stat.tconstruct.plating_helmet": "头盔镶板",
   "stat.tconstruct.plating_chestplate": "胸甲镶板",
   "stat.tconstruct.plating_leggings": "护腿镶板",
   "stat.tconstruct.plating_boots": "靴子镶板",
   "stat.tconstruct.plating_shield": "盾牌镶板",
   "stat.tconstruct.shield_core": "盾牌基底",
-  "stat.tconstruct.chainmail": "锁链基底",
+  "stat.tconstruct.maille": "锁链基底",
   "tool_stat.tconstruct.armor": "护甲值：",
   "tool_stat.tconstruct.armor.description": "当穿戴时能提供多少保护",
   "tool_stat.tconstruct.armor_toughness": "盔甲韧性：",
@@ -2656,7 +2674,7 @@
   "tool_stat.tconstruct.projectile_damage": "弹射物力量：",
   "tool_stat.tconsturct.projectile_damage.description": "决定这个武器所发射的弹射物的基础伤害或力度",
 
-  "stat.tconstruct.extra": "附件",
+  "stat.tconstruct.binding": "绑定结",
   "stat.tconstruct.bowstring": "弓弦",
   "tool_stat.tconstruct.extra.no_stats": "无数据",
 
