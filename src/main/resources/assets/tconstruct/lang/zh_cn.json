@@ -252,6 +252,7 @@
   "item.tconstruct.modifier_crystal.format": "%s水晶",
   "item.tconstruct.modifier_crystal.missing": "定义强化类型的NBT缺失或无效",
   "item.tconstruct.modifier_crystal.tooltip": "加持于工具后对应强化等级增加1级并消耗相应的强化槽",
+  "item.tconstruct.modifier_crystal.modifier_id": "Modifier ID: %s",
 
   "item.tconstruct.creative_slot": "创造强化槽",
   "item.tconstruct.creative_slot.upgrades": "创造升级槽",
@@ -1708,6 +1709,7 @@
   "material.tconstruct.tungsten.flavor": "你考虑过组建一支重金属乐队吗？",
   "material.tconstruct.tungsten.encyclopedia": "每级挖掘速度+10%，移动速度-10%",
   "material.tconstruct.tungsten.ranged": "每级拉弓速度+15%，移动速度-10%",
+  "material.tconstruct.tungsten.armor": "Grants +2 toughness and -10% movement speed per level",
 
   "material.tconstruct.platinum": "铂",
   "material.tconstruct.platinum.flavor": "它是胜利者的专属",
@@ -1718,11 +1720,13 @@
   "material.tconstruct.lead.flavor": "可以试试用这东西做个三明治",
   "material.tconstruct.lead.encyclopedia": "每级攻击力+10%，移动速度-10%",
   "material.tconstruct.lead.ranged": "每级弹射物力量+10%，移动速度-10%",
+  "material.tconstruct.lead.armor": "Grants +10% knockback resistance and -10% movement speed per level",
 
   "material.tconstruct.silver": "银",
   "material.tconstruct.silver.flavor": "你知道的，这东西没几天就不再闪闪发光了。",
   "material.tconstruct.silver.encyclopedia": "对亡灵生物每级伤害+2.5",
   "material.tconstruct.silver.ranged": "对亡灵生物每级弹射物力量+0.5",
+  "material.tconstruct.silver.armor": "Reduces dmage from undead by 5% per level",
 
   "material.tconstruct.whitestone": "白石",
   "material.tconstruct.whitestone.end": "末地石",
@@ -1732,6 +1736,7 @@
   "material.tconstruct.aluminum": "铝",
   "material.tconstruct.aluminum.flavor": "前代奢侈品，现代寻常物。",
   "material.tconstruct.aluminum.ranged": "拉弓速度+7%，精确度+7%。",
+  "material.tconstruct.aluminum.armor": "Grants +5% use item speed at the cost of 5% loss of protection",
 
 
   "__comment": "Tier 3 Integration Materials",
@@ -1739,21 +1744,25 @@
   "material.tconstruct.steel.flavor": "差不多90%的材料科学内容都是它",
   "material.tconstruct.steel.encyclopedia": "每级耐久度、伤害和速度+4%",
   "material.tconstruct.steel.ranged": "每级耐久度+4%，初速度+3%，弹射物力量+3%",
+  "material.tconstruct.steel.armor": "Grants +4% durability and +1 toughness per level",
 
   "material.tconstruct.bronze": "青铜",
   "material.tconstruct.bronze.flavor": "别和紫水晶青铜搞混了。",
   "material.tconstruct.bronze.encyclopedia": "满耐久度时挖掘速度+6，耐久度低于50%时不增加挖掘速度",
   "material.tconstruct.bronze.ranged": "满耐久度时初速度+0.05，耐久度低于50%时不增加初速度",
+  "material.tconstruct.bronze.armor": "Boosts toughness by 2 per level when at full durability, but boost drops to 0 below 50% durability",
 
   "material.tconstruct.constantan": "康铜",
   "material.tconstruct.constantan.flavor": "诶，康铜！我还从来没见过呢。都起开，让我“康康”！",
   "material.tconstruct.constantan.encyclopedia": "在极冷环境下挖掘速度+7.5，极热环境下则双倍增加",
   "material.tconstruct.constantan.ranged": "在极冷环境下初速度+0.15，极热环境下则双倍增加",
+  "material.tconstruct.constantan.armor": "Grants 5% protection in extreme cold and twice reinforced in extreme heat",
 
   "material.tconstruct.invar": "殷钢",
   "material.tconstruct.invar.flavor": "它不仅能抵御温度的变化，还能避免追捕。",
   "material.tconstruct.invar.encyclopedia": "在中等温度的生物群系伤害+2.5",
   "material.tconstruct.invar.ranged": "在中等温度的生物群系精确度+0.15",
+  "material.tconstruct.invar.armor": "Redudes damage by 5% per level in biomes with neutral temperatures",
 
   "material.tconstruct.electrum": "琥珀金",
   "material.tconstruct.electrum.flavor": "适用于电子元器件。",
@@ -2452,7 +2461,7 @@
   "modifier.tconstruct.dense.description": "工具耐久度更多，但是也更难修复",
   "modifier.tconstruct.sharpweight": "千斤利器",
   "modifier.tconstruct.sharpweight.flavor": "千斤钝器的反义词",
-  "modifier.tconstruct.sharpweight.description": "挖掘速度更快，但是移动变得更加困难",
+  "modifier.tconstruct.sharpweight.description": "更强大，但是移动变得更加困难",
   "modifier.tconstruct.lustrous": "光泽",
   "modifier.tconstruct.lustrous.flavor": "闪闪亮的矿石！",
   "modifier.tconstruct.lustrous.description": "挖掘的矿石额外掉落金属粒",
@@ -2467,16 +2476,21 @@
   "modifier.tconstruct.stoneshield.description": "挖掘的石头有概率保护工具免受之后的耐久度损失",
   "modifier.tconstruct.featherweight": "轻盈",
   "modifier.tconstruct.featherweight.flavor": "轻如鸿毛",
-  "modifier.tconstruct.featherweight.description": "工具更为轻便；拉弓速度和精确度更高",
+  "modifier.tconstruct.featherweight.description": "工具更为轻便；拉弓速度和精确度更高Armor makes it easier to use bows and shields but is not highly defensive",
+  "modifier.tconstruct.featherweight.resistance": "Resistance",
   "modifier.tconstruct.holy": "神圣",
   "modifier.tconstruct.holy.flavor": "死吧，肮脏贱物！",
   "modifier.tconstruct.holy.description": "箭矢对亡灵生物造成额外伤害",
+  "modifier.tconstruct.consecrated": "Consecrated",
+  "modifier.tconstruct.consecrated.flavor": "Die, Fowl Creature!",
+  "modifier.tconstruct.consecrated.description": "Take less damage from the undead",
+  "modifier.tconstruct.consecrated.resistance": "Undead Resistance",
 
 
   "__comment": "Tier 3 Mod Compat Traits",
   "modifier.tconstruct.ductile": "可塑",
   "modifier.tconstruct.ductile.flavor": "延展性出众！",
-  "modifier.tconstruct.ductile.description": "工具更加耐用，挖掘速度更快，伤害更高",
+  "modifier.tconstruct.ductile.description": "Tool is longer lasting, mines faster, damages more and is tougher",
   "modifier.tconstruct.maintained": "持久",
   "modifier.tconstruct.maintained.flavor": "永葆青春，永保锋利！",
   "modifier.tconstruct.maintained.description": "耐久度越高，工具的挖掘速度越快",
@@ -2490,12 +2504,14 @@
   "modifier.tconstruct.temperate.description": "工具在极端温度下加快挖掘速度",
   "modifier.tconstruct.temperate.speed": "恒温速度",
   "modifier.tconstruct.temperate.reinforced": "恒温加强",
+  "modifier.tconstruct.temperate.resistance": "Temperate Resistance",
   "modifier.tconstruct.invariant": "恒久",
   "modifier.tconstruct.invariant.flavor": "满不在乎",
   "modifier.tconstruct.invariant.description": "在中等温度下会造成更多伤害",
   "modifier.tconstruct.invariant.attack_damage": "中等温度伤害",
   "modifier.tconstruct.invariant.accuracy": "中等温度精确度",
   "modifier.tconstruct.decay": "衰变",
+  "modifier.tconstruct.invariant.resistance": "Invariant Resistance",
   "modifier.tconstruct.decay.flavor": "放射性凋零效果",
   "modifier.tconstruct.decay.description": "能对目标生物造成凋零效果，也有概率给持有者也造成同样效果",
   "modifier.tconstruct.overworked": "过劳",
@@ -2719,7 +2735,10 @@
   "stat.tconstruct.slot.display.souls": "灵魂",
   "stat.tconstruct.slot.display.defense": "防御",
 
-  "armor_stat.tconstruct.haste": "挖掘速度",
+  "armor_stat.tconstruct.mining_speed": "Mining Speed",
+  "armor_stat.tconstruct.use_item_speed": "Use Item Speed",
+  "armor_stat.tconstruct.experience": "Experience",
+
 
   "_comment": "Tooltips",
 
