@@ -35,6 +35,7 @@ public class ModifierIds {
   public static final ModifierId reach = id("reach");
 
   // harvest
+  public static final ModifierId haste = id("haste");
   public static final ModifierId blasting = id("blasting");
   public static final ModifierId hydraulic = id("hydraulic");
   public static final ModifierId lightspeed = id("lightspeed");
@@ -43,6 +44,7 @@ public class ModifierIds {
   public static final ModifierId luck    = id("luck");
   public static final ModifierId looting = id("looting");
   public static final ModifierId fortune = id("fortune");
+  public static final ModifierId experienced = id("experienced");
 
   // damage boost
   public static final ModifierId sharpness   = id("sharpness");
@@ -66,6 +68,8 @@ public class ModifierIds {
   public static final ModifierId turtleShell = id("turtle_shell");
   public static final ModifierId wings = id("wings");
   public static final ModifierId knockbackResistance = id("knockback_resistance");
+  // counter
+  public static final ModifierId ricochet = id("ricochet");
   // defense
   public static final ModifierId revitalizing = id("revitalizing");
   // helmet
@@ -78,6 +82,7 @@ public class ModifierIds {
   public static final ModifierId stepUp = id("step_up");
   public static final ModifierId speedy = id("speedy");
   public static final ModifierId toolBelt = id("tool_belt");
+  public static final ModifierId leaping = id("leaping");
   // boots
   public static final ModifierId depthStrider = id("depth_strider");
   public static final ModifierId featherFalling = id("feather_falling");
@@ -86,6 +91,9 @@ public class ModifierIds {
   public static final ModifierId pathMaker = id("path_maker");
   public static final ModifierId plowing = id("plowing");
   public static final ModifierId snowdrift = id("snowdrift");
+  // shield
+  public static final ModifierId boundless = id("boundless");
+
 
   // interaction
   public static final ModifierId pathing = id("pathing");
@@ -101,6 +109,7 @@ public class ModifierIds {
   public static final ModifierId cultivated = id("cultivated");
   public static final ModifierId stringy = id("stringy");
   public static final ModifierId unburdened = id("unburdened");
+  public static final ModifierId depthProtection = id("depth_protection");
   // traits - tier 2
   public static final ModifierId sturdy = id("sturdy");
   public static final ModifierId scorching = id("scorching");
@@ -113,16 +122,25 @@ public class ModifierIds {
   public static final ModifierId sharpweight = id("sharpweight");
   public static final ModifierId heavy = id("heavy");
   public static final ModifierId featherweight = id("featherweight");
+  public static final ModifierId consecrated = id("consecrated");
   // traits - tier 3
   public static final ModifierId overcast = id("overcast");
   public static final ModifierId crumbling = id("crumbling");
   public static final ModifierId enhanced = id("enhanced");
   public static final ModifierId lightweight = id("lightweight");
+  public static final ModifierId crystalbound = id("crystalbound");
+  public static final ModifierId crystalstrike = id("crystalstrike");
   // traits - tier 3 compat
   public static final ModifierId maintained = id("maintained");
   public static final ModifierId ductile = id("ductile");
   // traits - tier 4
+  public static final ModifierId recurrentProtection = id("recurrent_protection");
   public static final ModifierId fortified = id("fortified");
+  public static final ModifierId kinetic = id("kinetic");
+  public static final ModifierId flameBarrier = id("flame_barrier");
+
+  // traits - slimeskull
+  public static final ModifierId mithridatism = id("mithridatism");
 
   // unused for now, will be reassigned later
   public static final ModifierId raging = id("raging");

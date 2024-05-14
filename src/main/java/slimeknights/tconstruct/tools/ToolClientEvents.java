@@ -56,7 +56,7 @@ import slimeknights.tconstruct.library.client.modifiers.TankModifierModel;
 import slimeknights.tconstruct.library.client.particle.AttackParticle;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
-import slimeknights.tconstruct.library.modifiers.modules.unserializable.ArmorStatModule;
+import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorStatModule;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -293,7 +293,7 @@ public class ToolClientEvents extends ClientEventBase {
         speed = tool.getStats().get(ToolStats.USE_ITEM_SPEED);
       }
       // next, add in armor bonus
-      speed = Mth.clamp(speed + ArmorStatModule.getStat(player, TinkerDataKeys.USE_SPEED_BONUS), 0, 1);
+      speed = Mth.clamp(speed + ArmorStatModule.getStat(player, TinkerDataKeys.USE_ITEM_SPEED), 0, 1);
       // update speed, note if the armor stat is 0 and the held tool is not tinkers this is a no-op effectively
       Input input = event.getInput();
       // multiply by 5 to cancel out the vanilla 20%

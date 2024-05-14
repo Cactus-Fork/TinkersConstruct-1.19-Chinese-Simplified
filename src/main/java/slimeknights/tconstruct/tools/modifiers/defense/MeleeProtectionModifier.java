@@ -20,7 +20,7 @@ public class MeleeProtectionModifier extends AbstractProtectionModifier<Modifier
   @Override
   protected void registerHooks(Builder hookBuilder) {
     super.registerHooks(hookBuilder);
-    hookBuilder.addModule(ProtectionModule.source(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.MELEE).eachLevel(2.5f));
+    hookBuilder.addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.MELEE).eachLevel(2.5f));
   }
 
   @Override
@@ -29,7 +29,7 @@ public class MeleeProtectionModifier extends AbstractProtectionModifier<Modifier
     super.set(data, slot, scaledLevel, context);
     float newMax = data.getMax();
     if (oldMax != newMax) {
-      context.getTinkerData().ifPresent(d -> d.add(TinkerDataKeys.USE_SPEED_BONUS, (newMax - oldMax) * 0.05f));
+      context.getTinkerData().ifPresent(d -> d.add(TinkerDataKeys.USE_ITEM_SPEED, (newMax - oldMax) * 0.05f));
     }
   }
 }

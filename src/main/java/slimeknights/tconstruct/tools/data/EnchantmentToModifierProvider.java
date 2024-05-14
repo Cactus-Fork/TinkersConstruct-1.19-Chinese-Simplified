@@ -42,7 +42,7 @@ public class EnchantmentToModifierProvider extends AbstractEnchantmentToModifier
     add(Enchantments.IMPALING, ModifierIds.antiaquatic);
 
     // harvest
-    add(Enchantments.BLOCK_EFFICIENCY, TinkerModifiers.haste.getId());
+    add(Enchantments.BLOCK_EFFICIENCY, ModifierIds.haste);
     add(Enchantments.SILK_TOUCH, TinkerModifiers.silky.getId());
     add(Enchantments.BLOCK_FORTUNE, ModifierIds.luck);
 
@@ -57,7 +57,7 @@ public class EnchantmentToModifierProvider extends AbstractEnchantmentToModifier
 
     // tag compat
     // upgrade
-    addCompat(TinkerModifiers.experienced.getId());
+    addCompat(ModifierIds.experienced);
     addCompat(ModifierIds.killager);
     addCompat(TinkerModifiers.magnetic.getId());
     addCompat(TinkerModifiers.necrotic.getId());
