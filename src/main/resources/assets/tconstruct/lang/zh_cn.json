@@ -2717,7 +2717,7 @@
 
   "tool_stat.tconstruct.overslime": "黏液覆层容量：",
   "tool_stat.tconstruct.overslime.description": "此工具上黏液覆层堆积的最大值",
-  "tool_stat.tconstruct.tank_capacity": "储罐容量",
+  "tool_stat.tconstruct.tank_capacity": "储罐容量：",
   "tool_stat.tconstruct.tank_capacity.description": "工具储罐中能容纳流体的最大值",
   "tool_stat.tconstruct.tank_capacity.fluid": "流体：",
 
