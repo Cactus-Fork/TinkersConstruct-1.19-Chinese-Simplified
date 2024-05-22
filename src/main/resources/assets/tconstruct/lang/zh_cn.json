@@ -1872,7 +1872,7 @@
   "modifier.tconstruct.severing.description": "使被工具击杀的近战目标有概率掉落头颅及其它身体部位！",
   "modifier.tconstruct.fiery": "怒火",
   "modifier.tconstruct.fiery.flavor": "下界烈火灌注其中！",
-  "modifier.tconstruct.fiery.description": "点燃近战或远程攻击的目标",
+  "modifier.tconstruct.fiery.description": "点燃近战、远程以及被动攻击的目标",
   "modifier.tconstruct.necrotic": "噬生",
   "modifier.tconstruct.necrotic.flavor": "吸血鬼！",
   "modifier.tconstruct.necrotic.description": "暴击敌人会榨取他们的生命来滋养你",
@@ -1950,7 +1950,7 @@
   "modifier.tconstruct.blindshot.description": "降低武器的精确度",
   "modifier.tconstruct.freezing": "冰冻",
   "modifier.tconstruct.freezing.flavor": "冻住不许走！",
-  "modifier.tconstruct.freezing.description": "箭矢能使目标进入冰冻状态",
+  "modifier.tconstruct.freezing.description": "近战攻击、着火的箭矢以及被动攻击能使目标进入冰冻状态",
   "modifier.tconstruct.bulk_quiver": "自容箭袋",
   "modifier.tconstruct.bulk_quiver.flavor": "手持箭也没那么厉害",
   "modifier.tconstruct.bulk_quiver.description": "在你的箭用尽后，弓能从其物品栏中发射箭矢；潜行并按下“攻击”键以访问其物品栏",
@@ -2715,6 +2715,12 @@
   "tool_stat.tconstruct.block_angle": "格挡角度：",
   "tool_stat.tconstruct.block_angle.description": "防御时前方能格挡攻击的总角度，超出该角度范围的攻击不会被阻挡",
 
+  "tool_stat.tconstruct.overslime": "Overslime Capacity: ",
+  "tool_stat.tconstruct.overslime.description": "Maximum amount of overslime allowed on this tool.",
+  "tool_stat.tconstruct.tank_capacity": "Tank Capacity: ",
+  "tool_stat.tconstruct.tank_capacity.description": "Maximum amount of fluid that can be stored in this tool's tank.",
+  "tool_stat.tconstruct.tank_capacity.fluid": "Fluid: ",
+
   "stat.tconstruct.repair_kit": "修理件",
   "stat.tconstruct.skull": "黏液头颅",
 
@@ -2846,8 +2852,10 @@
   "recipe.tconstruct.modifier.not_enough_slot": "至少需要1个%s槽来添加该强化",
   "recipe.tconstruct.modifier.not_enough_slots": "至少需要%s个%s槽来添加该强化",
   "recipe.tconstruct.modifier.validate_slots": "这项改动留给工具的%s槽过少",
-  "recipe.tconstruct.modifier.min_level": "此配方至少需要%s才可使用",
-  "recipe.tconstruct.modifier.max_level": "%s的等级不可大于%s",
+  "recipe.tconstruct.modifier.min_level": "This recipe requires the tool to have at least %s to apply (ignoring traits)",
+  "recipe.tconstruct.modifier.max_level": "%s level cannot be above %s (ignoring traits)",
+  "recipe.tconstruct.modifier.min_level.traits": "This recipe requires the tool to have at least %s to apply (including traits)",
+  "recipe.tconstruct.modifier.max_level.traits": "%s level cannot be above %s (including traits)",
 
   "recipe.tconstruct.tool_recycling": "工具回收",
   "recipe.tconstruct.tool_recycling.info": "从组装此工具的工具部件中选择你想回收的一个。根据工具剩余的耐久度多少，甚至有可能回收第2个工具部件。",
