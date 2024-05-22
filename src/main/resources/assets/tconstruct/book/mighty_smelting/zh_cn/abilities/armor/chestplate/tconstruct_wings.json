@@ -2,12 +2,12 @@
   "modifier_id": "tconstruct:wings",
   "text": [
     {
-      "text": "This isn't flying, this is falling! With style!"
+      "text": "你不是在飞行，你这是在滑翔降落。有个性！"
     }
   ],
   "effects": [
-    "Allows gliding by jumping whil in air",
-    "Single level",
-    "Requires 2 ability slots"
+    "允许在半空中跳跃滑翔",
+    "单个等级",
+    "需要2个能力槽"
   ]
 }
