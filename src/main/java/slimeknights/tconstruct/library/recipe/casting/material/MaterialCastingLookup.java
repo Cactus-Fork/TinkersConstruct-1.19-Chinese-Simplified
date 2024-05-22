@@ -7,17 +7,17 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator.DuelSidedListener;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
-import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.utils.SimpleCache;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -33,11 +33,35 @@ public class MaterialCastingLookup {
   /** Fluids that composite into materials */
   private static final List<MaterialFluidRecipe> COMPOSITE_FLUIDS = new ArrayList<>();
 
+  /** Cache for casting recipe for a given fluid */
+  private static final SimpleCache<Fluid,MaterialFluidRecipe> CASTING_CACHE = new SimpleCache<>(fluid -> {
+    for (MaterialFluidRecipe recipe : CASTING_FLUIDS) {
+      if (recipe.matches(fluid)) {
+        return recipe;
+      }
+    }
+    return MaterialFluidRecipe.EMPTY;
+  });
+
+  private record CompositeCacheKey(Fluid fluid, MaterialVariantId input) {}
+
+  /** Cache for a composite recipe for a given material */
+  private static final SimpleCache<CompositeCacheKey,MaterialFluidRecipe> COMPOSITE_CACHE = new SimpleCache<>(key -> {
+    for (MaterialFluidRecipe recipe : COMPOSITE_FLUIDS) {
+      if (recipe.matches(key.fluid, key.input)) {
+        return recipe;
+      }
+    }
+    return MaterialFluidRecipe.EMPTY;
+  });
+
   /** Listener for clearing the recipe cache on recipe reload */
   private static final DuelSidedListener LISTENER = RecipeCacheInvalidator.addDuelSidedListener(() -> {
     ITEM_COST_LOOKUP.clear();
     CASTING_FLUIDS.clear();
+    CASTING_CACHE.clear();
     COMPOSITE_FLUIDS.clear();
+    COMPOSITE_CACHE.clear();
   });
 
   /** Shared logic to register parts */
@@ -96,31 +120,21 @@ public class MaterialCastingLookup {
 
   /**
    * Gets the material the given fluid casts into
-   * @param inventory  Inventory
+   * @param fluid  Fluid
    * @return  Recipe
    */
-  public static Optional<MaterialFluidRecipe> getCastingFluid(ICastingContainer inventory) {
-    // TODO: reconsider cache
-    for (MaterialFluidRecipe recipe : CASTING_FLUIDS) {
-      if (recipe.matches(inventory)) {
-        return Optional.of(recipe);
-      }
-    }
-    return Optional.empty();
+  public static MaterialFluidRecipe getCastingFluid(Fluid fluid) {
+    return CASTING_CACHE.apply(fluid);
   }
 
   /**
    * Gets the composite fluid recipe for the given inventory
-   * @param inventory  Inventory
+   * @param fluid     Fluid
+   * @param material  Material input
    * @return  Composite fluid recipe
    */
-  public static Optional<MaterialFluidRecipe> getCompositeFluid(ICastingContainer inventory) {
-    for (MaterialFluidRecipe recipe : COMPOSITE_FLUIDS) {
-      if (recipe.matches(inventory)) {
-        return Optional.of(recipe);
-      }
-    }
-    return Optional.empty();
+  public static MaterialFluidRecipe getCompositeFluid(Fluid fluid, MaterialVariantId material) {
+    return COMPOSITE_CACHE.apply(new CompositeCacheKey(fluid, material));
   }
 
   /**

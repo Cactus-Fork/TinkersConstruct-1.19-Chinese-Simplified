@@ -10,21 +10,18 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.library.materials.IMaterialRegistry;
-import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
-import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
+import slimeknights.tconstruct.library.modifiers.hook.build.ModifierRemovalHook;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.definition.module.material.MaterialRepairModule;
-import slimeknights.tconstruct.library.tools.definition.module.material.MaterialRepairToolHook;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolPartsHook;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
@@ -32,12 +29,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.tables.TinkerTables;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
 /**
@@ -94,8 +86,8 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
   public RecipeResult<ItemStack> getValidatedResult(ITinkerStationContainer inv) {
     // copy the tool NBT to ensure the original tool is intact
     ItemStack tinkerable = inv.getTinkerableStack();
-    ToolStack tool = ToolStack.from(tinkerable);
-    List<IToolPart> parts = ToolPartsHook.parts(tool.getDefinition());
+    ToolStack original = ToolStack.from(tinkerable);
+    List<IToolPart> parts = ToolPartsHook.parts(original.getDefinition());
 
     // prevent part swapping on large tools in small tables
     if (parts.size() > inv.getInputCount()) {
@@ -131,49 +123,18 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
         }
 
         // ensure there is a change in the part or we are repairing the tool, note we compare variants so you could swap oak head for birch head
-        MaterialVariant toolVariant = tool.getMaterial(index);
+        MaterialVariant toolVariant = original.getMaterial(index);
         boolean didChange = !toolVariant.sameVariant(partVariant);
-        int repairDurability = MaterialRepairModule.getDurability(null, partVariant.getId(), part.getStatType());
-        if (!didChange && (tool.getDamage() == 0 || repairDurability == 0)) {
+        float repairDurability = MaterialRepairModule.getDurability(null, partVariant.getId(), part.getStatType());
+        if (!didChange && (original.getDamage() == 0 || repairDurability == 0)) {
           return RecipeResult.pass();
         }
 
         // actual update
-        tool = tool.copy();
+        ToolStack tool = original.copy();
 
         // determine which modifiers are going to be removed
-        List<Modifier> actuallyRemoved = Collections.emptyList();
         if (didChange) {
-          Map<Modifier,Integer> removedTraits = new HashMap<>();
-          // start with a map of all modifiers on the old part
-          // TODO: this logic looks correct, but I feel like it might be more complicated than needed
-          // basically, if the new part has the modifier, its not going to be removed no matter how the levels differ, a set should suffice
-          IMaterialRegistry materialRegistry = MaterialRegistry.getInstance();
-          for (ModifierEntry entry : materialRegistry.getTraits(toolVariant.getId(), part.getStatType())) {
-            removedTraits.put(entry.getModifier(), entry.getLevel());
-          }
-          // subtract any modifiers on the new part
-          for (ModifierEntry entry : materialRegistry.getTraits(partVariant.getId(), part.getStatType())) {
-            Modifier modifier = entry.getModifier();
-            if (removedTraits.containsKey(modifier)) {
-              int value = removedTraits.get(modifier) - entry.getLevel();
-              if (value <= 0) {
-                removedTraits.remove(modifier);
-              } else {
-                removedTraits.put(modifier, value);
-              }
-            }
-          }
-          // for the remainder, fill a list as we have another hooks to call with them
-          actuallyRemoved = new ArrayList<>();
-          for (Entry<Modifier,Integer> entry : removedTraits.entrySet()) {
-            Modifier modifier = entry.getKey();
-            if (tool.getModifierLevel(modifier) <= entry.getValue()) {
-              modifier.getHook(ModifierHooks.RAW_DATA).removeRawData(tool, modifier, tool.getRestrictedNBT());
-              actuallyRemoved.add(modifier);
-            }
-          }
-
           // do the actual part replacement
           tool.replaceMaterial(index, partVariant);
         }
@@ -184,18 +145,18 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
           // must have a registered recipe
           int cost = MaterialCastingLookup.getItemCost(part);
           if (cost > 0) {
-            // apply tool repair factor and modifier repair boost, note this works because the material has been swapped already
-            float factor = cost / MaterialRecipe.INGOTS_PER_REPAIR * MaterialRepairToolHook.repairFactor(tool, partVariant.getId());
-            if (factor > 0) {
+            // takes 3 ingots for a full repair, however count the head cost in the repair amount
+            repairDurability *= cost / MaterialRecipe.INGOTS_PER_REPAIR;
+            if (repairDurability > 0) {
               for (ModifierEntry entry : tool.getModifierList()) {
-                factor = entry.getHook(ModifierHooks.REPAIR_FACTOR).getRepairFactor(tool, entry, factor);
-                if (factor <= 0) {
+                repairDurability = entry.getHook(ModifierHooks.REPAIR_FACTOR).getRepairFactor(tool, entry, repairDurability);
+                if (repairDurability <= 0) {
                   break;
                 }
               }
             }
-            if (factor > 0) {
-              ToolDamageUtil.repair(tool, (int)(repairDurability * factor));
+            if (repairDurability > 0) {
+              ToolDamageUtil.repair(tool, (int)repairDurability);
             }
           }
         }
@@ -206,9 +167,8 @@ public class TinkerStationPartSwapping implements ITinkerStationRecipe {
         if (error != null) {
           return RecipeResult.failure(error);
         }
-        // finally, validate removed modifiers
-        for (Modifier modifier : actuallyRemoved) {
-          error = modifier.getHook(ModifierHooks.REMOVE).onRemoved(tool, modifier);
+        if (didChange) {
+          error = ModifierRemovalHook.onRemoved(original, tool);
           if (error != null) {
             return RecipeResult.failure(error);
           }

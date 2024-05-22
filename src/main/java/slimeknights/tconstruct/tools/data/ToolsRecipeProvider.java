@@ -28,6 +28,7 @@ import slimeknights.tconstruct.tools.TinkerToolParts;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.data.material.MaterialIds;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
+import slimeknights.tconstruct.tools.stats.PlatingMaterialStats;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 
@@ -234,9 +235,9 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
     partCasting(consumer, TinkerToolParts.plating.get(ArmorSlotType.BOOTS),      TinkerSmeltery.bootsPlatingCast,      2, partFolder, castFolder);
     partRecipes(consumer, TinkerToolParts.maille, TinkerSmeltery.mailleCast, 2, partFolder, castFolder);
 
-    // bowstrings and shield cores are part builder exclusive
-    uncastablePart(consumer, TinkerToolParts.bowstring.get(),  1, partFolder);
-    uncastablePart(consumer, TinkerToolParts.shieldCore.get(), 4, partFolder);
+    // bowstrings and shield cores are part builder exclusive. Shield core additionally disallows anything that conflicts with casting shield plating (obsidian/nahuatl conflict)
+    uncastablePart(consumer, TinkerToolParts.bowstring.get(), 1, null, partFolder);
+    uncastablePart(consumer, TinkerToolParts.shieldCore.get(), 4, PlatingMaterialStats.SHIELD.getId(), partFolder);
   }
 
   /** Helper to create a casting recipe for a slimeskull variant */

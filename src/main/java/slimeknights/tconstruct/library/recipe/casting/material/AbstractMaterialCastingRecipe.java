@@ -13,7 +13,6 @@ import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
 import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -25,8 +24,6 @@ public abstract class AbstractMaterialCastingRecipe extends AbstractCastingRecip
   @Getter
   private final RecipeSerializer<?> serializer;
   protected final int itemCost;
-  protected Optional<MaterialFluidRecipe> cachedFluidRecipe = Optional.empty();
-
   public AbstractMaterialCastingRecipe(TypeAwareRecipeSerializer<?> serializer, ResourceLocation id, String group, Ingredient cast, int itemCost, boolean consumed, boolean switchSlots) {
     super(serializer.getType(), id, group, cast, consumed, switchSlots);
     this.serializer = serializer;
@@ -34,34 +31,22 @@ public abstract class AbstractMaterialCastingRecipe extends AbstractCastingRecip
   }
 
   /** Gets the material fluid recipe for the given recipe */
-  protected Optional<MaterialFluidRecipe> getMaterialFluid(ICastingContainer inv) {
-    return MaterialCastingLookup.getCastingFluid(inv);
-  }
-
-  /** Gets the cached fluid recipe if it still matches, refetches if not */
-  protected Optional<MaterialFluidRecipe> getCachedMaterialFluid(ICastingContainer inv) {
-    Optional<MaterialFluidRecipe> fluidRecipe = cachedFluidRecipe;
-    if (fluidRecipe.filter(recipe -> recipe.matches(inv)).isEmpty()) {
-      fluidRecipe = getMaterialFluid(inv);
-      if (fluidRecipe.isPresent()) {
-        cachedFluidRecipe = fluidRecipe;
-      }
-    }
-    return fluidRecipe;
+  protected MaterialFluidRecipe getFluidRecipe(ICastingContainer inv) {
+    return MaterialCastingLookup.getCastingFluid(inv.getFluid());
   }
 
   @Override
   public int getCoolingTime(ICastingContainer inv) {
-    return getCachedMaterialFluid(inv)
-      .map(recipe -> ICastingRecipe.calcCoolingTime(recipe.getTemperature(), recipe.getFluidAmount(inv.getFluid()) * itemCost))
-      .orElse(1);
+    MaterialFluidRecipe recipe = getFluidRecipe(inv);
+    if (recipe != MaterialFluidRecipe.EMPTY) {
+      return ICastingRecipe.calcCoolingTime(recipe.getTemperature(), recipe.getFluidAmount(inv.getFluid()) * itemCost);
+    }
+    return 1;
   }
 
   @Override
   public int getFluidAmount(ICastingContainer inv) {
-    return getCachedMaterialFluid(inv)
-             .map(recipe -> recipe.getFluidAmount(inv.getFluid()))
-             .orElse(1) * this.itemCost;
+    return getFluidRecipe(inv).getFluidAmount(inv.getFluid()) * itemCost;
   }
 
   /** Resizes the list of the fluids with respect to the item cost */

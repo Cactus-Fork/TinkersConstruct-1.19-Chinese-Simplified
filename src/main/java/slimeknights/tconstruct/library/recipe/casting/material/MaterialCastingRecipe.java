@@ -48,7 +48,8 @@ public class MaterialCastingRecipe extends AbstractMaterialCastingRecipe impleme
     if (!this.getCast().test(inv.getStack())) {
       return false;
     }
-    return getCachedMaterialFluid(inv).filter(recipe -> result.canUseMaterial(recipe.getOutput().getId())).isPresent();
+    MaterialFluidRecipe fluid = getFluidRecipe(inv);
+    return fluid != MaterialFluidRecipe.EMPTY && result.canUseMaterial(fluid.getOutput().getId());
   }
 
   @Override
@@ -58,8 +59,7 @@ public class MaterialCastingRecipe extends AbstractMaterialCastingRecipe impleme
 
   @Override
   public ItemStack assemble(ICastingContainer inv) {
-    MaterialVariant material = getCachedMaterialFluid(inv).map(MaterialFluidRecipe::getOutput).orElse(MaterialVariant.UNKNOWN);
-    return result.withMaterial(material.getVariant());
+    return result.withMaterial(getFluidRecipe(inv).getOutput().getVariant());
   }
 
   /* JEI display */

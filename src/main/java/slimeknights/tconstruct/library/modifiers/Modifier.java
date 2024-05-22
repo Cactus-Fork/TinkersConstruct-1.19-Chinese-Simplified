@@ -1,9 +1,7 @@
 package slimeknights.tconstruct.library.modifiers;
 
-import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
@@ -18,7 +16,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.storage.loot.LootContext;
 import slimeknights.mantle.client.ResourceColorManager;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry.IGenericLoader;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry.IHaveLoader;
@@ -47,29 +44,6 @@ import java.util.Random;
  */
 @SuppressWarnings("unused")
 public class Modifier implements IHaveLoader, IdAwareObject {
-  /** Default loader instance for a modifier with no properties */
-  public static final IGenericLoader<Modifier> DEFAULT_LOADER = new IGenericLoader<>() {
-    @Override
-    public Modifier deserialize(JsonObject json) {
-      return new Modifier();
-    }
-
-    @Override
-    public Modifier fromNetwork(FriendlyByteBuf buffer) {
-      return new Modifier();
-    }
-
-    @Override
-    public void serialize(Modifier object, JsonObject json) {
-      if (object.getClass() != Modifier.class) {
-        throw new IllegalStateException("Attempting to serialize a subclass of Modifier using the default modifier loader, this likely means the modifier did not override getLoader()");
-      }
-    }
-
-    @Override
-    public void toNetwork(Modifier object, FriendlyByteBuf buffer) {}
-  };
-
   /** Modifier random instance, use for chance based effects */
   protected static Random RANDOM = new Random();
 
@@ -116,7 +90,7 @@ public class Modifier implements IHaveLoader, IdAwareObject {
 
   @Override
   public IGenericLoader<? extends Modifier> getLoader() {
-    return DEFAULT_LOADER;
+    throw new IllegalStateException("Attempting to serialize an unserializable modifier. This likely means the modifier did not override getLoader()");
   }
 
   /**
@@ -337,16 +311,6 @@ public class Modifier implements IHaveLoader, IdAwareObject {
 
 
   /* Hooks */
-
-  /**
-   * Called on entity or block loot to allow modifying loot
-   * @param tool           Current tool instance
-   * @param modifier          Modifier level
-   * @param generatedLoot  Current loot list before this modifier
-   * @param context        Full loot context
-   * TODO: can we ditch this hook in favor of just using GLMs? Just need a loot condition to detect a modifier, and it gives us a lot more flexability
-   */
-  public void processLoot(IToolStackView tool, ModifierEntry modifier, List<ItemStack> generatedLoot, LootContext context) {}
 
 
   /* Modules */

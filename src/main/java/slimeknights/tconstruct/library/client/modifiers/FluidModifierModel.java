@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.library.client.modifiers;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.math.Transformation;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -17,15 +17,16 @@ import net.minecraftforge.fluids.FluidStack;
 import slimeknights.mantle.client.model.util.ColoredBlockModel;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.client.model.FluidContainerModel;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
-import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability;
-import slimeknights.tconstruct.library.tools.capability.ToolFluidCapability.FluidModifierHook;
+import slimeknights.tconstruct.library.tools.capability.fluid.ToolTankHelper;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
-import slimeknights.tconstruct.library.client.model.FluidContainerModel;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -35,35 +36,35 @@ public class FluidModifierModel extends NormalModifierModel {
   /** Location used for baking dynamic models, name does not matter so just using a constant */
   private static final ResourceLocation BAKE_LOCATION = TConstruct.getResource("dynamic_fluid_model");
 
-  /** Constant unbaked model instance, as they are all the same */
-  public static final IUnbakedModifierModel UNBAKED_INSTANCE = (smallGetter, largeGetter) -> {
-    Material smallTexture = smallGetter.apply("");
-    Material largeTexture = largeGetter.apply("");
-    Material smallFull = smallGetter.apply("_full");
-    Material largeFull = largeGetter.apply("_full");
-    if (smallTexture != null || largeTexture != null) {
-      return new FluidModifierModel(smallTexture, largeTexture, smallFull, largeFull);
-    }
-    return null;
-  };
+  /**
+   * The vanilla model bakery uses an orgin of 0.5,0.5,0.5, and forges dynamic fluid code uses the vanilla model bakery. (see{@link net.minecraft.client.renderer.block.model.FaceBakery} {@code #rotateVertexBy()} for vanilla bakery)
+   * However, item layer wants an origin of 0,0,0, which is what we expect in our tool models. So cancel out the origin.
+  */
+  private static final Vector3f ORIGIN = new Vector3f(-0.5f, -0.5f, -0.5f);
 
+  /** Constant unbaked model instance, as they are all the same */
+  public static final IUnbakedModifierModel UNBAKED_INSTANCE = new Unbaked(ToolTankHelper.TANK_HELPER);
+
+  /** Logic for fetching the fluid */
+  protected final ToolTankHelper helper;
   /** Textures to show */
   protected final Material[] fluidTextures;
 
-  protected FluidModifierModel(@Nullable Material smallTexture, @Nullable Material largeTexture, Material[] fluidTextures) {
+  protected FluidModifierModel(ToolTankHelper helper, @Nullable Material smallTexture, @Nullable Material largeTexture, Material[] fluidTextures) {
     super(smallTexture, largeTexture);
+    this.helper = helper;
     this.fluidTextures = fluidTextures;
   }
 
-  public FluidModifierModel(@Nullable Material smallTexture, @Nullable Material largeTexture,
-														@Nullable Material smallFull, @Nullable Material largeFull) {
-    this(smallTexture, largeTexture, new Material[] { smallFull, largeFull });
+  public FluidModifierModel(ToolTankHelper helper, @Nullable Material smallTexture, @Nullable Material largeTexture,
+                            @Nullable Material smallFull, @Nullable Material largeFull) {
+    this(helper, smallTexture, largeTexture, new Material[] { smallFull, largeFull });
   }
 
   @Nullable
   @Override
   public Object getCacheKey(IToolStackView tool, ModifierEntry entry) {
-    FluidStack fluid = entry.getHook(ToolFluidCapability.HOOK).getFluidInTank(tool, entry, 0);
+    FluidStack fluid = helper.getFluid(tool);
     if (!fluid.isEmpty()) {
       // cache by modifier and fluid
       return new FluidModifierCacheKey(entry.getModifier(), fluid.getFluid());
@@ -72,30 +73,28 @@ public class FluidModifierModel extends NormalModifierModel {
   }
 
   @Nullable
-  protected Material getTemplate(FluidModifierHook tank, IToolStackView tool, ModifierEntry entry, FluidStack fluid, boolean isLarge) {
+  protected Material getTemplate(IToolStackView tool, ModifierEntry entry, FluidStack fluid, boolean isLarge) {
     return fluidTextures[(isLarge ? 1 : 0)];
   }
 
   @Override
-  public ImmutableList<BakedQuad> getQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, @Nullable ItemLayerPixels pixels) {
+  public void addQuads(IToolStackView tool, ModifierEntry entry, Function<Material,TextureAtlasSprite> spriteGetter, Transformation transforms, boolean isLarge, int startTintIndex, Consumer<Collection<BakedQuad>> quadConsumer, @Nullable ItemLayerPixels pixels) {
     // first, determine stored fluid
-    ImmutableList<BakedQuad> quads = super.getQuads(tool, entry, spriteGetter, transforms, isLarge, startTintIndex, pixels);
     // modifier must be tank
-    // TODO: is there anything that can be done about the fluid? to prevent weird offsets?
-    FluidModifierHook tank = entry.getHook(ToolFluidCapability.HOOK);
-    FluidStack fluid = tank.getFluidInTank(tool, entry, 0);
+    FluidStack fluid = helper.getFluid(tool);
     // must have fluid
     if (!fluid.isEmpty()) {
       // must have texture for the proper state
-      Material template = getTemplate(tank, tool, entry, fluid, isLarge);
+      Material template = getTemplate(tool, entry, fluid, isLarge);
       if (template != null) {
         // fluid properties
         IClientFluidTypeExtensions attributes = IClientFluidTypeExtensions.of(fluid.getFluid());
         TextureAtlasSprite fluidSprite = spriteGetter.apply(new Material(InventoryMenu.BLOCK_ATLAS, attributes.getStillTexture(fluid)));
 
         // build fluid like the forge dynamic container model
-        List<BlockElement> unbaked = UnbakedGeometryHelper.createUnbakedItemMaskElements(1, spriteGetter.apply(template)); // Use template as mask
-        List<BakedQuad> fluidQuads = UnbakedGeometryHelper.bakeElements(unbaked, mat -> fluidSprite, new SimpleModelState(transforms.compose(FluidContainerModel.FLUID_TRANSFORM), false), BAKE_LOCATION); // Bake with fluid texture
+        List<BlockElement> unbaked = UnbakedGeometryHelper.createUnbakedItemMaskElements(-1, spriteGetter.apply(template)); // Use template as mask
+        // TODO: is there anything that can be done about the fluid? to prevent weird offsets?
+        List<BakedQuad> fluidQuads = UnbakedGeometryHelper.bakeElements(unbaked, mat -> fluidSprite, new SimpleModelState(transforms.applyOrigin(ORIGIN).compose(FluidContainerModel.FLUID_TRANSFORM), false), BAKE_LOCATION); // Bake with fluid texture
 
         // apply brightness and color
         int luminosity = fluid.getFluid().getFluidType().getLightLevel(fluid);
@@ -106,12 +105,26 @@ public class FluidModifierModel extends NormalModifierModel {
         if (color != -1) {
           ColoredBlockModel.applyColorQuadTransformer(color).processInPlace(fluidQuads);
         }
-        quads = ImmutableList.copyOf(fluidQuads);
+        quadConsumer.accept(fluidQuads);
       }
     }
-    return quads;
+    // add tank outline quads
+    super.addQuads(tool, entry, spriteGetter, transforms, isLarge, startTintIndex, quadConsumer, pixels);
   }
 
   /** Cache key for the model */
   private record FluidModifierCacheKey(Modifier modifier, Fluid fluid) {}
+
+  public record Unbaked(ToolTankHelper helper) implements IUnbakedModifierModel {
+    @Nullable
+    @Override
+    public IBakedModifierModel forTool(Function<String,Material> smallGetter, Function<String,Material> largeGetter) {
+      Material smallTexture = smallGetter.apply("");
+      Material largeTexture = largeGetter.apply("");
+      if (smallTexture != null || largeTexture != null) {
+        return new FluidModifierModel(helper, smallTexture, largeTexture, smallGetter.apply("_full"), largeGetter.apply("_full"));
+      }
+      return null;
+    }
+  }
 }
