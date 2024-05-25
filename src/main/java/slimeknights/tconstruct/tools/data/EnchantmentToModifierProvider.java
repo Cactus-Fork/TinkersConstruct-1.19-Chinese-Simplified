@@ -30,6 +30,7 @@ public class EnchantmentToModifierProvider extends AbstractEnchantmentToModifier
     add(Enchantments.DEPTH_STRIDER, ModifierIds.depthStrider);
     add(Enchantments.FROST_WALKER, ModifierIds.frostWalker);
     add(Enchantments.SOUL_SPEED, TinkerModifiers.soulspeed.getId());
+    add(Enchantments.SWIFT_SNEAK, ModifierIds.swiftSneak);
 
     // melee
     add(Enchantments.SHARPNESS, ModifierIds.sharpness);
@@ -63,7 +64,7 @@ public class EnchantmentToModifierProvider extends AbstractEnchantmentToModifier
     addCompat(TinkerModifiers.necrotic.getId());
     addCompat(TinkerModifiers.severing.getId());
     addCompat(ModifierIds.stepUp);
-    addCompat(TinkerModifiers.soulbound.getId());
+    addCompat(ModifierIds.soulbound);
     addCompat(ModifierIds.trueshot);
 
     // defense
