@@ -318,6 +318,8 @@
 
   "_comment": "Tinkers Gold Casts",
 
+  "item.tconstruct.cast.cost": "材料消耗：%d",
+
   "item.tconstruct.blank_cast": "空白金质铸模",
   "item.tconstruct.ingot_cast": "锭金质铸模",
   "item.tconstruct.nugget_cast": "粒金质铸模",
@@ -2819,9 +2821,9 @@
   "gui.tconstruct.modifier_worktable.info": "添加工具和正确的配方物品以调配此工具的强化。",
   "recipe.tconstruct.modifier_set_worktable.empty": "工具没有可调配的强化",
 
-  "recipe.tconstruct.remove_modifier.title": "强化移除",
+  "recipe.tconstruct.remove_modifier.modifiers": "强化移除",
   "recipe.tconstruct.remove_modifier.description": "选择一个强化以移除，所占用的槽位将会返还，但是加持强化所消耗的物品将不会返还，其中的流体将会被销毁，而容器则会直接返还",
-  "recipe.tconstruct.remove_modifier.no_modifiers": "工具不具有任何可移除强化",
+  "recipe.tconstruct.remove_modifier.no_modifiers": "工具在此配方下不具有任何可移除强化",
 
   "recipe.tconstruct.modifier_sorting.title": "强化排序",
   "recipe.tconstruct.modifier_sorting.description": "选择一个强化以将其纹理位置与在列表中的下一个强化的纹理位置互换。互换时不消耗配方物品",
@@ -2838,15 +2840,14 @@
   "recipe.tconstruct.attack_modifiers.removing.title": "交互切换",
   "recipe.tconstruct.attack_modifiers.removing.description": "将交互强化的触发键位更改至交互键",
 
-  "recipe.tconstruct.extract_modifier.title": "强化提取",
-  "recipe.tconstruct.extract_modifier.description": "选择要提取到强化水晶上的强化，将返还消耗的强化槽，但加持强化所消耗的物品会消失。",
-  "recipe.tconstruct.extract_modifier.no_modifiers": "工具没有任何可提取的强化",
-
   "recipe.tconstruct.enchantment_converting.upgrades.title": "升级强化提取",
   "recipe.tconstruct.enchantment_converting.slotless.title": "无槽位强化提取",
   "recipe.tconstruct.enchantment_converting.abilities.title": "能力强化提取",
   "recipe.tconstruct.enchantment_converting.defense.title": "防御强化提取",
   "recipe.tconstruct.enchantment_converting.modifiers.title": "强化提取",
+  "recipe.tconstruct.extract_modifier.description": "选择要提取到强化水晶上的强化，将返还消耗的强化槽，但加持强化所消耗的物品会消失。",
+  "recipe.tconstruct.extract_modifier.no_modifiers": "工具在此配方下没有任何可提取的强化",
+
   "recipe.tconstruct.enchantment_converting.description.lost": "从附魔书中选取给定类型的强化并提取为强化水晶。附魔物品将会消失。",
   "recipe.tconstruct.enchantment_converting.description.keep": "从附魔书中选取给定类型的强化并提取为强化水晶。该物品的魔咒将会移除并返还。",
   "recipe.tconstruct.enchantment_converting.no_enchantments": "物品没有任何可提取的魔咒",
