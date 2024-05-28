@@ -36,6 +36,7 @@ import slimeknights.tconstruct.library.tools.definition.module.material.PartsMod
 import slimeknights.tconstruct.library.tools.definition.module.mining.IsEffectiveModule;
 import slimeknights.tconstruct.library.tools.definition.module.mining.MaxTierHarvestLogic;
 import slimeknights.tconstruct.library.tools.definition.module.mining.MiningSpeedModifierModule;
+import slimeknights.tconstruct.library.tools.definition.module.mining.OneClickBreakModule;
 import slimeknights.tconstruct.library.tools.definition.module.weapon.CircleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.module.weapon.ParticleWeaponAttack;
 import slimeknights.tconstruct.library.tools.definition.module.weapon.SweepWeaponAttack;
@@ -369,8 +370,7 @@ public class ToolDefinitionDataProvider extends AbstractToolDefinitionDataProvid
 
     ToolModule[] swordHarvest = {
       IsEffectiveModule.tag(TinkerTags.Blocks.MINABLE_WITH_SWORD),
-      MiningSpeedModifierModule.blocks(7.5f, Blocks.COBWEB),
-      MiningSpeedModifierModule.blocks(100f, Blocks.BAMBOO, Blocks.BAMBOO_SAPLING)
+      MiningSpeedModifierModule.blocks(7.5f, Blocks.COBWEB)
     };
     define(ToolDefinitions.SWORD)
       // parts
