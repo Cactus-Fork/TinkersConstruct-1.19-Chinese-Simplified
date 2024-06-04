@@ -78,6 +78,7 @@ import slimeknights.tconstruct.library.modifiers.modules.build.RarityModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.SetStatModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.StatBoostModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.SwappableSlotModule;
+import slimeknights.tconstruct.library.modifiers.modules.build.SwappableToolTraitsModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.VolatileFlagModule;
 import slimeknights.tconstruct.library.modifiers.modules.combat.ConditionalMeleeDamageModule;
 import slimeknights.tconstruct.library.modifiers.modules.combat.KnockbackModule;
@@ -95,6 +96,7 @@ import slimeknights.tconstruct.library.modifiers.util.ModifierLevelDisplay.Uniqu
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataKeys;
 import slimeknights.tconstruct.library.tools.capability.fluid.ToolTankHelper;
+import slimeknights.tconstruct.library.tools.definition.module.ToolHooks;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.item.armor.ModifiableArmorItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
@@ -105,6 +107,7 @@ import slimeknights.tconstruct.tools.modifiers.ability.armor.ToolBeltModifier;
 import slimeknights.tconstruct.tools.modifiers.slotless.OverslimeModifier;
 import slimeknights.tconstruct.tools.modules.TheOneProbeModule;
 import slimeknights.tconstruct.tools.modules.armor.DepthProtectionModule;
+import slimeknights.tconstruct.tools.modules.armor.EnderclearanceModule;
 import slimeknights.tconstruct.tools.modules.armor.FlameBarrierModule;
 import slimeknights.tconstruct.tools.modules.armor.KineticModule;
 import slimeknights.tconstruct.tools.modules.armor.RecurrentProtectionModule;
@@ -141,7 +144,9 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     buildModifier(ModifierIds.draconic)   .tooltipDisplay(TooltipDisplay.TINKER_STATION).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL).addModule(new ModifierSlotModule(SlotType.ABILITY, 1));
     buildModifier(ModifierIds.rebalanced)
       .tooltipDisplay(TooltipDisplay.TINKER_STATION).levelDisplay(ModifierLevelDisplay.NO_LEVELS)
-      .addModule(new SwappableSlotModule(1)).addModule(new SwappableSlotModule.BonusSlot(SlotType.ABILITY, SlotType.UPGRADE, -1));
+      .addModule(new SwappableSlotModule(1))
+      .addModule(new SwappableSlotModule.BonusSlot(SlotType.ABILITY, SlotType.UPGRADE, -1))
+      .addModule(new SwappableToolTraitsModule(null, "traits", ToolHooks.REBALANCED_TRAIT));
 
     // tier upgrades
     // emerald
@@ -403,6 +408,7 @@ public class ModifierProvider extends AbstractModifierProvider implements ICondi
     buildModifier(ModifierIds.stringy);
     buildModifier(ModifierIds.unburdened).addModule(StatBoostModule.add(ToolStats.USE_ITEM_SPEED).eachLevel(0.1f)).addModule(ArmorStatModule.builder(TinkerDataKeys.USE_ITEM_SPEED).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.05f));
     buildModifier(ModifierIds.depthProtection).addModule(DepthProtectionModule.builder().baselineHeight(64).neutralRange(32).eachLevel(1.25f));
+    buildModifier(ModifierIds.enderclearance).addModule(EnderclearanceModule.INSTANCE).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL);
     // traits - tier 2
     buildModifier(ModifierIds.sturdy).addModule(StatBoostModule.multiplyBase(ToolStats.DURABILITY).eachLevel(0.15f));
     buildModifier(ModifierIds.scorching).addModule(ConditionalMeleeDamageModule.builder().target(LivingEntityPredicate.ON_FIRE).eachLevel(2f));

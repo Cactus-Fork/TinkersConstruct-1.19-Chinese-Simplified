@@ -99,6 +99,7 @@ import slimeknights.tconstruct.library.modifiers.modules.build.RarityModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.SetStatModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.StatBoostModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.SwappableSlotModule;
+import slimeknights.tconstruct.library.modifiers.modules.build.SwappableToolTraitsModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.VolatileFlagModule;
 import slimeknights.tconstruct.library.modifiers.modules.combat.ConditionalMeleeDamageModule;
 import slimeknights.tconstruct.library.modifiers.modules.combat.KnockbackModule;
@@ -250,6 +251,7 @@ import slimeknights.tconstruct.tools.modifiers.upgrades.ranged.ScopeModifier;
 import slimeknights.tconstruct.tools.modifiers.upgrades.ranged.SinistralModifier;
 import slimeknights.tconstruct.tools.modules.TheOneProbeModule;
 import slimeknights.tconstruct.tools.modules.armor.DepthProtectionModule;
+import slimeknights.tconstruct.tools.modules.armor.EnderclearanceModule;
 import slimeknights.tconstruct.tools.modules.armor.FlameBarrierModule;
 import slimeknights.tconstruct.tools.modules.armor.KineticModule;
 import slimeknights.tconstruct.tools.modules.armor.RecurrentProtectionModule;
@@ -601,6 +603,7 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("requirements"), ModifierRequirementsModule.LOADER);
       ModifierModule.LOADER.register(getResource("swappable_slot"), SwappableSlotModule.LOADER);
       ModifierModule.LOADER.register(getResource("swappable_bonus_slot"), SwappableSlotModule.BonusSlot.LOADER);
+      ModifierModule.LOADER.register(getResource("swappable_tool_traits"), SwappableToolTraitsModule.LOADER);
       ModifierModule.LOADER.register(getResource("stat_boost"), StatBoostModule.LOADER);
       ModifierModule.LOADER.register(getResource("set_stat"), SetStatModule.LOADER);
       ModifierModule.LOADER.register(getResource("trait"), ModifierTraitModule.LOADER);
@@ -627,6 +630,7 @@ public final class TinkerModifiers extends TinkerModule {
 
       // special
       ModifierModule.LOADER.register(getResource("the_one_probe"), TheOneProbeModule.INSTANCE.getLoader());
+      ModifierModule.LOADER.register(getResource("enderclearance"), EnderclearanceModule.INSTANCE.getLoader());
       // armor
       ModifierModule.LOADER.register(getResource("depth_protection"), DepthProtectionModule.LOADER);
       ModifierModule.LOADER.register(getResource("flame_barrier"), FlameBarrierModule.LOADER);
