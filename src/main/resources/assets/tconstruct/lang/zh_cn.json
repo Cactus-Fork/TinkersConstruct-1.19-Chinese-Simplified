@@ -1435,11 +1435,11 @@
   "block.tconstruct.enderbark_wood": "末影皮木",
   "block.tconstruct.stripped_enderbark_wood": "去皮末影皮木",
 
-  "block.tconstruct.enderbark_roots": "末影皮木根",
-  "block.tconstruct.earth_enderbark_roots": "黏液末影皮木根",
-  "block.tconstruct.sky_enderbark_roots": "黏液末影皮木根",
-  "block.tconstruct.ichor_enderbark_roots": "黏液末影皮木根",
-  "block.tconstruct.ender_enderbark_roots": "黏液末影皮木根",
+  "block.tconstruct.enderbark_roots": "末影皮树根",
+  "block.tconstruct.earth_enderbark_roots": "黏液末影皮树根",
+  "block.tconstruct.sky_enderbark_roots": "黏液末影皮树根",
+  "block.tconstruct.ichor_enderbark_roots": "黏液末影皮树根",
+  "block.tconstruct.ender_enderbark_roots": "黏液末影皮树根",
 
   "block.tconstruct.enderbark_fence": "末影皮木栅栏",
   "block.tconstruct.enderbark_fence_gate": "末影皮木栅栏门",
