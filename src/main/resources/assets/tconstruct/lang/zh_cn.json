@@ -2869,7 +2869,7 @@
   "recipe.tconstruct.enchantment_converting.no_enchantments": "物品没有任何可提取的魔咒",
   "recipe.tconstruct.enchantment_converting.too_few": "需要更多的配方物品以转换更高等级的魔咒",
   
-  "recipe.tconstruct.part_swapping.too_many_parts": "该工具无法在此切换部件",
+  "recipe.tconstruct.part_swapping.too_many_parts": "该工具无法在此替换部件",
 
   "recipe.tconstruct.modifier.not_enough_slot": "至少需要1个%s槽来添加该强化",
   "recipe.tconstruct.modifier.not_enough_slots": "至少需要%s个%s槽来添加该强化",
@@ -3031,6 +3031,9 @@
   "jei.tconstruct.modifiers.level.exact": "等级：%s",
 
   "jei.tconstruct.severing.title": "肢解掉落物",
+
+  "jei.tconstruct.tinkering.tool_building": "工具制造",
+  "jei.tconstruct.tinkering.tool_building.anvil": "宽型工具需要工匠砧制造或替换部件",
 
   "jei.tconstruct.part_builder.title": "部件制造台",
   "jei.tconstruct.part_builder.cost": "花费：%s",
