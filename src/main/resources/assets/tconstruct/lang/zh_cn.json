@@ -2856,11 +2856,11 @@
   "recipe.tconstruct.attack_modifiers.removing.title": "交互切换",
   "recipe.tconstruct.attack_modifiers.removing.description": "将交互强化的触发键位更改至交互键",
 
-  "recipe.tconstruct.enchantment_converting.upgrades.title": "升级强化提取",
-  "recipe.tconstruct.enchantment_converting.slotless.title": "无槽位强化提取",
-  "recipe.tconstruct.enchantment_converting.abilities.title": "能力强化提取",
-  "recipe.tconstruct.enchantment_converting.defense.title": "防御强化提取",
-  "recipe.tconstruct.enchantment_converting.modifiers.title": "强化提取",
+  "recipe.tconstruct.extract_modifier.upgrades": "升级强化提取",
+  "recipe.tconstruct.extract_modifier.slotless": "无槽位强化提取",
+  "recipe.tconstruct.extract_modifier.abilities": "能力强化提取",
+  "recipe.tconstruct.extract_modifier.defense": "防御强化提取",
+  "recipe.tconstruct.extract_modifier.modifiers": "强化提取",
   "recipe.tconstruct.extract_modifier.description": "选择要提取到强化水晶上的强化，将返还消耗的强化槽，但加持强化所消耗的物品会消失。",
   "recipe.tconstruct.extract_modifier.no_modifiers": "工具在此配方下没有任何可提取的强化",
 
