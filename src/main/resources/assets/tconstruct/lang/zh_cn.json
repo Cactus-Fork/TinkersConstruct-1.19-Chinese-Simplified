@@ -950,6 +950,8 @@
 
   "_comment": "Tinkers Tool Parts",
 
+  "item.tconstruct.dummy_tool_part.tooltip": "用于铸造铸模，但不能用于制造工具。",
+
   "item.tconstruct.repair_kit": "修补件",
 
   "item.tconstruct.pick_head": "镐头",
@@ -975,6 +977,10 @@
   "item.tconstruct.chestplate_plating": "胸甲镶板",
   "item.tconstruct.leggings_plating": "护腿镶板",
   "item.tconstruct.boots_plating": "靴子镶板",
+  "item.tconstruct.helmet_plating_dummy": "石头头盔镶板",
+  "item.tconstruct.chestplate_plating_dummy": "石头胸甲镶板",
+  "item.tconstruct.leggings_plating_dummy": "石头护腿镶板",
+  "item.tconstruct.boots_plating_dummy": "石头靴子镶板",
   "item.tconstruct.maille": "锁链基底",
   "item.tconstruct.shield_core": "盾牌基底",
 
