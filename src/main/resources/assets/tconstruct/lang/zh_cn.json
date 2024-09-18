@@ -2840,7 +2840,7 @@
 
   "gui.tconstruct.modifier_worktable": "强化调配台",
   "gui.tconstruct.modifier_worktable.title": "强化调配",
-  "gui.tconstruct.modifier_worktable.info": "添加工具和正确的配方物品以调配此工具的强化。",
+  "gui.tconstruct.modifier_worktable.info": "加持工具和正确的配方物品以调配此工具的强化。",
   "recipe.tconstruct.modifier_set_worktable.empty": "工具没有可调配的强化",
 
   "recipe.tconstruct.remove_modifier.modifiers": "强化移除",
@@ -2877,8 +2877,8 @@
   
   "recipe.tconstruct.part_swapping.too_many_parts": "该工具无法在此替换部件",
 
-  "recipe.tconstruct.modifier.not_enough_slot": "至少需要1个%s槽来添加该强化",
-  "recipe.tconstruct.modifier.not_enough_slots": "至少需要%s个%s槽来添加该强化",
+  "recipe.tconstruct.modifier.not_enough_slot": "至少需要1个%s槽来加持该强化",
+  "recipe.tconstruct.modifier.not_enough_slots": "至少需要%s个%s槽来加持该强化",
   "recipe.tconstruct.modifier.validate_slots": "这项改动留给工具的%s槽过少",
   "recipe.tconstruct.modifier.min_level": "此配方需要工具加持%s（忽略材料特性）",
   "recipe.tconstruct.modifier.max_level": "%s的等级不可大于%s（忽略材料特性）",
@@ -2957,14 +2957,14 @@
   "command.tconstruct.modifier_usage": "已成功将强化说明打印至游戏日志中",
   "command.tconstruct.modifier_priority": "已成功将强化排序优先级打印至游戏日志中",
 
-  "command.tconstruct.modifiers.success.add.single": "为%2$s的物品添加%1$s强化",
-  "command.tconstruct.modifiers.success.add.multiple": "为%2$s个实体添加%1$s强化",
+  "command.tconstruct.modifiers.success.add.single": "为%2$s的物品加持%1$s强化",
+  "command.tconstruct.modifiers.success.add.multiple": "为%2$s个实体加持%1$s强化",
   "command.tconstruct.modifiers.success.remove.single": "移除%2$s的物品的%1$s强化",
   "command.tconstruct.modifiers.success.remove.multiple": "移除%2$s个实体的%1$s强化",
   "command.tconstruct.modifiers.failure.too_few_levels": "无法移除%2$s的物品的%1$s强化",
 
-  "command.tconstruct.slots.success.add.single": "为%3$s的物品添加%1$s个%2$s槽",
-  "command.tconstruct.slots.success.add.multiple": "为%3$s个实体添加%1$s个%2$s槽",
+  "command.tconstruct.slots.success.add.single": "为%3$s的物品加持%1$s个%2$s槽",
+  "command.tconstruct.slots.success.add.multiple": "为%3$s个实体加持%1$s个%2$s槽",
   "command.tconstruct.slots.success.set.single": "将%3$s的物品的%1$s槽位设置为%2$s",
   "command.tconstruct.slots.success.set.multiple": "将%3$s个实体的%1$s槽位设置为%2$s",
   "command.tconstruct.slots.failure.invalid_count": "无法增加0个槽位，必须是正数或者负数",
