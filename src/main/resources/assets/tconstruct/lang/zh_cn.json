@@ -2881,9 +2881,9 @@
   "recipe.tconstruct.modifier.not_enough_slots": "至少需要%s个%s槽来加持该强化",
   "recipe.tconstruct.modifier.validate_slots": "这项改动留给工具的%s槽过少",
   "recipe.tconstruct.modifier.min_level": "此配方需要工具加持%s（忽略材料特性）",
-  "recipe.tconstruct.modifier.max_level": "This recipe cannot increase %s above level %s (ignoring traits)",
+  "recipe.tconstruct.modifier.max_level": "此配方只可将%s等级升至%s（忽略材料特性）",
   "recipe.tconstruct.modifier.min_level.traits": "此配方需要工具加持%s（包含材料特性）",
-  "recipe.tconstruct.modifier.max_level.traits": "This recipe cannot increase %s above level %s (including traits)",
+  "recipe.tconstruct.modifier.max_level.traits": "此配方只可将%s等级升至%s（包含材料特性）",
 
   "recipe.tconstruct.tool_recycling": "工具回收",
   "recipe.tconstruct.tool_recycling.info": "从组装此工具的工具部件中选择你想回收的一个。根据工具剩余的耐久度多少，甚至有可能回收第2个工具部件。",
