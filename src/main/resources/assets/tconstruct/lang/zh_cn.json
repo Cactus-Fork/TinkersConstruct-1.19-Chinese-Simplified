@@ -226,15 +226,15 @@
   "item.tconstruct.slimesteel_reinforcement": "黏钢加固板",
   "item.tconstruct.slimesteel_reinforcement.tooltip": "提升黏钢的容纳力",
   "item.tconstruct.seared_reinforcement": "焦黑加固板",
-  "item.tconstruct.seared_reinforcement.tooltip": "增加盔甲对火焰的防护",
+  "item.tconstruct.seared_reinforcement.tooltip": "提升盔甲对火焰的抗性",
   "item.tconstruct.iron_reinforcement": "铁加固板",
-  "item.tconstruct.iron_reinforcement.tooltip": "增加盔甲对弹射物的防护",
+  "item.tconstruct.iron_reinforcement.tooltip": "提升盔甲对弹射物的抗性",
   "item.tconstruct.obsidian_reinforcement": "黑曜石加固板",
-  "item.tconstruct.obsidian_reinforcement.tooltip": "增加盔甲对爆炸的防护",
+  "item.tconstruct.obsidian_reinforcement.tooltip": "提升盔甲对爆炸的抗性",
   "item.tconstruct.gold_reinforcement": "金加固板",
-  "item.tconstruct.gold_reinforcement.tooltip": "增加盔甲对魔法伤害的防护",
+  "item.tconstruct.gold_reinforcement.tooltip": "提升盔甲对魔法伤害的抗性",
   "item.tconstruct.cobalt_reinforcement": "钴加固板",
-  "item.tconstruct.cobalt_reinforcement.tooltip": "增加盔甲对普通攻击的防护",
+  "item.tconstruct.cobalt_reinforcement.tooltip": "提升盔甲对普通攻击的抗性",
   "item.tconstruct.jeweled_apple": "宝钻苹果",
   "item.tconstruct.silky_cloth": "丝绢",
   "item.tconstruct.silky_cloth.tooltip": "防止工具损伤方块掉落物",
@@ -263,7 +263,7 @@
   "item.tconstruct.creative_slot.tooltip": "为工具增加1个额外的%s槽",
 
   "item.tconstruct.copper_can": "铜罐",
-  "item.tconstruct.copper_can.tooltip": "可堆叠的流体容器，能够盛装90mB（1锭）的流体",
+  "item.tconstruct.copper_can.tooltip": "可堆叠的流体容器，能够盛装1锭的流体",
   "item.tconstruct.copper_can.contents": "存有：%s（1锭）",
 
 
@@ -318,7 +318,7 @@
 
   "_comment": "Tinkers Gold Casts",
 
-  "item.tconstruct.cast.cost": "材料消耗：%d",
+  "item.tconstruct.cast.cost": "材料消耗: %d",
 
   "item.tconstruct.blank_cast": "空白金质铸模",
   "item.tconstruct.ingot_cast": "锭金质铸模",
@@ -977,17 +977,17 @@
   "item.tconstruct.chestplate_plating": "胸甲镶板",
   "item.tconstruct.leggings_plating": "护腿镶板",
   "item.tconstruct.boots_plating": "靴子镶板",
-  "item.tconstruct.helmet_plating_dummy": "石头头盔镶板",
-  "item.tconstruct.chestplate_plating_dummy": "石头胸甲镶板",
-  "item.tconstruct.leggings_plating_dummy": "石头护腿镶板",
-  "item.tconstruct.boots_plating_dummy": "石头靴子镶板",
+  "item.tconstruct.helmet_plating_dummy": "石质头盔镶板",
+  "item.tconstruct.chestplate_plating_dummy": "石质胸甲镶板",
+  "item.tconstruct.leggings_plating_dummy": "石质护腿镶板",
+  "item.tconstruct.boots_plating_dummy": "石质靴子镶板",
   "item.tconstruct.maille": "锁链基底",
   "item.tconstruct.shield_core": "盾牌基底",
 
 
   "_conment": "Tool Descriptions",
 
-  "item.tconstruct.pickaxe.description": "镐是一种精准型采矿工具，能够高效挖掘石头、矿石等石类方块。\n挖方块用的，懂？",
+  "item.tconstruct.pickaxe.description": "镐是一种精准型采矿工具，能够高效挖掘石头、矿石等石质方块。\n挖方块用的，懂？",
   "item.tconstruct.sledge_hammer.description": "大锤是一种范围型挖掘工具，能单次挖掘一整片区域内的方块。\n攻击亡灵生物有奇效。",
   "item.tconstruct.vein_hammer.description": "矿脉锤是一种范围型采矿工具，能一次挖掘多块相连的同类型方块，用以采矿收效甚佳。",
 
@@ -1000,6 +1000,8 @@
 
   "item.tconstruct.kama.description": "短刃镰是一种精准型收割工具，可同时用于作物收割与畜毛剃取。\n右击：收获并补种作物",
   "item.tconstruct.scythe.description": "镰刀是一种范围型收割工具，能单次收割一整片区域内的植物。\n右击：收获并补种作物",
+  "item.tconstruct.kama.description": "短刃镰是一种精准型收割工具，可用于作物收割与畜毛剃取。\n右击：收获并补种作物",
+  "item.tconstruct.scythe.description": "镰刀是一种范围型收割工具，能单次收割一整片区域内的植物。\n右击：收割并补种作物",
 
   "item.tconstruct.dagger.description": "匕首是一种轻型武器，无论主副手持握，皆可施展快速攻击。",
   "item.tconstruct.sword.description": "剑是一种泛用型武器，其横扫攻击能阻截成群结队的敌人。\n还能高效清理蜘蛛网！",
@@ -1007,6 +1009,7 @@
 
   "item.tconstruct.crossbow.description": "弩是一种迅捷远程武器，能快速发射箭或烟花。",
   "item.tconstruct.longbow.description": "长弓是一种长距远程武器，能对极远的目标实施精确打击。",
+  "item.tconstruct.longbow.description": "长弓是一种宽型远程武器，能对极远的目标实施精确打击。",
 
   "gui.tconstruct.plate_armor": "镶板盔甲",
   "gui.tconstruct.plate_armor.description": "镶板盔甲是一种防御较高但能力槽有限的盔甲。",
