@@ -1143,7 +1143,7 @@
   "gui.tconstruct.melting.used": "已用：",
 
   "block.tconstruct.seared_heater": "焦黑加热器",
-  "block.tconstruct.seared_heater.tooltip": "利用固态燃料为熔化炉提供热源",
+  "block.tconstruct.seared_heater.tooltip": "利用固体燃料为熔化炉提供热源",
   "gui.tconstruct.heater": "加热器",
 
   "block.tconstruct.smeltery_controller": "冶炼炉控制器",
