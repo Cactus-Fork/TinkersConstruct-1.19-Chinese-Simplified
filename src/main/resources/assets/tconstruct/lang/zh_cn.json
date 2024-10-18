@@ -2324,7 +2324,7 @@
   "modifier.tconstruct.draconic.description": "这颗来自巨兽的头颅，为你的工具带来了第2个能力槽！",
   "modifier.tconstruct.rebalanced": "均衡",
   "modifier.tconstruct.rebalanced.flavor": "平衡之鳞",
-  "modifier.tconstruct.rebalanced.description": "使工具获得2个额外的强化槽，种类任选；但若选择最强大的种类，则会受到相应的惩罚。",
+  "modifier.tconstruct.rebalanced.description": "使工具获得1个额外的强化槽，种类任选；但若选择最强大的种类，则会受到相应的惩罚。",
   "modifier.tconstruct.rebalanced.upgrades": "升级",
   "modifier.tconstruct.rebalanced.abilities": "能力",
   "modifier.tconstruct.rebalanced.souls": "灵魂",
